@@ -471,10 +471,12 @@ Il s’agit d’un listing de l’ensemble des termes relatifs au domaine étudi
 <p><strong>Id :</strong> 	UC#1</p>
 </div>
 <div class="paragraph">
-<p><strong>Description :</strong> Initialisation du jeu quand il y a entre 3 et 6 joueurs</p>
+<p><strong>Description :</strong><br>
+Initialisation du jeu quand il y a entre 3 et 6 joueurs</p>
 </div>
 <div class="paragraph">
-<p><strong>Pre-Conditions :</strong> il y a entre 3 et 6 joueurs, les joueurs sont près, il y a une pioche de 44 cartes risk et 14 cartes missions disponnible, il y a 5 dés disponnibles.</p>
+<p><strong>Pre-Conditions :</strong><br>
+il y a entre 3 et 6 joueurs, les joueurs sont près, il y a une pioche de 44 cartes risk et 14 cartes missions disponnible, il y a 5 dés disponnibles.</p>
 </div>
 <div class="paragraph">
 <p><strong>Scénario nominal :</strong></p>
@@ -551,7 +553,620 @@ Il s’agit d’un listing de l’ensemble des termes relatifs au domaine étudi
 <p><strong>Post-Conditions :</strong></p>
 </div>
 <div class="paragraph">
-<p>Toutes les cartes territoires on été distribuée, Les joueurs ont posé tous leur fantassin de départ, Chaque joueur a une et une seul mission</p>
+<p>Toutes les cartes territoires on été distribuée, Les joueurs ont posé tous leur fantassin de départ, Chaque joueur a une et une seul mission.</p>
+</div>
+<div class="paragraph">
+<p><strong>Use Case :</strong> Initialisation 2 joueurs</p>
+</div>
+<div class="paragraph">
+<p><strong>Id :</strong> 	UC#2</p>
+</div>
+<div class="paragraph">
+<p><strong>Description :</strong><br>
+Initialisation du jeu quand il y a 2 joueurs uniquement</p>
+</div>
+<div class="paragraph">
+<p><strong>Pre-Conditions :</strong><br>
+il y a 2 joueurs, les joueurs sont près, il y a une pioche de 44 cartes risk et 14 cartes missions disponnible, il y a 5 dés disponnibles.</p>
+</div>
+<div class="paragraph">
+<p><strong>Scénario nominal :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On retire de la pioche de 44 carte risk les 2 cartes joker<br></p>
+</li>
+<li>
+<p>On ajoute un joueur neutre</p>
+</li>
+<li>
+<p>On distribue 14 carte risk au joueur neutre</p>
+</li>
+<li>
+<p>On distribue 1 carte risk a un joueur non neutre<br></p>
+</li>
+<li>
+<p>On passe au joueur non neutre suivant<br>
+<em>les étapes 4 et 5 sont répétées tant qu&#8217;il reste des cartes risk.</em><br></p>
+</li>
+<li>
+<p>Les cartes risk sont retournées dans la pioche<br></p>
+</li>
+<li>
+<p>Les joueurs non neutre pioches 40 fantassins<br></p>
+</li>
+<li>
+<p>Le joueur neutre pioche 28 fantassins<br></p>
+</li>
+<li>
+<p>Le joueur neutre dépose 2 fantassins sur chaque pays qu&#8217;il possède<br></p>
+</li>
+<li>
+<p>Un joueur dépose 1 fantassin sur chaque pays qu&#8217;il possède<br>
+<em>l&#8217;étape 10 est répété pour chaque joueur</em><br></p>
+</li>
+<li>
+<p>Une carte mission est distribué a un joueur non neutre<br>
+<em>l&#8217;étape 11 est répété pour chaque joueur non neutre</em><br></p>
+</li>
+<li>
+<p>On tire au hasard le premier joueur non neutre<br></p>
+</li>
+<li>
+<p>Le joueur non neutre pose un fantassin sur un territoire qu&#8217;il possède.<br></p>
+</li>
+<li>
+<p>Passage au joueur non neutre suivant<br>
+<em>les étapes 13 et 14 sont répété tant qu&#8217;il reste un joueur non neutre avec des fantassins à poser</em><br></p>
+</li>
+<li>
+<p>Le premier joueur commence UC#3<br></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extension :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="11">
+<li>
+<p>Une mission portant sur la destruction de l&#8217;armée d&#8217;un joueur<br></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Cette mission doit visé un joueur présent sur le plateau<br></p>
+</li>
+<li>
+<p>Cette mission ne peut pas visé le joueur l&#8217;ayant reçu<br></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Post-Conditions :</strong></p>
+</div>
+<div class="paragraph">
+<p>Toutes les cartes territoires on été distribuée, Les joueurs ont posé tous leur fantassin de départ, Chaque joueur non neutre a une et une seul mission</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_déroulement">Déroulement</h3>
+<div class="paragraph">
+<p><strong>Use Case:</strong> Déroulement<br>
+<strong>Id :</strong> UC#3<br>
+<strong>Description :</strong><br>
+Déroulement d&#8217;un tour de jeu pour un joueur<br>
+<strong>Pre-Conditions :</strong><br>
+Initialisation est terminé, le joueur possède des territoire, il n&#8217;y a pas encore de gagnant<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Scénario nominal :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Le joueur fait la phase de renfort UC#4</p>
+</li>
+<li>
+<p>Le joueur fait la phase d&#8217;attaque UC#5</p>
+</li>
+<li>
+<p>Le joueur fait la phase de manoeuvre UC#6<br>
+<em>les étapes 2 et 3 sont optionnelles</em><br></p>
+</li>
+<li>
+<p>Le joueur termine son tour</p>
+</li>
+<li>
+<p>Le joueur suivant commence UC#3</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extension :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Si il y a uniquement 2 joueurs</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Passage à UC#4bis</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Si le joueur a rempli sa mission pendant son tour</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Passage à UC#8</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Post-condition :</strong><br>
+Le tour est terminé</p>
+</div>
+<div class="paragraph">
+<p><strong>Use Case :</strong> Phase de renfort<br>
+<strong>Id :</strong> UC#4<br>
+<strong>Description :</strong><br>
+Phase de renfort pour le joueur<br>
+<strong>Pre-condition :</strong><br>
+le joueur possède des territoires<br>
+<strong>Scénario nominal :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Le joueur peut jouer une carte risk UC#7<br>
+<em>L&#8217;étape 1 est optionnelle</em><br></p>
+</li>
+<li>
+<p>Le joueur reçoit un nombre de fantassin correspondant à la division par 3 de la somme de ses territoires</p>
+</li>
+<li>
+<p>Le joueur reçoit des renfort bonus en fonction des continents qu&#8217;il contrôle complêtement</p>
+</li>
+<li>
+<p>Le joueur pose les fantassins où il le souhaite</p>
+</li>
+<li>
+<p>Le joueur reprend UC#3</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extension :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Le joueur reçoit au minimum 3 fantassins</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>La division est entière par défaut</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Le joueur reçoit les bonus suivant en fonction des continent</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>+2 s&#8217;il contrôle l&#8217;Océanie</p>
+</li>
+<li>
+<p>+2 s&#8217;il contrôle l&#8217;Amérique du sud</p>
+</li>
+<li>
+<p>+3 s&#8217;il contrôle l&#8217;Afrique</p>
+</li>
+<li>
+<p>+5 s&#8217;il contrôle l&#8217;Europe</p>
+</li>
+<li>
+<p>+5 s&#8217;il contrôle l&#8217;Amérique du nord</p>
+</li>
+<li>
+<p>+7 s&#8217;il contrôle l&#8217;Asie</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Post-condition :</strong><br>
+le joueur a déposé tous ses renforts</p>
+</div>
+<div class="paragraph">
+<p><strong>Use Case :</strong> Phase de renfort à 2 joueurs<br>
+<strong>Id :</strong> UC#4bis<br>
+<strong>Description :</strong><br>
+Phase de renfort pour le joueur et le joueur neutre+
+<strong>Pre-condition :</strong><br>
+le joueur possède des territoires<br>
+<strong>Scénario nominal :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Le joueur peut jouer une carte risk UC#7<br>
+<em>L&#8217;étape 1 est optionnelle</em><br></p>
+</li>
+<li>
+<p>Le joueur reçoit un nombre de fantassin correspondant à la division par défaut de la somme de ses territoires</p>
+</li>
+<li>
+<p>Le joueur reçoit des renfort bonus en fonction des continents qu&#8217;il contrôle complêtement</p>
+</li>
+<li>
+<p>Le joueur neutre reçoit en renfort le nombre total de renfort reçut pas le joueur divisé par 2</p>
+</li>
+<li>
+<p>Le joueur pose les fantassins où il le souhaite sur ses territoires</p>
+</li>
+<li>
+<p>L&#8217;autre joueur pose les fantassins de l&#8217;armée neutre ou il le souhaite sur les territoires du joueur neutre</p>
+</li>
+<li>
+<p>Le joueur reprend UC#3</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extension :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Le joueur reçoit au minimum 3 fantassins</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>La division est entière par défaut</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Le joueur reçoit les bonus suivant en fonction des continent</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>+2 s&#8217;il contrôle l&#8217;Océanie</p>
+</li>
+<li>
+<p>+2 s&#8217;il contrôle l&#8217;Amérique du sud</p>
+</li>
+<li>
+<p>+3 s&#8217;il contrôle l&#8217;Afrique</p>
+</li>
+<li>
+<p>+5 s&#8217;il contrôle l&#8217;Europe</p>
+</li>
+<li>
+<p>+5 s&#8217;il contrôle l&#8217;Amérique du nord</p>
+</li>
+<li>
+<p>+7 s&#8217;il contrôle l&#8217;Asie</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Post-condition :</strong><br>
+le joueur a déposé tous ses renforts, l&#8217;autre joueur a dépose tous les renforts de l&#8217;armée neutre</p>
+</div>
+<div class="paragraph">
+<p><strong>Use Case :</strong> Phase d&#8217;attaque<br>
+<strong>Id :</strong> UC#5<br>
+<strong>Description :</strong><br>
+phase d&#8217;attaque pour du joueur<br>
+<strong>Pre-Condition :</strong><br>
+le territoire attaqué est adjacent au territoire attaquant, le territoire attaquant a au moins 2 fantassins<br>
+<strong>Scénario nominal :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Le joueur attaquant désigne le territoire attaquant</p>
+</li>
+<li>
+<p>Le joueur attaquant annonce le territoire ciblé</p>
+</li>
+<li>
+<p>Le joueur attaquant déplace un certain nombre d&#8217;unité pour l&#8217;attaque</p>
+</li>
+<li>
+<p>Le joueur attaquant joue un dé par unité attaquante</p>
+</li>
+<li>
+<p>Le joueur défenseur joue un dé par unité défenseur</p>
+</li>
+<li>
+<p>Comparaison entre le dé le plus haut du joueur attaquant et le dé le plus haut du joueur défenseur</p>
+</li>
+<li>
+<p>Les deux dés comparés sont retirés<br>
+<em>les étapes 6 et 7 sont répétées tant qu&#8217;il reste des dés de défense</em><br>
+<em>les étapes 1 à 7 sont répétées tant que le joueur souhaite attaqué</em><br></p>
+</li>
+<li>
+<p>le joueur reprend UC#3</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extension :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Le nombre de fantassin déplacé pour l&#8217;attaque ne doit pas rendre le territoire attaquant vide</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Le joueur attaquant peut engager jusqu&#8217;a 3 fantassins</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Le chiffre tiré doit être entre 1 et 6</p>
+</li>
+<li>
+<p>Le joueur défenseur peut engager jusqu&#8217;a 2 fantassins<br></p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="5">
+<li>
+<p>Le chiffre tiré doit être entre 1 et 6<br></p>
+</li>
+<li>
+<p>Si le chiffre du joueur attaquant est strictement supérieur au chiffre du défenseur</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Le joueur attaquant gagne</p>
+</li>
+<li>
+<p>Le joueur attaquant supprime un fantassin sur le territoire ciblé du joueur défenseur</p>
+</li>
+<li>
+<p>Si le territoire ciblé est vide le joueur attaquant déplace toute les unité engagé sur le territoire ciblé</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="6">
+<li>
+<p>Si le chiffre du joueur défenseur est supérieur ou égal au chiffre du défenseur</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Le joueur défenseur gagne</p>
+</li>
+<li>
+<p>Le joueur défenseur supprime un fantassin sur le territoire attaquant du joueur attaquant</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="8">
+<li>
+<p>Si le joueur a conquit un territoire</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Il peut piocher une carte</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>Si il n&#8217;a pas déjà piocher une carte dans le tour</p>
+</li>
+<li>
+<p>Si il n&#8217;a pas 5 cartes dans sa main</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Post-condition :</strong><br>
+Le joueur a fini sa phase d&#8217;attaque</p>
+</div>
+<div class="paragraph">
+<p><strong>Use Case :</strong> Phase de manoeuvre<br>
+<strong>Id :</strong> UC#6<br>
+<strong>Pre-condition :</strong><br>
+Le territoire de départ et le territoire d&#8217;arrivé sont adjacents, le territoire de départ et le territoire d&#8217;arrivé sont possédé par le joueur</p>
+</div>
+<div class="paragraph">
+<p><strong>Scénario nominal :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Le joueur retire les fantsins du territoire de départ</p>
+</li>
+<li>
+<p>Le joueur pose les fantassins sur le territoire d&#8217;arrivé<br>
+<em>Les étapes 1 et 2 peuvent être répétées</em><br></p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Le joueur reprend UC#3</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extension :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Sur les fantassins retirés du territoire</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Le nombre de fantassin déplacer ne doit pas rendre le territoire vide</p>
+</li>
+<li>
+<p>Les fantassins ne peuvent dépacler qu&#8217;une seule fois par tour</p>
+</li>
+<li>
+<p>Les fantassins utilisés lors d&#8217;une attaque peuvent être déplacé</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Post-condition :</strong><br>
+Les fantassins ont bien été dépalcer de leur territoire de départ vers leur territoire d&#8217;arrivé</p>
+</div>
+<div class="paragraph">
+<p><strong>Use Case :</strong> Joue une carte risk<br>
+<strong>Id :</strong> UC#7<br>
+<strong>Pre-condition :</strong><br>
+Le joueur a au moins 3 cartes risk dans sa main</p>
+</div>
+<div class="paragraph">
+<p><strong>Scénario nominal :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Le joueur dépose 3 carte risk de sa main</p>
+</li>
+<li>
+<p>Le joueur reçoit un nombre d&#8217;unité renfort</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extension :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Les cartes doivent faire une des combinaisons suivante :</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Fantassin - Fantassin - Fantassin</p>
+</li>
+<li>
+<p>Fanassin - Cavalier - Canon</p>
+</li>
+<li>
+<p>Cavalier - Cavalier - Cavalier</p>
+</li>
+<li>
+<p>Canon - Canon - Canon</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="1">
+<li>
+<p>Les cartes joker peuvent remplacer n&#8217;imorte quel symbole</p>
+</li>
+<li>
+<p>Le nombre de renfort dépend de la combinaire obtenu :</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Fantassin - Fantassin - Fantassin : + 4 renforts</p>
+</li>
+<li>
+<p>Fanassin - Cavalier - Canon : + 10 renforts</p>
+</li>
+<li>
+<p>Cavalier - Cavalier - Cavalier : + 6 renforts</p>
+</li>
+<li>
+<p>Canon - Canon - Canon + 8 : renforts</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Pour chaque carte utilisé, si le territoire présent dessus est possédé par le joueur l’utilisant, il y place 2 renforts</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Post-condition :</strong><br>
+Le joueur a reçu des renforts en fonction des combinaisons obtenues, Le joueur a placé les renforts en fonction des cartes jouées</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fin_du_jeu">Fin du jeu</h3>
+<div class="paragraph">
+<p><strong>Use Case :</strong> Fin de partie<br>
+<strong>Id :</strong> UC#8<br>
+<strong>Pre-condition :</strong><br>
+Un joueur a accompli sa mission</p>
+</div>
+<div class="paragraph">
+<p><strong>Scénario nominal :</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Le joueur remorte la partie</p>
+</li>
+<li>
+<p>Fin du jeu</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Post-condition :</strong><br>
+La partie est finie</p>
 </div>
 </div>
 </div>
@@ -655,7 +1270,7 @@ post resultOk: result = ...</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-10-13 15:36:45 CEST
+Last updated 2019-10-13 19:10:10 CEST
 </div>
 </div>
 </body>
