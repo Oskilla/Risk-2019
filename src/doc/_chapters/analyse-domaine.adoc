@@ -36,9 +36,49 @@ Ce chapitre est organisé en $n$ sections. Dans le première section, nous décr
 
 === Mise en place d'un jeu
 
-include::use-case-template.adoc[leveloffset=+2]
+*Use Case :* Initialisation 3 joueurs ou plus  
 
+*Id :* 	UC#1
 
+*Description :* Initialisation du jeu quand il y a entre 3 et 6 joueurs
+
+*Pre-Conditions :* il y a entre 3 et 6 joueurs, les joueurs sont près, il y a une pioche de 44 cartes risk et 14 cartes missions disponnible, il y a 5 dés disponnibles.
+
+*Scénario nominal :*
+
+. On retire de la pioche de 44 carte risk les 2 cartes joker +
+. On distribue 1 carte risk a un joueur +
+. On passe au joueur suivant + 
+_les étapes 2 et 3 sont répétées tant qu'il reste des cartes risk._ +
+[Start = 4]
+. Les cartes risk sont retournées dans la pioche +
+. Les joueurs pioches un certain nombre de fantassin +
+. Un joueur dépose 1 fantassin sur chaque pays qu'il possède + 
+_l'étape 6 est répété pour chaque joueur_ +
+[Start = 7]
+. Une carte mission est distribué a un joueur + 
+_l'étape 7 est répété pour chaque joueur_ + 
+[Start = 8]
+. On tire au hasard le premier joueur +
+. Le joueur pose un fantassin sur un territoire qu'il possède. +
+. Passage au joueur suivant + 
+_les étapes 9 et 10 sont répété tant qu'il reste un joueur avec des fantassins à poser_ +
+[Start = 11]
+. Le premier joueur commence UC#3 +
+
+*Extension :*
+
+[start = 5]
+. Chaque joueur pioche (35-5 * (nombre_de_joueur-3))
+
+[start = 7]
+. Une mission portant sur la destruction de l'armée d'un joueur +
+	.. Cette mission doit visé un joueur présent sur le plateau +
+	.. Cette mission ne peut pas visé le joueur l'ayant reçu +
+
+*Post-Conditions :*
+
+Toutes les cartes territoires on été distribuée, Les joueurs ont posé tous leur fantassin de départ, Chaque joueur a une et une seul mission
 
 == Modèle de classes du domaine
 
