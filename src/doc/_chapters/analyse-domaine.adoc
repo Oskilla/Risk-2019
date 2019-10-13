@@ -2,35 +2,17 @@
  
 == Introduction
 
-=== Objectif
+Pour notre projet, nous avons commencé par préparer les cas d’utilisations afin de décomposer le jeu pour avoir une meilleure vision de son fonctionnement.
 
-// Décrire l'objectif de ce chapitre.
+On commence la partie avec 3 à 6 joueurs, il faut donc que les cartes du Risk soient distribuées en excluant les 2 Jokers à tous les joueurs puis on retourne les cartes à la pioche avec les Jokers. 
+On distribue un nombre de Fantassins en fonction de nombre de joueurs (35-5 * (nombre_de_joueur-3)). Ensuite, On distribue une seule carte de mission par joueur.
+Pour chaque tour un joueur dépose un Fantassin dans son propre territoire, en répétant cette étape jusqu’à la fin des cartes.
 
-Ce chapitre constitue le premier livrable d’une série de quatre chapitres destinés à fournir une analyse et une conception par objets complètes répondant au cahier des charges qui nous a été fourni. 
-Ce document présente l’ensemble de la démarche suivie ainsi que les résultats obtenus lors de la phase de l'analyse du domaine de notre système. 
-Il se décompose en plusieurs parties.
+Apres la mise en place du jeu, les joueurs subissent à 3 phases : phase de renfort - phase d’attaque – phase de manœuvre ; qui seront décrites en détail dans les cas d’utilisation.
+En ce qui concerne les cartes du Risk, le joueur doit faire une combinaison de cartes; soit 3 cartes de la même armé ou bien 3 cartes d’armés différentes; 
+il les déposes pour gagner un nombre de Fantassins pour renforcer ses territoires.
 
-Dans la première partie, nous présentons de manière détaillée l’ensemble des cas d’utilisation que nous avons dégagés lors de l’analyse. 
-Nous utiliserons pour cela le canevas proposé par Cockburn que nous compléterons par des instantanés ainsi que par des post-conditions exprimées en OCL (Object Constraint Language) et quelques scenarii. 
-Cette partie constitue une étape clé de la phase de l'analyse du domaine.
-
-Dans la deuxième partie, nous présentons le  diagramme de classes métiers (i.e. diagramme de classes au niveau analyse) que nous avons construit à partir de l’analyse réalisée. 
-Ce diagramme fournit une vue statique et synthétique du domaine de notre projet. 
-Cette  partie constitue également une étape clé de la phase de spécification des besoins.
-
-
-Dans la troisième er dernière nous fournissons le dictionnaire des données que nous avons construit suite à l'analyse du domaine. 
-Il s’agit d’un listing de l’ensemble des termes relatifs au domaine étudié ainsi que leur définition précise.
-
-
-
-Dans une quatrième et dernière partie, 
-
-=== Organisation du chapitre
-
-Ce chapitre est organisé en $n$ sections. Dans le première section, nous décrirons....
-
-
+Finalement, lorsque le joueur accomplit sa mission, la partie est finie.
 
 == Cas d'utilisation
 
