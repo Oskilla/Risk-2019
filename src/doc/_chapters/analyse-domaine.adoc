@@ -374,3 +374,7 @@ include::terms.adoc[]
 
 == Conclusion
 
+Dans cette première partie, on a réalisé une conception des problèmes qu'on sera ramené à résoudre. Ils nous semblent ainsi plus claires grâce au différents cas d'utilisation et au diagramme de classe qui connaitrera une éventuelle évolution toute au long des étapes d'analyse, conception et réalisation de ce projet.
+Cette étape va nous permettre aussi une meilleure anticipation de quelques futures extensions.
+
+
