@@ -5,36 +5,20 @@
 |*Short Description* 
 |*Meaning*
 
-| [[port, Port]] Port 
-| a 
-| ax
+| [[TypeUnit, TypeUnit]] TypeUnit 
+| Type de l'unité 
+| Chaque unité peut être soit un fantassin, un cavalier ou un canon. Chaque unité vaut un nombre d'unités spécifique (Fantassin = 1, Cavalier = 5, Canon = 10).
 
-| [[publication,Publication]] Publication  
-| Activity
-| Registers a Service with a DNS Responder.
+| [[Adjacents, Adjacents]] Adjacents 
+| Liste de Territoires 
+| Liste de tous les territoires qui partagent une frontière avec le territoire courant.
 
-| Registration
-|
-| See <<publication>>
+| [[DésBleus, DésBleus]] DésBleus
+| Liste de deux dés utilisés pour la défense
+| Chaque dé permet de générer un nombre aléatoire entre 1 et 6
 
-| Package
-|
-| Minimum size = 9,000 bytes
-
-| ((One-Shot Multicast DNS Queries))
-| bla
-| bla
-
-| ((Continuous Multicast DNS Querying))
-| bla
-| bla
-
-| [[service-instance-name, Service Instance Name]] Service Instance Name
-| a
-| a
-
-| [[service-type, Service Type]] Service Type 
-| bla
-| bla
+| [[DésRouges, DésRouges]] DésRouges 
+| Liste de trois dés utilisés pour l'attaque
+| Chaque dé permet de générer un nombre aléatoire entre 1 et 6
 
 |===

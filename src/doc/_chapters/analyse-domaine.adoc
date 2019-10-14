@@ -342,29 +342,76 @@ La partie est finie
 == Modèle de classes du domaine
 
 [plantuml, domain-classes, png]
-----
+....
 @startuml
-Class01 <|-- Class02
-Class03 *-- Class04
-Class05 o-- Class06
-Class07 .. Class08
-Class09 -- Class10
+
+enum TypeUnit{
+	FANTASSIN
+	CAVALIER
+	CANON
+}
+enum Couleur{
+	ROUGE
+	JAUNE
+	ROSE
+	NOIR
+	BLEU
+	VERT
+}
+class Unité{
+	- type : TypeUnit
+	- placement : Territoire
+}
+class Armée{
+	- couleur : Couleur
+}
+class Territoire{
+	- nom : String
+	- proprietaire : Joueur
+	- adjacent : List<Territoire>
+}
+class Joueur{
+	- nom : String
+}
+class Plateau
+class CarteMission{
+	- description : String
+}
+class CarteTerritoire{
+	- symbole : TypeUnit
+	- territoire : Territoire
+}
+class Carte
+class Continent
+class DéAttaque
+class DéDéfense
+class Dé
+
+Dé <|-- DéAttaque
+Dé <|-- DéDéfense
+
+Carte <|-- CarteMission
+Carte <|-- CarteTerritoire
+
+Armée "1" *-- "1..*" Unité
+
+Plateau "1" *-- "3" DéAttaque : désRouges
+Plateau "1" *-- "2" DéDéfense : désBleus
+Plateau "1" --> "2..6" Joueur : joueurs
+Plateau "1" --> "6" Continent : continents
+Plateau "1" --> "58" Carte : cartesJeu
+
+Continent "1" *-- "1..*" Territoire : territoires
+
+Territoire "1" *-- "1..*" Unité : occupants
+
+Joueur "0..1" o-- "0..*" CarteTerritoire : cartes
+Joueur "0..1" --> "1" CarteMission : mission
+Joueur "1" --> "1" Armée
+
 @enduml
-----
+....
 
-=== Invariants
-
-[source,ocl]
-----
-context Etudiant::age() : Integer
-post correct: result = (today - naissance).years()
-
-context Typename::operationName(param1: type1, ...): Type
-post: result = ...
-
-context Typename::operationName(param1: type1, ...): Type
-post resultOk: result = ...
-----
 
 
 == Dictionnaire de données
