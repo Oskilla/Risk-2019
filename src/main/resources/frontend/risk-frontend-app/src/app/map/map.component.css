@@ -1,0 +1,14 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+svg{
+  width: 900px;
+  height: 900px;
+}
+.unit {
+  font-size: 1.2em;
+  font-family: "Alfa Slab One", sans-serif;
+  cursor: not-allowed;
+  fill: #fff;
+}
