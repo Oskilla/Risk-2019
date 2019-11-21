@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-initialize-players',
@@ -14,8 +16,9 @@ export class InitializePlayersComponent implements OnInit {
   item6 = '';
   newplayer = '';
   error = '';
-  constructor() { }
-
+  constructor(
+    private router: Router
+  ) { }
   ngOnInit() {
   }
 
@@ -44,6 +47,7 @@ export class InitializePlayersComponent implements OnInit {
     // check if there are at least two players
     if ( this.item1 !== '' && this.item2 !== '' ) {
       // then we can redirect to map component to start the game
+      this.router.navigateByUrl('/map');
     } else {
       this.error = 'You need at least two players to start';
     }
