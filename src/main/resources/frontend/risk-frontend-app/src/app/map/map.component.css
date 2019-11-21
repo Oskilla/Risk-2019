@@ -1,14 +1,72 @@
 html, body {
   height: 100%;
-  margin: 0;
+  margin: 0 auto;
+}
+.mapdiv {
+  float: left;
 }
 svg{
   width: 900px;
-  height: 900px;
+  height: 620px;
 }
 .unit {
   font-size: 1.2em;
   font-family: "Alfa Slab One", sans-serif;
   cursor: not-allowed;
   fill: #fff;
+}
+.players_info {
+  margin-top: 44px;
+  width: 190px;
+  text-align: left;
+  float: right;
+}
+.players_info div {
+  border: 2px solid #222;
+  padding: 3px 5px;
+  text-shadow: 0px 0px #222;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+.players_info p{
+  margin-top: 0px;
+  margin-bottom: 2px;
+}
+.reservelabel {
+  font-weight: bold;
+  font-size: 1.05em;
+}
+.playname{
+  font-weight: bold;
+  color: black;
+  font-size: 1.25em;
+  text-shadow: none;
+}
+.player1 {
+  background:  #00008B;
+}
+
+.player2 {
+  background: #9932CC;
+}
+
+.player3 {
+  background: #F08080;
+}
+
+.player4 {
+  background: #3CB371;
+}
+
+.player5 {
+  background:  #FF0000;
+}
+
+.player6 {
+  background: #CD853F;
+}
+.card_mission_button {
+  background-color: #778899;
+  border-radius: 4px;
+  font-weight: bold;
 }
