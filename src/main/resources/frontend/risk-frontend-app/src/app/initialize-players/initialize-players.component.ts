@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 
@@ -14,7 +14,7 @@ export class InitializePlayersComponent implements OnInit {
   item4 = '';
   item5 = '';
   item6 = '';
-  newplayer = '';
+  newplayer = 'Player1';
   error = '';
   constructor(
     private router: Router
@@ -51,6 +51,13 @@ export class InitializePlayersComponent implements OnInit {
     } else {
       this.error = 'You need at least two players to start';
     }
+    localStorage.setItem('item1', this.item1);
+    localStorage.setItem('item2', this.item2);
+    localStorage.setItem('item3', this.item3);
+    localStorage.setItem('item4', this.item4);
+    localStorage.setItem('item5', this.item5);
+    localStorage.setItem('item6', this.item6);
+
   }
 
   newPlayer(event: Event) {

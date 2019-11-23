@@ -1,3 +1,4 @@
+<p class="bar" [ngStyle]="{backgroundColor: getPlayersColor()}"></p>
 <div class="mapdiv" >
   <svg  style="pointer-events: auto;">
     <g>
@@ -180,37 +181,37 @@
 </div>
 <div class="players_info">
   <div class="player1">
-    <p class="playname">Player1</p>
+    <p class="playname" >{{item1}}</p>
     <div class="reservelabel">Reserve: <span class="reserve">0</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
   <div class="player2">
-    <p class="playname">Player2</p>
+    <p class="playname">{{item2}}</p>
     <div class="reservelabel">Reserve: <span class="reserve">0</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
-  <div class="player3">
-    <p class="playname">Player3</p>
+  <div class="player3" [ngStyle]="{background: getPlayer3Color()}">
+    <p class="playname" >{{item3}}</p>
     <div class="reservelabel">Reserve: <span class="reserve">0</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
-  <div class="player4">
-    <p class="playname">Player4</p>
+  <div class="player4" [ngStyle]="{background: getPlayer4Color()}">
+    <p class="playname">{{item4}}</p>
     <div class="reservelabel">Reserve: <span class="reserve">0</span></div>
     <button class="card_mission_button">My Cards </button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
-  <div class="player5">
-    <p class="playname">Player5</p>
+  <div class="player5" [ngStyle]="{background: getPlayer5Color()}">
+    <p class="playname">{{item5}}</p>
     <div class="reservelabel">Reserve: <span class="reserve">0</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
-  <div class="player6">
-    <p class="playname">Player6</p>
+  <div class="player6" [ngStyle]="{background: getPlayer6Color()}">
+    <p class="playname">{{item6}}</p>
     <div class="reservelabel">Reserve: <span class="reserve">0</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
