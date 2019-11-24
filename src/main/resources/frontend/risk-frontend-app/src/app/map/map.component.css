@@ -2,6 +2,10 @@ html, body {
   height: 80%;
   margin: 0 auto;
 }
+.mission {
+  z-index: 9;
+  margin-top: 80px; margin-left: 550px;
+}
 .bar {
   border-radius: 0.2em;
   border-width:14px;

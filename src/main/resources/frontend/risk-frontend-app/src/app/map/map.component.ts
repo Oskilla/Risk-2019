@@ -7,25 +7,69 @@ import {Router} from '@angular/router';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+  missions = ['Vous devez conquérir en totalité l\'Asie et l\'Afrique',
+    'Vous devez conquérir en totalité l\'Asie et l\'Amérique du sud',
+    'Vous devez conquérir en totalité l\'Amérique du Nord et l\'Océanie',
+    'Vous devez conquérir 24 territoires aux choix',
+    'Vous devez conquérir en totalité l\'Amérique du Nord et l\'Afrique',
+    'Vous devez conquérir 18 territoires et occuper chacun d\'eux avec deux armées au moins',
+    'Vous devez conquérir en totalité l\'Europe et l\'Amérique du sud plus un troisième continent au choix',
+    'Vous devez conquérir en totalité l\'Europe et l\'Océanie plus un troisième continent au choix'];
 
-  constructor(private router: Router) {}
   nbOfPlayers = 2;
   player = '';
-  item1 = '';
-  item2 = '';
-  item3 = '';
-  item4 = '';
-  item5 = '';
-  item6 = '';
+  player1 = {name: '', color: '', reserve: 0, mission: ''};
+  player2 = {name: '', color: '', reserve: 0, mission: ''};
+  player3 = {name: '', color: '', reserve: 0, mission: ''};
+  player4 = {name: '', color: '', reserve: 0, mission: ''};
+  player5 = {name: '', color: '', reserve: 0, mission: ''};
+  player6 = {name: '', color: '', reserve: 0, mission: ''};
+  officialPlayers = [this.player1, this.player2];
   reserve = 0;
+  constructor(private router: Router) {
+    const shuffled = localStorage.getItem('shuffled');
+    if (shuffled === 'true') {
+      this.router.navigateByUrl('/players');
+    }
+    if (shuffled === 'false') {
+      this.shufflemissions();
+      localStorage.setItem('shuffled', 'true');
+    }
+  }
+  shufflemissions() {
+    let e = 0;
+    let j = 0;
+    let temp = '';
+    for (e = this.missions.length - 1; e > 0; e--) {
+      j = Math.floor(Math.random() * (e + 1));
+      temp = this.missions[e];
+      this.missions[e] = this.missions[j];
+      this.missions[j] = temp;
+      this.player1.mission = this.missions[0];
+      this.player2.mission = this.missions[1];
+      this.player3.mission = this.missions[2];
+      this.player4.mission = this.missions[3];
+      this.player5.mission = this.missions[4];
+      this.player6.mission = this.missions[5];
+    }
+  }
+
 
   ngOnInit() {
-    this.item1 = localStorage.getItem('item1');
-    this.item2 = localStorage.getItem('item2');
-    this.item3 = localStorage.getItem('item3');
-    this.item4 = localStorage.getItem('item4');
-    this.item5 = localStorage.getItem('item5');
-    this.item6 = localStorage.getItem('item6');
+    this.setNames();
+    this.getPlayer3Color();
+    this.getPlayer4Color();
+    this.getPlayer5Color();
+    this.getPlayer6Color();
+    this.setReserves();
+  }
+  setNames() {
+    this.player1.name = localStorage.getItem('item1');
+    this.player2.name = localStorage.getItem('item2');
+    this.player3.name = localStorage.getItem('item3');
+    this.player4.name = localStorage.getItem('item4');
+    this.player5.name = localStorage.getItem('item5');
+    this.player6.name = localStorage.getItem('item6');
   }
   getPlayersColor() {
     if (this.player === 'item1') {
@@ -49,32 +93,36 @@ export class MapComponent implements OnInit {
   }
 
   getPlayer3Color() {
-    if (this.item3 === '') {
+    if (this.player3.name === '') {
       return '#778899';
     } else {
       this.nbOfPlayers = this.nbOfPlayers + 1;
+      this.officialPlayers.push(this.player3);
     }
   }
   getPlayer6Color() {
-    if (this.item6 === '') {
+    if (this.player6.name === '') {
       return '#778899';
     } else {
       this.nbOfPlayers = this.nbOfPlayers + 1;
+      this.officialPlayers.push(this.player6);
     }
   }
   getPlayer4Color() {
-    if (this.item4 === '') {
+    if (this.player4.name === '') {
       return '#778899';
     } else {
       this.nbOfPlayers = this.nbOfPlayers + 1;
+      this.officialPlayers.push(this.player4);
     }
   }
 
   getPlayer5Color() {
-    if (this.item5 === '') {
+    if (this.player5.name === '') {
       return '#778899';
     } else {
       this.nbOfPlayers = this.nbOfPlayers + 1;
+      this.officialPlayers.push(this.player5);
     }
   }
 
@@ -98,24 +146,30 @@ export class MapComponent implements OnInit {
 
   getDisplay(num: number) {
     if (num === 3) {
-      if (this.item3 === '') {
+      if (this.player3.name === '') {
         return 'none';
       }
     }
     if (num === 4) {
-      if (this.item4 === '') {
+      if (this.player4.name === '') {
         return 'none';
       }
     }
     if (num === 5) {
-      if (this.item5 === '') {
+      if (this.player5.name === '') {
         return 'none';
       }
     }
     if (num === 6) {
-      if (this.item6 === '') {
+      if (this.player6.name === '') {
         return 'none';
       }
     }
+  }
+
+  newGame() {
+    // redirects to initializer component
+    localStorage.setItem('shuffled', 'false');
+    this.router.navigateByUrl('/players');
   }
 }

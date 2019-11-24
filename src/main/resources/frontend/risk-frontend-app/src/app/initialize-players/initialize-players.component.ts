@@ -57,6 +57,7 @@ export class InitializePlayersComponent implements OnInit {
     localStorage.setItem('item4', this.item4);
     localStorage.setItem('item5', this.item5);
     localStorage.setItem('item6', this.item6);
+    localStorage.setItem('shuffled', 'false');
 
   }
 

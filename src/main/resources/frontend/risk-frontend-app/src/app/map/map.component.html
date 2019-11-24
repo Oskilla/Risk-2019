@@ -179,41 +179,42 @@
     </g>
   </svg>
 </div>
-<div class="players_info"> {{setReserves()}}
+<div class="players_info">
   <div class="player1">
-    <p class="playname" >{{item1}}</p>
+    <p class="playname" >{{player1.name}}</p>
     <div class="reservelabel">Reserve: <span class="reserve">{{reserve}}</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
   <div class="player2">
-    <p class="playname">{{item2}}</p>
+    <p class="playname">{{player2.name}}</p>
     <div class="reservelabel">Reserve: <span class="reserve">{{reserve}}</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
   <div class="player3" [ngStyle]="{background: getPlayer3Color()}">
-    <p class="playname" >{{item3}}</p>
+    <p class="playname" >{{player3.name}}</p>
     <div class="reservelabel">Reserve: <span class="reserve" [ngStyle]="{display: getDisplay(3)}">{{reserve}}</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
   <div class="player4" [ngStyle]="{background: getPlayer4Color()}">
-    <p class="playname">{{item4}}</p>
+    <p class="playname">{{player4.name}}</p>
     <div class="reservelabel">Reserve: <span class="reserve" [ngStyle]="{display: getDisplay(4)}">{{reserve}}</span></div>
     <button class="card_mission_button">My Cards </button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
   <div class="player5" [ngStyle]="{background: getPlayer5Color()}">
-    <p class="playname">{{item5}}</p>
+    <p class="playname">{{player5.name}}</p>
     <div class="reservelabel">Reserve: <span class="reserve" [ngStyle]="{display: getDisplay(5)}">{{reserve}}</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
   <div class="player6" [ngStyle]="{background: getPlayer6Color()}">
-    <p class="playname">{{item6}}</p>
+    <p class="playname">{{player6.name}}</p>
     <div class="reservelabel">Reserve: <span class="reserve" [ngStyle]="{display: getDisplay(6)}">{{reserve}}</span></div>
     <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
     <button class="card_mission_button">My Mission</button>
   </div>
+  <button (click)="newGame()">Start New Game</button>
 </div>
