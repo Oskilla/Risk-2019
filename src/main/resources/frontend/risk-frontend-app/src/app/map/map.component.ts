@@ -369,6 +369,14 @@ export class MapComponent implements OnInit {
       this.getPlayer(r + 1).reserve = this.getPlayer(r + 1).reserve - 1;
     }
   }
+  setCountryColor(name: string) {
+    const p = this.countries.length;
+    for ( let e = 0; e < p; e++) {
+      if (this.countries[e].name === name) {
+        return this.countries[e].color;
+      }
+    }
+  }
   closeMission() {
     this.missionIsAsked = 'none';
   }
