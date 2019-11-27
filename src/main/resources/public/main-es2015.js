@@ -686,6 +686,7 @@ let MapComponent = class MapComponent {
         this.getPlayer5Color();
         this.getPlayer6Color();
         this.setReserves();
+        this.distributionPays();
     }
     setNames() {
         this.player1.name = localStorage.getItem('item1');
@@ -849,6 +850,38 @@ let MapComponent = class MapComponent {
         if (num === 6 && this.player6.name !== '') {
             this.missionShowed = this.player6.mission;
             this.missionIsAsked = 'block';
+        }
+    }
+    distributionPays() {
+        let a = 0;
+        let i = 0;
+        let e = 0;
+        // shuffle countries
+        while (i !== 1) {
+            while (e < this.nbOfPlayers) {
+                if (a !== this.countries.length) {
+                    this.countries[a].owner = this.getPlayer(e + 1) + '';
+                    this.getPlayer(e + 1).countries.push(this.countries[a].name);
+                    this.countries[a].army += 1;
+                    this.countries[a].color = this.getPlayer(e + 1).color;
+                    e += 1;
+                    a = a + 1;
+                    if (a === this.countries.length) {
+                        i = 1;
+                        break;
+                    }
+                }
+            }
+            if (a === this.countries.length) {
+                i = 1;
+                break;
+            }
+            else {
+                e = 0;
+            }
+        }
+        for (let r = 0; r < this.nbOfPlayers; r++) {
+            this.getPlayer(r + 1).reserve = this.getPlayer(r + 1).reserve - 1;
         }
     }
     closeMission() {
