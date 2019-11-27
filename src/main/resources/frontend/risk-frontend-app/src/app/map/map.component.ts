@@ -15,6 +15,7 @@ export class MapComponent implements OnInit {
     'Vous devez conquérir 18 territoires et occuper chacun d\'eux avec deux armées au moins.',
     'Vous devez conquérir en totalité l\'Europe et l\'Amérique du sud plus un troisième continent au choix.',
     'Vous devez conquérir en totalité l\'Europe et l\'Océanie plus un troisième continent au choix.'];
+
   countries = [{name: 'indonesia', continent: 'oceania', owner: 'none', color:  'white', army: 0,
     neighbours: ['siam', 'western_australia', 'new_guinea']},
     {name: 'new_guinea', continent: 'oceania', owner: 'none', color:  'white', army: 0,
@@ -128,6 +129,7 @@ export class MapComponent implements OnInit {
         'india'],
       name: 'asia',
     }];
+
   nbOfPlayers = 2;
   currentPlayer = '';
   player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: []};
@@ -175,8 +177,7 @@ export class MapComponent implements OnInit {
     this.getPlayer5Color();
     this.getPlayer6Color();
     this.setReserves();
-    this.distributionPays();
-
+    this.phaseInitialisation0();
   }
   setNames() {
     this.player1.name = localStorage.getItem('item1');
@@ -338,7 +339,36 @@ export class MapComponent implements OnInit {
       this.missionIsAsked = 'block';
     }
   }
-  private distributionPays() {
+
+  closeMission() {
+    this.missionIsAsked = 'none';
+  }
+
+  unTour() {
+    this.initialPhase();
+    this.battlePhase();
+    this.fortifyPhase();
+  }
+
+  initialPhase() {
+    // si le joueur veut ajouter des armées de sa reserve dans les countries qu'il possède.
+    // 1. vérifier que le pays cliqué lui appartient
+    // 2. incrémenter l'army de ce pays.
+    // 3. diminuer la reserve du joueur.
+    for ( let e = 0; e < this.nbOfPlayers; e++) {
+    }
+  }
+  battlePhase() {
+    // 1.choose own country.
+    // 2.choose opponent country
+    // 3.vérifier que l'opponent country fait partie des countries adjacentes du pays choisi (cliqué en premier)
+    // 4.jeu de dés (renvoie le vainqueur)
+    // 5.changement dans les données du vainqueur
+  }
+  fortifyPhase() {}
+
+  // distribuer les pays aux joueurs et mettre tous les text-reserve des pays à 1 et diminuer la réserve de tous les joueurs de 1.
+  private phaseInitialisation0() {
     let a = 0;
     let i = 0;
     let e = 0;
@@ -350,6 +380,7 @@ export class MapComponent implements OnInit {
           this.getPlayer(e + 1).countries.push(this.countries[a].name);
           this.countries[a].army += 1;
           this.countries[a].color = this.getPlayer(e + 1).color;
+          this.getPlayer(e + 1).reserve = this.getPlayer(e + 1).reserve - 1;
           e += 1;
           a = a + 1;
           if (a === this.countries.length) {
@@ -365,10 +396,8 @@ export class MapComponent implements OnInit {
         e = 0;
       }
     }
-    for (let r = 0; r < this.nbOfPlayers; r++) {
-      this.getPlayer(r + 1).reserve = this.getPlayer(r + 1).reserve - 1;
-    }
   }
+
   setCountryColor(name: string) {
     const p = this.countries.length;
     for ( let e = 0; e < p; e++) {
@@ -377,7 +406,13 @@ export class MapComponent implements OnInit {
       }
     }
   }
-  closeMission() {
-    this.missionIsAsked = 'none';
+
+  getCountrysArmy(country: string) {
+    const nbOfCountries = this.countries.length;
+    for ( let r = 0; r < nbOfCountries; r++ ) {
+      if ( this.countries[r].name === country) {
+        return this.countries[r].army;
+      }
+    }
   }
 }

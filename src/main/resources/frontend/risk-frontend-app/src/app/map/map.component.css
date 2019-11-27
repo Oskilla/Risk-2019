@@ -24,10 +24,12 @@ html, body {
   background-color: #222222;
   color: white;
   border-radius: 6px;
+  width: 130px;
+  height: 30px;
 }
 .missionbody {
   width: 200px;
-  height: 230px;
+  height: 240px;
   background: lightgray;
   top: 1px;
   position: relative;
