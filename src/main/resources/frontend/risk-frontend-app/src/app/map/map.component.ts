@@ -131,7 +131,6 @@ export class MapComponent implements OnInit {
     }];
 
   nbOfPlayers = 2;
-  currentPlayer = '';
   player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: []};
   player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: []};
   player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: []};
@@ -141,31 +140,32 @@ export class MapComponent implements OnInit {
   officialPlayers = [this.player1, this.player2];
   missionIsAsked = 'none';
   missionShowed = '';
+  currentPlayer = 'noplayer';
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
     if (shuffled === 'true') {
       this.router.navigateByUrl('/players');
     }
     if (shuffled === 'false') {
-      this.shufflemissions();
+      this.shuffle(this.missions);
       localStorage.setItem('shuffled', 'true');
     }
   }
-  shufflemissions() {
+  shuffle(array: any) {
     let e = 0;
     let j = 0;
     let temp = '';
-    for (e = this.missions.length - 1; e > 0; e--) {
+    for (e = array.length - 1; e > 0; e--) {
       j = Math.floor(Math.random() * (e + 1));
-      temp = this.missions[e];
-      this.missions[e] = this.missions[j];
-      this.missions[j] = temp;
-      this.player1.mission = this.missions[0];
-      this.player2.mission = this.missions[1];
-      this.player3.mission = this.missions[2];
-      this.player4.mission = this.missions[3];
-      this.player5.mission = this.missions[4];
-      this.player6.mission = this.missions[5];
+      temp = array[e];
+      array[e] = array[j];
+      array[j] = temp;
+      this.player1.mission = array[0];
+      this.player2.mission = array[1];
+      this.player3.mission = array[2];
+      this.player4.mission = array[3];
+      this.player5.mission = array[4];
+      this.player6.mission = array[5];
     }
   }
 
@@ -188,22 +188,22 @@ export class MapComponent implements OnInit {
     this.player6.name = localStorage.getItem('item6');
   }
   getPlayersColor() {
-    if (this.currentPlayer === 'item1') {
+    if (this.currentPlayer === this.player1.name) {
       return this.player1.color;
     }
-    if (this.currentPlayer === 'item2') {
+    if (this.currentPlayer ===  this.player2.name) {
       return this.player2.color;
     }
-    if (this.currentPlayer === 'item3') {
+    if (this.currentPlayer ===  this.player3.name) {
       return this.player3.color;
     }
-    if (this.currentPlayer === 'item4') {
+    if (this.currentPlayer ===  this.player4.name) {
       return this.player4.color;
     }
-    if (this.currentPlayer === 'item5') {
+    if (this.currentPlayer ===  this.player5.name) {
       return this.player5.color;
     }
-    if (this.currentPlayer === 'item6') {
+    if (this.currentPlayer ===  this.player6.name) {
       return this.player6.color;
     }
   }
@@ -372,7 +372,7 @@ export class MapComponent implements OnInit {
     let a = 0;
     let i = 0;
     let e = 0;
-    // shuffle countries
+    this.shuffle(this.countries);
     while ( i !== 1) {
       while ( e < this.nbOfPlayers ) {
         if ( a !== this.countries.length) {

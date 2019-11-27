@@ -669,7 +669,6 @@
                         }
                     ];
                     this.nbOfPlayers = 2;
-                    this.currentPlayer = '';
                     this.player1 = { name: '', color: '#00008B', reserve: 0, mission: '', countries: [] };
                     this.player2 = { name: '', color: '#9932CC', reserve: 0, mission: '', countries: [] };
                     this.player3 = { name: '', color: '#F08080', reserve: 0, mission: '', countries: [] };
@@ -679,30 +678,31 @@
                     this.officialPlayers = [this.player1, this.player2];
                     this.missionIsAsked = 'none';
                     this.missionShowed = '';
+                    this.currentPlayer = 'noplayer';
                     var shuffled = localStorage.getItem('shuffled');
                     if (shuffled === 'true') {
                         this.router.navigateByUrl('/players');
                     }
                     if (shuffled === 'false') {
-                        this.shufflemissions();
+                        this.shuffle(this.missions);
                         localStorage.setItem('shuffled', 'true');
                     }
                 }
-                MapComponent.prototype.shufflemissions = function () {
+                MapComponent.prototype.shuffle = function (array) {
                     var e = 0;
                     var j = 0;
                     var temp = '';
-                    for (e = this.missions.length - 1; e > 0; e--) {
+                    for (e = array.length - 1; e > 0; e--) {
                         j = Math.floor(Math.random() * (e + 1));
-                        temp = this.missions[e];
-                        this.missions[e] = this.missions[j];
-                        this.missions[j] = temp;
-                        this.player1.mission = this.missions[0];
-                        this.player2.mission = this.missions[1];
-                        this.player3.mission = this.missions[2];
-                        this.player4.mission = this.missions[3];
-                        this.player5.mission = this.missions[4];
-                        this.player6.mission = this.missions[5];
+                        temp = array[e];
+                        array[e] = array[j];
+                        array[j] = temp;
+                        this.player1.mission = array[0];
+                        this.player2.mission = array[1];
+                        this.player3.mission = array[2];
+                        this.player4.mission = array[3];
+                        this.player5.mission = array[4];
+                        this.player6.mission = array[5];
                     }
                 };
                 MapComponent.prototype.ngOnInit = function () {
@@ -723,22 +723,22 @@
                     this.player6.name = localStorage.getItem('item6');
                 };
                 MapComponent.prototype.getPlayersColor = function () {
-                    if (this.currentPlayer === 'item1') {
+                    if (this.currentPlayer === this.player1.name) {
                         return this.player1.color;
                     }
-                    if (this.currentPlayer === 'item2') {
+                    if (this.currentPlayer === this.player2.name) {
                         return this.player2.color;
                     }
-                    if (this.currentPlayer === 'item3') {
+                    if (this.currentPlayer === this.player3.name) {
                         return this.player3.color;
                     }
-                    if (this.currentPlayer === 'item4') {
+                    if (this.currentPlayer === this.player4.name) {
                         return this.player4.color;
                     }
-                    if (this.currentPlayer === 'item5') {
+                    if (this.currentPlayer === this.player5.name) {
                         return this.player5.color;
                     }
-                    if (this.currentPlayer === 'item6') {
+                    if (this.currentPlayer === this.player6.name) {
                         return this.player6.color;
                     }
                 };
@@ -907,7 +907,7 @@
                     var a = 0;
                     var i = 0;
                     var e = 0;
-                    // shuffle countries
+                    this.shuffle(this.countries);
                     while (i !== 1) {
                         while (e < this.nbOfPlayers) {
                             if (a !== this.countries.length) {
