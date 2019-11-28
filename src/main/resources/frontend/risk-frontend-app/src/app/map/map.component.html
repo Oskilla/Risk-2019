@@ -1,4 +1,11 @@
 <div class="container">
+  <div class="mission_complete" [ngStyle]="{display: 'none'}">
+    <div class="complete_mission_body">
+      <p class="complete_mission_title">Mission Complete !</p>
+      <p class="complete_mission_text">Congratulations <span class="winner">{{currentPlayer}}</span> <br> You've completed your mission<br> You are the winner</p>
+      <button class="close_mission" (click)="close_mission_completed()">Restart Game</button>
+    </div>
+  </div>
   <div class="mission" [ngStyle]="{display: (missionIsAsked)}">
     <div class="missionbody">
       <p class="mission_title">My Mission</p>
