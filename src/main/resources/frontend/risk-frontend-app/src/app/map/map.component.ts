@@ -140,7 +140,7 @@ export class MapComponent implements OnInit {
   officialPlayers = [this.player1, this.player2];
   missionIsAsked = 'none';
   missionShowed = '';
-  currentPlayer = 'noplayer';
+  currentPlayer = '';
   currentPhase = '';
   PhaseIsAsked = 'none';
   constructor(private router: Router) {
@@ -338,13 +338,21 @@ export class MapComponent implements OnInit {
       this.missionShowed = this.player6.mission;
       this.missionIsAsked = 'block';
     }
-    console.log(this.player1.mission);
   }
 
   closeMission() {
     this.missionIsAsked = 'none';
   }
+  play() {
+    for (let e = 0; e < this.nbOfPlayers; e++) {
+      this.unTour(e + 1);
+      this.checkIfMissionIsReached(e + 1);
+    }
+  }
   unTour(i) {
+    this.currentPlayer = this.getPlayer(i).name;
+    this.getPlayersColor();
+    // then we let him play
     this.initialPhase(i);
     this.battlePhase(i);
     this.fortifyPhase(i);
@@ -352,11 +360,12 @@ export class MapComponent implements OnInit {
 
   initialPhase(i: number) {
     // But: si le joueur veut ajouter des armées de sa reserve dans les countries qu'il possède.
-    // 1. vérifier que le pays cliqué lui appartient
+    // 1. vérifier que le pays cliqué lui appartient et que le joueur a une reserve d'au moins un
     // 2. incrémenter l'army de ce pays.
     // 3. diminuer la reserve du joueur.
+    // TODO :USE CARDS
     this.currentPhase = 'Fortify Phase';
-    const paysClique = '';
+    const paysClique = this.getCountryClicked();
     let paysLuiAppartient = false;
     const thePlayersCountriesLength = this.getPlayer(i).countries.length;
     const countriesLength = this.countries.length;
@@ -365,13 +374,23 @@ export class MapComponent implements OnInit {
         paysLuiAppartient = true;
       }
     }
-    if (paysLuiAppartient) {
+    console.log(paysLuiAppartient);
+    if (paysLuiAppartient && this.getPlayer(i).reserve > 0 ) {
       for (let e = 0; e < countriesLength; e++) {
         if (this.countries[e].name === paysClique) {
           this.countries[e].army += 1;
         }
       }
       this.getPlayer(i).reserve -= 1;
+    }
+  }
+  getCountryClicked() {
+    const countriesLength = this.countries.length;
+    for (let i = 0; i < countriesLength; i++) {
+      if (this.countries[i].clicked === 'true') {
+        this.countries[i].clicked = 'false';
+        return this.countries[i].name;
+      }
     }
   }
   battlePhase(i: number) {
@@ -566,5 +585,15 @@ export class MapComponent implements OnInit {
 
   closePhaseDescription() {
     this.PhaseIsAsked = 'none';
+  }
+
+  setClickedCountry(countryName: string) {
+    const countriesLength = this.countries.length;
+    for (let i = 0; i < countriesLength; i++) {
+      if (this.countries[i].name === countryName) {
+        this.countries[i].clicked = 'true';
+      }
+    }
+    this.unTour(1);
   }
 }
