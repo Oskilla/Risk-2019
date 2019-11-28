@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="game">
-    <button class="phase" (click)="displayDescribeCurrentPhase()">Phase</button><span class="bar" [ngStyle]="{backgroundColor: getPlayersColor()}"></span>&nbsp;&nbsp;&nbsp;<button class="close_mission">End Turn</button>
+    <button class="phase" (click)="displayDescribeCurrentPhase()">{{currentPhase}}</button><span class="bar" [ngStyle]="{backgroundColor: getPlayersColor()}"></span>&nbsp;&nbsp;&nbsp;<button class="close_mission">End Turn</button>
     <div class="mapdiv" >
       <svg  style="pointer-events: auto;">
         <g>
