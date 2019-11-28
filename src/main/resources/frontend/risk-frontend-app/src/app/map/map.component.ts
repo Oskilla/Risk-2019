@@ -354,8 +354,8 @@ export class MapComponent implements OnInit {
     this.getPlayersColor();
     // then we let him play
     this.initialPhase(i);
-    this.battlePhase(i);
-    this.fortifyPhase(i);
+    // this.battlePhase(i);
+    // this.fortifyPhase(i);
   }
 
   initialPhase(i: number) {
@@ -374,7 +374,6 @@ export class MapComponent implements OnInit {
         paysLuiAppartient = true;
       }
     }
-    console.log(paysLuiAppartient);
     if (paysLuiAppartient && this.getPlayer(i).reserve > 0 ) {
       for (let e = 0; e < countriesLength; e++) {
         if (this.countries[e].name === paysClique) {
@@ -393,11 +392,41 @@ export class MapComponent implements OnInit {
       }
     }
   }
+  getCountClicked() {
+    const countriesLength = this.countries.length;
+    for (let i = 0; i < countriesLength; i++) {
+      if (this.countries[i].clicked === 'true') {
+        this.countries[i].clicked = 'false';
+        return this.countries[i];
+      }
+    }
+  }
   battlePhase(i: number) {
-    this.currentPhase = 'Battle Phase';
     // 1.choose own country.
+    // 1.bis verifier qu'il a au moins 2 armées dans ce pays pour qu'il puisse attaquer
     // 2.choose opponent country
     // 3.vérifier que l'opponent country fait partie des countries adjacentes du pays choisi (cliqué en premier)
+    this.currentPhase = 'Battle Phase';
+    let realOwnCountry: string;
+    let ownCountryClicked = false;
+    while ( ownCountryClicked === false ) {
+      const paysCliques = this.getCountryClicked();
+      if (this.getPlayer(i).countries.includes(paysCliques)) {
+        ownCountryClicked = true;
+        realOwnCountry = paysCliques;
+      }
+    }
+    if ( this.getCountrysArmy(realOwnCountry) > 1 ) {
+      let opponentCountry = false;
+      while (opponentCountry === false) {
+        const paysCliques = this.getCountClicked();
+        if (!this.getPlayer(i).countries.includes(paysCliques) && paysCliques.neighbours.includes(realOwnCountry)) {
+          opponentCountry = true;
+        }
+      }
+    } else {
+      // TODO display you can't battle since you have less than 2 army's in this country
+    }
     // 4.jeu de dés (renvoie le vainqueur)
     // 5.changement dans les données du vainqueur
   }
