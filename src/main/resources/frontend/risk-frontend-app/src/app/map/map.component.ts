@@ -17,89 +17,89 @@ export class MapComponent implements OnInit {
     'Vous devez conquérir en totalité l\'Europe et l\'Océanie plus un troisième continent au choix.'];
 
   countries = [{name: 'indonesia', continent: 'oceania', owner: 'none', color:  'white', army: 0,
-    neighbours: ['siam', 'western_australia', 'new_guinea']},
+    neighbours: ['siam', 'western_australia', 'new_guinea'], clicked: 'false'},
     {name: 'new_guinea', continent: 'oceania', owner: 'none', color:  'white', army: 0,
-      neighbours: ['indonesia', 'eastern_australia', 'western_australia']},
+      neighbours: ['indonesia', 'eastern_australia', 'western_australia'], clicked: 'false'},
     {name: 'eastern_australia', continent: 'oceania', owner: 'none', color: 'white', army: 0,
-      neighbours: ['western_australia', 'new_guinea']},
+      neighbours: ['western_australia', 'new_guinea'], clicked: 'false'},
     {name: 'western_australia', continent: 'oceania', owner: 'none', color: 'white', army: 0,
-      neighbours: ['eastern_australia', 'new_guinea', 'indonesia']},
+      neighbours: ['eastern_australia', 'new_guinea', 'indonesia'], clicked: 'false'},
     {name: 'ural', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['ukraine', 'siberia', 'afghanistan', 'china']},
+        ['ukraine', 'siberia', 'afghanistan', 'china'], clicked: 'false'},
     {name: 'siberia', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['ural', 'mongolia', 'yakutsk', 'irkutsk', 'china']},
+        ['ural', 'mongolia', 'yakutsk', 'irkutsk', 'china'], clicked: 'false'},
     {name: 'afghanistan', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['ukraine', 'ural', 'middle_east', 'china', 'india']},
+        ['ukraine', 'ural', 'middle_east', 'china', 'india'], clicked: 'false'},
     {name: 'irkutsk', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['yakutsk', 'siberia', 'kamchatka', 'mongolia']},
+        ['yakutsk', 'siberia', 'kamchatka', 'mongolia'], clicked: 'false'},
     {name: 'yakutsk', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['irkutsk', 'siberia', 'kamchatka']},
+        ['irkutsk', 'siberia', 'kamchatka'], clicked: 'false'},
     {name: 'kamchatka', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['alaska', 'yakutsk', 'japan', 'irkutsk', 'mongolia']},
+        ['alaska', 'yakutsk', 'japan', 'irkutsk', 'mongolia'], clicked: 'false'},
     {name: 'middle_east', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['ukraine', 'afghanistan', 'india', 'egypt', 'east_africa', 'southern_europe']},
+        ['ukraine', 'afghanistan', 'india', 'egypt', 'east_africa', 'southern_europe'], clicked: 'false'},
     {name: 'india', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['middle_east', 'siam', 'afghanistan', 'china']},
+        ['middle_east', 'siam', 'afghanistan', 'china'], clicked: 'false'},
     {name: 'siam', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['indonesia', 'india', 'china']},
+        ['indonesia', 'india', 'china'], clicked: 'false'},
     {name: 'china', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['ural', 'siberia', 'afghanistan', 'mongolia', 'siam', 'india']},
+        ['ural', 'siberia', 'afghanistan', 'mongolia', 'siam', 'india'], clicked: 'false'},
     {name: 'mongolia', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['irkutsk', 'siberia', 'kamchatka', 'china', 'japan']},
+        ['irkutsk', 'siberia', 'kamchatka', 'china', 'japan'], clicked: 'false'},
     {name: 'japan', continent: 'asia', owner: 'none', color: 'white', army: 0, neighbours:
-        ['kamchatka', 'mongolia']},
+        ['kamchatka', 'mongolia'], clicked: 'false'},
     {name: 'egypt', continent: 'africa', owner: 'none', color: 'white', army: 0, neighbours:
-        ['middle_east', 'southern_europe', 'north_africa', 'east_africa']},
+        ['middle_east', 'southern_europe', 'north_africa', 'east_africa'], clicked: 'false'},
     {name: 'north_africa', continent: 'africa', owner: 'none', color: 'white', army: 0, neighbours:
-        ['egypt', 'southern_europe', 'western_europe', 'east_africa', 'congo', 'brazil']},
+        ['egypt', 'southern_europe', 'western_europe', 'east_africa', 'congo', 'brazil'], clicked: 'false'},
     {name: 'east_africa', continent: 'africa', owner: 'none', color: 'white', army: 0, neighbours:
-        ['middle_east', 'egypt', 'north_africa', 'congo', 'madagascar', 'south_africa']},
+        ['middle_east', 'egypt', 'north_africa', 'congo', 'madagascar', 'south_africa'], clicked: 'false'},
     {name: 'congo', continent: 'africa', owner: 'none', color: 'white', army: 0, neighbours:
-        ['south_africa', 'north_africa', 'east_africa']},
+        ['south_africa', 'north_africa', 'east_africa'], clicked: 'false'},
     {name: 'south_africa', continent: 'africa', owner: 'none', color: 'white', army: 0, neighbours:
-        ['congo', 'madagascar', 'east_africa']},
+        ['congo', 'madagascar', 'east_africa'], clicked: 'false'},
     {name: 'madagascar', continent: 'africa', owner: 'none', color: 'white', army: 0, neighbours:
-        ['south_africa', 'east_africa']},
+        ['south_africa', 'east_africa'], clicked: 'false'},
     {name: 'brazil', continent: 'South America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['peru', 'argentina', 'north_africa', 'venezuela']},
+        ['peru', 'argentina', 'north_africa', 'venezuela'], clicked: 'false'},
     {name: 'peru', continent: 'South America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['brazil', 'argentina', 'venezuela']},
+        ['brazil', 'argentina', 'venezuela'], clicked: 'false'},
     {name: 'argentina', continent: 'South America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['brazil', 'peru']},
+        ['brazil', 'peru'], clicked: 'false'},
     {name: 'venezuela', continent: 'South America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['brazil', 'peru', 'central_america']},
+        ['brazil', 'peru', 'central_america'], clicked: 'false'},
     {name: 'iceland', continent: 'europe', owner: 'none', color: 'white', army: 0, neighbours:
-        ['greenland', 'uk', 'scandinavia']},
+        ['greenland', 'uk', 'scandinavia'], clicked: 'false'},
     {name: 'scandinavia', continent: 'europe', owner: 'none', color: 'white', army: 0, neighbours:
-        ['iceland', 'uk', 'ukraine', 'northern_europe']},
+        ['iceland', 'uk', 'ukraine', 'northern_europe'], clicked: 'false'},
     {name: 'northern_europe', continent: 'europe', owner: 'none', color: 'white', army: 0, neighbours:
-        ['ukraine', 'uk', 'scandinavia', 'southern_europe', 'western_europe']},
+        ['ukraine', 'uk', 'scandinavia', 'southern_europe', 'western_europe'], clicked: 'false'},
     {name: 'western_europe', continent: 'europe', owner: 'none', color: 'white', army: 0, neighbours:
-        ['north_africa', 'uk', 'northern_europe', 'southern_europe']},
+        ['north_africa', 'uk', 'northern_europe', 'southern_europe'], clicked: 'false'},
     {name: 'southern_europe', continent: 'europe', owner: 'none', color: 'white', army: 0, neighbours:
-        ['north_africa', 'egypt', 'northern_europe', 'western_europe', 'middle_east', 'ukraine']},
+        ['north_africa', 'egypt', 'northern_europe', 'western_europe', 'middle_east', 'ukraine'], clicked: 'false'},
     {name: 'uk', continent: 'europe', owner: 'none', color: 'white', army: 0, neighbours:
-        ['western_europe', 'iceland', 'northern_europe', 'scandinavia']},
+        ['western_europe', 'iceland', 'northern_europe', 'scandinavia'], clicked: 'false'},
     {name: 'ukraine', continent: 'europe', owner: 'none', color: 'white', army: 0, neighbours:
-        ['scandinavia', 'ural', 'northern_europe', 'southern_europe', 'afghanistan', 'middle_east']},
+        ['scandinavia', 'ural', 'northern_europe', 'southern_europe', 'afghanistan', 'middle_east'], clicked: 'false'},
     {name: 'greenland', continent: 'North America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['iceland', 'quebec', 'ontario', 'northwest_territory']},
+        ['iceland', 'quebec', 'ontario', 'northwest_territory'], clicked: 'false'},
     {name: 'central_america', continent: 'North America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['venezuela', 'eastern_us', 'western_us']},
+        ['venezuela', 'eastern_us', 'western_us'], clicked: 'false'},
     {name: 'eastern_us', continent: 'North America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['central_america', 'quebec', 'ontario', 'western_us']},
+        ['central_america', 'quebec', 'ontario', 'western_us'], clicked: 'false'},
     {name: 'western_us', continent: 'North America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['eastern_us', 'central_america', 'ontario', 'alberta']},
+        ['eastern_us', 'central_america', 'ontario', 'alberta'], clicked: 'false'},
     {name: 'alaska', continent: 'North America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['kamchatka', 'alberta', 'northwest_territory']},
+        ['kamchatka', 'alberta', 'northwest_territory'], clicked: 'false'},
     {name: 'alberta', continent: 'North America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['alaska', 'western_us', 'ontario', 'northwest_territory']},
+        ['alaska', 'western_us', 'ontario', 'northwest_territory'], clicked: 'false'},
     {name: 'ontario', continent: 'North America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['greenland', 'quebec', 'alberta', 'western_us', 'eastern_us', 'northwest_territory']},
+        ['greenland', 'quebec', 'alberta', 'western_us', 'eastern_us', 'northwest_territory'], clicked: 'false'},
     {name: 'quebec', continent: 'North America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['greenland', 'eastern_us', 'ontario']},
+        ['greenland', 'eastern_us', 'ontario'], clicked: 'false'},
     {name: 'northwest_territory', continent: 'North America', owner: 'none', color: 'white', army: 0, neighbours:
-        ['greenland', 'alaska', 'alberta', 'ontario']}
+        ['greenland', 'alaska', 'alberta', 'ontario'], clicked: 'false'}
   ];
 
   continents = [
@@ -177,6 +177,7 @@ export class MapComponent implements OnInit {
     this.getPlayer6Color();
     this.setReserves();
     this.phaseInitialisation0();
+    /// this.unTour(1);
   }
   setNames() {
     this.player1.name = localStorage.getItem('item1');
@@ -343,29 +344,47 @@ export class MapComponent implements OnInit {
   closeMission() {
     this.missionIsAsked = 'none';
   }
-
-  unTour() {
-    this.initialPhase();
-    this.battlePhase();
-    this.fortifyPhase();
+  unTour(i) {
+    this.initialPhase(i);
+    this.battlePhase(i);
+    this.fortifyPhase(i);
   }
 
-  initialPhase() {
+  initialPhase(i: number) {
     // But: si le joueur veut ajouter des armées de sa reserve dans les countries qu'il possède.
     // 1. vérifier que le pays cliqué lui appartient
     // 2. incrémenter l'army de ce pays.
     // 3. diminuer la reserve du joueur.
-    for ( let e = 0; e < this.nbOfPlayers; e++) {
+    this.currentPhase = 'Fortify Phase';
+    const paysClique = '';
+    let paysLuiAppartient = false;
+    const thePlayersCountriesLength = this.getPlayer(i).countries.length;
+    const countriesLength = this.countries.length;
+    for (let e = 0; e < thePlayersCountriesLength; e ++) {
+      if (this.getPlayer(i).countries.includes(paysClique)) {
+        paysLuiAppartient = true;
+      }
+    }
+    if (paysLuiAppartient) {
+      for (let e = 0; e < countriesLength; e++) {
+        if (this.countries[e].name === paysClique) {
+          this.countries[e].army += 1;
+        }
+      }
+      this.getPlayer(i).reserve -= 1;
     }
   }
-  battlePhase() {
+  battlePhase(i: number) {
+    this.currentPhase = 'Battle Phase';
     // 1.choose own country.
     // 2.choose opponent country
     // 3.vérifier que l'opponent country fait partie des countries adjacentes du pays choisi (cliqué en premier)
     // 4.jeu de dés (renvoie le vainqueur)
     // 5.changement dans les données du vainqueur
   }
-  fortifyPhase() {}
+  fortifyPhase(i: number) {
+    this.currentPhase = 'Moving Phase';
+  }
 
   // distribuer les pays aux joueurs et mettre tous les text-reserve des pays à 1 et diminuer la réserve de tous les joueurs de 1.
   private phaseInitialisation0() {
