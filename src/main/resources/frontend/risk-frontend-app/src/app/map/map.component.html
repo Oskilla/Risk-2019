@@ -6,8 +6,15 @@
       <button class="close_mission" (click)="closeMission()">Close</button>
     </div>
   </div>
+  <div class="phase_display" [ngStyle]="{display: (PhaseIsAsked)}">
+    <div class="phaseBody">
+      <p class="phase_title">{{currentPhase}}</p>
+      <p class="phase_text">{{getHowToPlayPhase()}}</p><br>
+      <button class="close_mission" (click)="closePhaseDescription()">Close</button>
+    </div>
+  </div>
   <div class="game">
-    <p class="bar" [ngStyle]="{backgroundColor: getPlayersColor()}"></p>
+    <button class="phase" (click)="displayDescribeCurrentPhase()">Phase</button><span class="bar" [ngStyle]="{backgroundColor: 'black'}"></span>&nbsp;&nbsp;&nbsp;<button class="close_mission">End Turn</button>
     <div class="mapdiv" >
       <svg  style="pointer-events: auto;">
         <g>
