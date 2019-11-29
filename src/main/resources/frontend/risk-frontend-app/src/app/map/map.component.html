@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="mission_complete" [ngStyle]="{display: 'none'}">
+  <div class="mission_complete" [ngStyle]="{display: (OneMissionIsCompleted)}">
     <div class="complete_mission_body">
       <p class="complete_mission_title">Mission Complete !</p>
       <p class="complete_mission_text">Congratulations <span class="winner">{{currentPlayer}}</span> <br> You've completed your mission<br> You are the winner</p>

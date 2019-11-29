@@ -16,6 +16,15 @@ export class MapComponent implements OnInit {
     'Vous devez conquérir en totalité l\'Europe et l\'Amérique du sud plus un troisième continent au choix.',
     'Vous devez conquérir en totalité l\'Europe et l\'Océanie plus un troisième continent au choix.'];
 
+  private theMissionsNotShuffled = ['Vous devez conquérir en totalité l\'Asie et l\'Afrique.',
+    'Vous devez conquérir en totalité l\'Asie et l\'Amérique du sud.',
+    'Vous devez conquérir en totalité l\'Amérique du Nord et l\'Océanie.',
+    'Vous devez conquérir 24 territoires aux choix.',
+    'Vous devez conquérir en totalité l\'Amérique du Nord et l\'Afrique.',
+    'Vous devez conquérir 18 territoires et occuper chacun d\'eux avec deux armées au moins.',
+    'Vous devez conquérir en totalité l\'Europe et l\'Amérique du sud plus un troisième continent au choix.',
+    'Vous devez conquérir en totalité l\'Europe et l\'Océanie plus un troisième continent au choix.'];
+
   countries = [{name: 'indonesia', continent: 'oceania', owner: 'none', color:  'white', army: 0,
     neighbours: ['siam', 'western_australia', 'new_guinea'], clicked: 'false'},
     {name: 'new_guinea', continent: 'oceania', owner: 'none', color:  'white', army: 0,
@@ -131,19 +140,30 @@ export class MapComponent implements OnInit {
     }];
 
   nbOfPlayers = 2;
-  player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: []};
+
+  player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: ['egypt', 'north_africa',
+      'east_africa', 'congo', 'south_africa', 'madagascar', 'middle_east', 'afghanistan',
+      'ural', 'siberia', 'irkutsk', 'yakutsk', 'kamchatka', 'mongolia', 'japan', 'china', 'siam', 'india']};
   player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: []};
   player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: []};
   player4 = {name: '', color:  '#3CB371', reserve: 0, mission: '', countries: []};
   player5 = {name: '', color:  '#FF0000', reserve: 0, mission: '', countries: []};
   player6 = {name: '', color:  '#CD853F', reserve: 0, mission: '', countries: []};
+
   officialPlayers = [this.player1, this.player2];
+
   missionIsAsked = 'none';
+
   missionShowed = '';
+
   currentPlayer = '';
+
   currentPhase = '';
+
   PhaseIsAsked = 'none';
+
   OneMissionIsCompleted = 'none';
+
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
     if (shuffled === 'true') {
@@ -160,6 +180,7 @@ export class MapComponent implements OnInit {
       localStorage.setItem('shuffled', 'true');
     }
   }
+
   shuffle(array: any) {
     let j = 0;
     let temp = '';
@@ -170,6 +191,7 @@ export class MapComponent implements OnInit {
       array[j] = temp;
     }
   }
+
   ngOnInit() {
     this.setNames();
     this.getPlayer3Color();
@@ -177,9 +199,10 @@ export class MapComponent implements OnInit {
     this.getPlayer5Color();
     this.getPlayer6Color();
     this.setReserves();
-    this.phaseInitialisation0();
+    // this.phaseInitialisation0();
     this.unTour(1);
   }
+
   setNames() {
     this.player1.name = localStorage.getItem('item1');
     this.player2.name = localStorage.getItem('item2');
@@ -188,6 +211,7 @@ export class MapComponent implements OnInit {
     this.player5.name = localStorage.getItem('item5');
     this.player6.name = localStorage.getItem('item6');
   }
+
   getPlayersColor() {
     if (this.currentPlayer === this.player1.name) {
       return this.player1.color;
@@ -217,6 +241,7 @@ export class MapComponent implements OnInit {
       this.officialPlayers.push(this.player3);
     }
   }
+
   getPlayer6Color() {
     if (this.player6.name === '') {
       return '#778899';
@@ -225,6 +250,7 @@ export class MapComponent implements OnInit {
       this.officialPlayers.push(this.player6);
     }
   }
+
   getPlayer4Color() {
     if (this.player4.name === '') {
       return '#778899';
@@ -242,6 +268,7 @@ export class MapComponent implements OnInit {
       this.officialPlayers.push(this.player5);
     }
   }
+
   getPlayer(i) {
     if (i === 1) {
       return this.player1;
@@ -257,6 +284,7 @@ export class MapComponent implements OnInit {
       return this.player6;
     }
   }
+
   setReserves() {
     if (this.nbOfPlayers === 2) {
       for (let i = 0; i < 2; i++) {
@@ -344,11 +372,20 @@ export class MapComponent implements OnInit {
   closeMission() {
     this.missionIsAsked = 'none';
   }
+
+  play() {
+    for (let e = 0; e < this.nbOfPlayers; e++) {
+      this.unTour(e + 1);
+      this.checkIfMissionIsReached(e + 1);
+    }
+  }
+
   unTour(i) {
     this.currentPlayer = this.getPlayer(i).name;
     this.getPlayersColor();
     // then we let him play
-    this.initialPhase(i);
+    // this.initialPhase(i);
+    this.checkIfMissionIsReached(i);
     // this.battlePhase(i);
     // this.fortifyPhase(i);
   }
@@ -378,6 +415,7 @@ export class MapComponent implements OnInit {
       this.getPlayer(i).reserve -= 1;
     }
   }
+
   getCountryClicked() {
     const countriesLength = this.countries.length;
     for (let i = 0; i < countriesLength; i++) {
@@ -387,6 +425,7 @@ export class MapComponent implements OnInit {
       }
     }
   }
+
   getCountClicked() {
     const countriesLength = this.countries.length;
     for (let i = 0; i < countriesLength; i++) {
@@ -396,6 +435,7 @@ export class MapComponent implements OnInit {
       }
     }
   }
+
   battlePhase(i: number) {
     // 1.choose own country.
     // 1.bis verifier qu'il a au moins 2 armées dans ce pays pour qu'il puisse attaquer
@@ -425,6 +465,7 @@ export class MapComponent implements OnInit {
     // 4.jeu de dés (renvoie le vainqueur)
     // 5.changement dans les données du vainqueur
   }
+
   fortifyPhase(i: number) {
     this.currentPhase = 'Moving Phase';
   }
@@ -477,64 +518,44 @@ export class MapComponent implements OnInit {
       }
     }
   }
-  displayDescribeCurrentPhase() {
-    this.PhaseIsAsked = 'block';
-  }
-
-  getHowToPlayPhase() {
-    if (this.currentPhase === 'Moving Phase') {
-      return 'You can move an army from one of your countries to another one of your own by first clicking on the country you want ' +
-        ' to move an army from then on the country you want to add an army to.\n';
-    }
-    if (this.currentPhase === 'Battle Phase') {
-      return 'Click first on one of your countries that you want to battle with and an adjacent ' +
-        'country you want to fight against in the map.';
-    } else if ( this.currentPhase === 'Fortify Phase') {
-      return 'You can add elements of your reserve to your countries\' armies by clicking on ' +
-        'the country you want to fortify in the map.' +
-        'Then you can you can use your cards by clicking on My Cards.';
-    }
-  }
-
-  closePhaseDescription() {
-    this.PhaseIsAsked = 'none';
-  }
-
-  setClickedCountry(countryName: string) {
-    const countriesLength = this.countries.length;
-    for (let i = 0; i < countriesLength; i++) {
-      if (this.countries[i].name === countryName) {
-        this.countries[i].clicked = 'true';
-      }
-    }
-    this.unTour(1);
-  }
-
-  close_mission_completed() {
-    this.OneMissionIsCompleted = 'none';
-    this.router.navigateByUrl('/players');
-  }
 
   checkIfMissionIsReached(i: number) {
     const playersMission = this.getPlayer(i).mission;
-    if ( playersMission === this.missions[0]) {
-      this.checkMission0(i);
-    } else if (playersMission === this.missions[1]) {
-      this.checkMission1(i);
-    } else if (playersMission === this.missions[2]) {
-      this.checkMission2(i);
-    } else if (playersMission === this.missions[3]) {
-      this.checkMission3(i);
-    } else if (playersMission === this.missions[4]) {
-      this.checkMission4(i);
-    } else if (playersMission === this.missions[5]) {
-      this.checkMission5(i);
-    } else if (playersMission === this.missions[6]) {
-      this.checkMission6(i);
-    } else if (playersMission === this.missions[7]) {
-      this.checkMission7(i);
+    if ( playersMission === this.theMissionsNotShuffled[0]) {
+      if (this.checkMission0(i)) {
+        this.OneMissionIsCompleted = 'block';
+      }
+    } else if (playersMission === this.theMissionsNotShuffled[1]) {
+      if (this.checkMission1(i)) {
+        this.OneMissionIsCompleted = 'block';
+      }
+    } else if (playersMission === this.theMissionsNotShuffled[2]) {
+      if (this.checkMission2(i)) {
+        this.OneMissionIsCompleted = 'block';
+      }
+    } else if (playersMission === this.theMissionsNotShuffled[3]) {
+      if (this.checkMission3(i)) {
+        this.OneMissionIsCompleted = 'block';
+      }
+    } else if (playersMission === this.theMissionsNotShuffled[4]) {
+      if (this.checkMission4(i)) {
+        this.OneMissionIsCompleted = 'block';
+      }
+    } else if (playersMission === this.theMissionsNotShuffled[5]) {
+      if (this.checkMission5(i)) {
+        this.OneMissionIsCompleted = 'block';
+      }
+    } else if (playersMission === this.theMissionsNotShuffled[6]) {
+      if (this.checkMission6(i)) {
+        this.OneMissionIsCompleted = 'block';
+      }
+    } else if (playersMission === this.theMissionsNotShuffled[7]) {
+      if (this.checkMission7(i)) {
+        this.OneMissionIsCompleted = 'block';
+      }
     }
   }
+
   private  checkIfContinentIsConquered(i: number, o: number) {
     const playerCountriesLength = this.getPlayer(i).countries.length;
     let a = false;
@@ -549,6 +570,7 @@ export class MapComponent implements OnInit {
     }
     return a;
   }
+
   private checkMission0(i: number) {
     // Vous devez conquérir en totalité l'Asie et l'Afrique.
     const asiaIsConquered = this.checkIfContinentIsConquered(i, 5);
@@ -589,7 +611,7 @@ export class MapComponent implements OnInit {
   private checkMission5(i: number) {
     // Vous devez conquérir 18 territoires et occuper chacun d'eux avec deux armées au moins.
     let territoiresSontConquis = false;
-    let territoireEtArmees = true;
+    let territoireEtArmees = false;
     if ( this.getPlayer(i).countries.length === 18) {
       territoiresSontConquis = true;
     }
@@ -623,5 +645,42 @@ export class MapComponent implements OnInit {
     const sixiemeContinent = this.checkIfContinentIsConquered(i, 5);
     const thirdContinent = (troisemeContinent || quatriemeContinent || cinquiemeContinent || sixiemeContinent);
     return europeIsConquered && oceanieIsConquered && thirdContinent;
+  }
+
+  displayDescribeCurrentPhase() {
+    this.PhaseIsAsked = 'block';
+  }
+
+  getHowToPlayPhase() {
+    if (this.currentPhase === 'Moving Phase') {
+      return 'You can move an army from one of your countries to another one of your own by first clicking on the country you want ' +
+        ' to move an army from then on the country you want to add an army to.\n';
+    }
+    if (this.currentPhase === 'Battle Phase') {
+      return 'Click first on one of your countries that you want to battle with and an adjacent ' +
+        'country you want to fight against in the map.';
+    } else if ( this.currentPhase === 'Fortify Phase') {
+      return 'You can add elements of your reserve to your countries\' armies by clicking on ' +
+        'the country you want to fortify in the map.' +
+        'Then you can you can use your cards by clicking on My Cards.';
+    }
+  }
+
+  closePhaseDescription() {
+    this.PhaseIsAsked = 'none';
+  }
+
+  setClickedCountry(countryName: string) {
+    const countriesLength = this.countries.length;
+    for (let i = 0; i < countriesLength; i++) {
+      if (this.countries[i].name === countryName) {
+        this.countries[i].clicked = 'true';
+      }
+    }
+  }
+
+  close_mission_completed() {
+    this.OneMissionIsCompleted = 'none';
+    this.router.navigateByUrl('/players');
   }
 }
