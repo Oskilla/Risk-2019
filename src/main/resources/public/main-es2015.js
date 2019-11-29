@@ -651,9 +651,7 @@ let MapComponent = class MapComponent {
             }
         ];
         this.nbOfPlayers = 2;
-        this.player1 = { name: '', color: '#00008B', reserve: 0, mission: '', countries: ['egypt', 'north_africa',
-                'east_africa', 'congo', 'south_africa', 'madagascar', 'middle_east', 'afghanistan',
-                'ural', 'siberia', 'irkutsk', 'yakutsk', 'kamchatka', 'mongolia', 'japan', 'china', 'siam', 'india'] };
+        this.player1 = { name: '', color: '#00008B', reserve: 0, mission: '', countries: [] };
         this.player2 = { name: '', color: '#9932CC', reserve: 0, mission: '', countries: [] };
         this.player3 = { name: '', color: '#F08080', reserve: 0, mission: '', countries: [] };
         this.player4 = { name: '', color: '#3CB371', reserve: 0, mission: '', countries: [] };
@@ -698,8 +696,8 @@ let MapComponent = class MapComponent {
         this.getPlayer5Color();
         this.getPlayer6Color();
         this.setReserves();
-        // this.phaseInitialisation0();
-        this.unTour(1);
+        this.phaseInitialisation0();
+        // this.unTour(1);
     }
     setNames() {
         this.player1.name = localStorage.getItem('item1');
