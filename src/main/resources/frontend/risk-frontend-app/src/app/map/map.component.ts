@@ -141,7 +141,9 @@ export class MapComponent implements OnInit {
 
   nbOfPlayers = 2;
 
-  player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: []};
+  player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: ['egypt', 'north_africa',
+      'east_africa', 'congo', 'south_africa', 'madagascar', 'middle_east', 'afghanistan',
+      'ural', 'siberia', 'irkutsk', 'yakutsk', 'kamchatka', 'mongolia', 'japan', 'china', 'siam', 'india']};
   player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: []};
   player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: []};
   player4 = {name: '', color:  '#3CB371', reserve: 0, mission: '', countries: []};
@@ -198,7 +200,7 @@ export class MapComponent implements OnInit {
     this.getPlayer6Color();
     this.setReserves();
     this.phaseInitialisation0();
-    // this.unTour(1);
+    this.jeuDeDes(1, 'middle_east');
   }
 
   setNames() {
@@ -382,9 +384,8 @@ export class MapComponent implements OnInit {
     this.currentPlayer = this.getPlayer(i).name;
     this.getPlayersColor();
     // then we let him play
-    // this.initialPhase(i);
-    this.checkIfMissionIsReached(i);
-    // this.battlePhase(i);
+    this.initialPhase(i);
+    this.battlePhase(i);
     // this.fortifyPhase(i);
   }
 
@@ -442,26 +443,75 @@ export class MapComponent implements OnInit {
     this.currentPhase = 'Battle Phase';
     let realOwnCountry: string;
     let ownCountryClicked = false;
-    while ( ownCountryClicked === false ) {
-      const paysCliques = this.getCountryClicked();
-      if (this.getPlayer(i).countries.includes(paysCliques)) {
-        ownCountryClicked = true;
-        realOwnCountry = paysCliques;
-      }
+    let winner = '';
+    const paysCliques = this.getCountryClicked();
+    if (this.getPlayer(i).countries.includes(paysCliques)) {
+      ownCountryClicked = true;
+      realOwnCountry = paysCliques;
     }
-    if ( this.getCountrysArmy(realOwnCountry) > 1 ) {
-      let opponentCountry = false;
-      while (opponentCountry === false) {
-        const paysCliques = this.getCountClicked();
-        if (!this.getPlayer(i).countries.includes(paysCliques) && paysCliques.neighbours.includes(realOwnCountry)) {
-          opponentCountry = true;
-        }
+    if ( ownCountryClicked && this.getCountrysArmy(realOwnCountry) > 1 ) {
+      const paysOpposantCliques = this.getCountClicked();
+      if (!this.getPlayer(i).countries.includes(paysOpposantCliques) && paysOpposantCliques.neighbours.includes(realOwnCountry)) {
+        // 4.jeu de dés (renvoie le vainqueur)
+        winner = this.jeuDeDes(i, paysOpposantCliques);
+
       }
-    } else {
+    } else if (this.getCountrysArmy(realOwnCountry) <= 1) {
       // TODO display you can't battle since you have less than 2 army's in this country
     }
-    // 4.jeu de dés (renvoie le vainqueur)
     // 5.changement dans les données du vainqueur
+  }
+
+  jeuDeDes(i, paysOpposantCliques) {
+    let winner = '';
+    const de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+    console.log(de1JoueurAttaquant);
+    const de2JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+    console.log(de2JoueurAttaquant);
+    const de3JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+    console.log(de3JoueurAttaquant);
+    const maxDesDesAttaquant = this.max(this.max(de1JoueurAttaquant, de2JoueurAttaquant), de3JoueurAttaquant);
+    console.log(maxDesDesAttaquant);
+    const de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+    console.log(de1JoueurDefenseur);
+    const de2JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+    console.log(de2JoueurDefenseur);
+    const maxDesDesDefenseur = this.max( de1JoueurDefenseur, de2JoueurDefenseur);
+    console.log(maxDesDesDefenseur);
+    if ( maxDesDesAttaquant > maxDesDesDefenseur) {
+      winner = this.getPlayer(i).name;
+    } else if (maxDesDesDefenseur > maxDesDesAttaquant) {
+      winner = paysOpposantCliques.owner;
+    } else if (maxDesDesAttaquant === maxDesDesDefenseur) {
+      let max2DesDesAttaquant = 0;
+      let max2DesDesDefenseur = 0;
+      if ( maxDesDesAttaquant === de1JoueurAttaquant ) {
+        max2DesDesAttaquant = this.max( de2JoueurAttaquant, de3JoueurAttaquant);
+      }
+      if ( maxDesDesAttaquant === de2JoueurAttaquant ) {
+        max2DesDesAttaquant = this.max( de1JoueurAttaquant, de3JoueurAttaquant);
+      }
+      if ( maxDesDesAttaquant === de3JoueurAttaquant ) {
+        max2DesDesAttaquant = this.max( de1JoueurAttaquant, de2JoueurAttaquant);
+      }
+      if ( maxDesDesDefenseur === de1JoueurDefenseur ) {
+        max2DesDesDefenseur = de2JoueurDefenseur;
+      }
+      if ( maxDesDesDefenseur === de2JoueurDefenseur ) {
+        max2DesDesDefenseur = de1JoueurDefenseur;
+      }
+      if ( max2DesDesDefenseur > max2DesDesAttaquant ) {
+        winner = paysOpposantCliques.owner;
+      }
+      if ( max2DesDesAttaquant > max2DesDesDefenseur ) {
+        winner = this.getPlayer(i).name;
+      }
+      if ( max2DesDesDefenseur === max2DesDesAttaquant) {
+        winner = paysOpposantCliques.owner;
+      }
+    }
+    console.log(winner);
+    return winner;
   }
 
   fortifyPhase(i: number) {
@@ -517,6 +567,7 @@ export class MapComponent implements OnInit {
     }
   }
 
+  // It should be called after each attack
   checkIfMissionIsReached(i: number) {
     const playersMission = this.getPlayer(i).mission;
     if ( playersMission === this.theMissionsNotShuffled[0]) {
@@ -675,10 +726,20 @@ export class MapComponent implements OnInit {
         this.countries[i].clicked = 'true';
       }
     }
+    this.unTour(1);
   }
 
   close_mission_completed() {
     this.OneMissionIsCompleted = 'none';
     this.router.navigateByUrl('/players');
   }
+
+  max(a: number, b: number) {
+    if (a >= b) {
+      return a;
+    } else {
+      return b;
+    }
+  }
 }
+// TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed
