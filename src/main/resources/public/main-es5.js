@@ -723,7 +723,6 @@
                     this.getPlayer6Color();
                     this.setReserves();
                     this.phaseInitialisation0();
-                    // this.unTour(1);
                 };
                 MapComponent.prototype.setNames = function () {
                     this.player1.name = localStorage.getItem('item1');
@@ -902,9 +901,8 @@
                     this.currentPlayer = this.getPlayer(i).name;
                     this.getPlayersColor();
                     // then we let him play
-                    // this.initialPhase(i);
-                    this.checkIfMissionIsReached(i);
-                    // this.battlePhase(i);
+                    this.initialPhase(i);
+                    this.battlePhase(i);
                     // this.fortifyPhase(i);
                 };
                 MapComponent.prototype.initialPhase = function (i) {
@@ -958,27 +956,186 @@
                     this.currentPhase = 'Battle Phase';
                     var realOwnCountry;
                     var ownCountryClicked = false;
-                    while (ownCountryClicked === false) {
-                        var paysCliques = this.getCountryClicked();
-                        if (this.getPlayer(i).countries.includes(paysCliques)) {
-                            ownCountryClicked = true;
-                            realOwnCountry = paysCliques;
+                    var winner = '';
+                    var armeeDefense = 0;
+                    var armeeAttaque = 0;
+                    var paysCliques = this.getCountryClicked();
+                    if (this.getPlayer(i).countries.includes(paysCliques)) {
+                        ownCountryClicked = true;
+                        realOwnCountry = paysCliques;
+                    }
+                    if (ownCountryClicked && this.getCountrysArmy(realOwnCountry) > 1) {
+                        var paysOpposantCliques = this.getCountClicked();
+                        if (!this.getPlayer(i).countries.includes(paysOpposantCliques) && paysOpposantCliques.neighbours.includes(realOwnCountry)) {
+                            // 4.jeu de dés (renvoie le vainqueur)
+                            winner = this.jeuDeDes(i, paysOpposantCliques, armeeAttaque, armeeDefense);
                         }
                     }
-                    if (this.getCountrysArmy(realOwnCountry) > 1) {
-                        var opponentCountry = false;
-                        while (opponentCountry === false) {
-                            var paysCliques = this.getCountClicked();
-                            if (!this.getPlayer(i).countries.includes(paysCliques) && paysCliques.neighbours.includes(realOwnCountry)) {
-                                opponentCountry = true;
-                            }
-                        }
-                    }
-                    else {
+                    else if (this.getCountrysArmy(realOwnCountry) <= 1) {
                         // TODO display you can't battle since you have less than 2 army's in this country
                     }
-                    // 4.jeu de dés (renvoie le vainqueur)
                     // 5.changement dans les données du vainqueur
+                };
+                MapComponent.prototype.jeuDeDes = function (i, paysOpposantCliques, armeeAttaquant, armeedefenseur) {
+                    var winner = '';
+                    if (armeeAttaquant === 3 && armeedefenseur === 1) {
+                        winner = this.jeuDeDesA3D1(i, paysOpposantCliques);
+                    }
+                    else if (armeeAttaquant === 2 && armeedefenseur === 1) {
+                        winner = this.jeuDeDesA2D1(i, paysOpposantCliques);
+                    }
+                    else if (armeeAttaquant === 1 && armeedefenseur === 1) {
+                        winner = this.jeuDeDesA1D1(i, paysOpposantCliques);
+                    }
+                    else if (armeeAttaquant === 3 && armeedefenseur === 2) {
+                        winner = this.jeuDeDesA3D2(i, paysOpposantCliques);
+                    }
+                    else if (armeeAttaquant === 2 && armeedefenseur === 2) {
+                        winner = this.jeuDeDesA2D2(i, paysOpposantCliques);
+                    }
+                    else if (armeeAttaquant === 1 && armeedefenseur === 2) {
+                        winner = this.jeuDeDesA1D2(i, paysOpposantCliques);
+                    }
+                    return winner;
+                };
+                MapComponent.prototype.jeuDeDesA3D2 = function (i, paysOpposantCliques) {
+                    var winner = '';
+                    var de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var de2JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var de3JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var maxDesDesAttaquant = this.max(this.max(de1JoueurAttaquant, de2JoueurAttaquant), de3JoueurAttaquant);
+                    var de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+                    var de2JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+                    var maxDesDesDefenseur = this.max(de1JoueurDefenseur, de2JoueurDefenseur);
+                    if (maxDesDesAttaquant > maxDesDesDefenseur) {
+                        winner = this.getPlayer(i).name;
+                    }
+                    else if (maxDesDesDefenseur > maxDesDesAttaquant) {
+                        winner = paysOpposantCliques.owner;
+                    }
+                    else if (maxDesDesAttaquant === maxDesDesDefenseur) {
+                        var max2DesDesAttaquant = 0;
+                        var max2DesDesDefenseur = 0;
+                        if (maxDesDesAttaquant === de1JoueurAttaquant) {
+                            max2DesDesAttaquant = this.max(de2JoueurAttaquant, de3JoueurAttaquant);
+                        }
+                        if (maxDesDesAttaquant === de2JoueurAttaquant) {
+                            max2DesDesAttaquant = this.max(de1JoueurAttaquant, de3JoueurAttaquant);
+                        }
+                        if (maxDesDesAttaquant === de3JoueurAttaquant) {
+                            max2DesDesAttaquant = this.max(de1JoueurAttaquant, de2JoueurAttaquant);
+                        }
+                        if (maxDesDesDefenseur === de1JoueurDefenseur) {
+                            max2DesDesDefenseur = de2JoueurDefenseur;
+                        }
+                        if (maxDesDesDefenseur === de2JoueurDefenseur) {
+                            max2DesDesDefenseur = de1JoueurDefenseur;
+                        }
+                        if (max2DesDesDefenseur > max2DesDesAttaquant) {
+                            winner = paysOpposantCliques.owner;
+                        }
+                        if (max2DesDesAttaquant > max2DesDesDefenseur) {
+                            winner = this.getPlayer(i).name;
+                        }
+                        if (max2DesDesDefenseur === max2DesDesAttaquant) {
+                            winner = paysOpposantCliques.owner;
+                        }
+                    }
+                    return winner;
+                };
+                MapComponent.prototype.jeuDeDesA1D1 = function (i, paysOpposantCliques) {
+                    var winner = '';
+                    var de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+                    var maxDes = this.max(de1JoueurAttaquant, de1JoueurDefenseur);
+                    if (maxDes === de1JoueurDefenseur) {
+                        winner = paysOpposantCliques.owner;
+                    }
+                    else if (maxDes === de1JoueurAttaquant) {
+                        winner = this.getPlayer(i).name;
+                    }
+                    return winner;
+                };
+                MapComponent.prototype.jeuDeDesA1D2 = function (i, paysOpposantCliques) {
+                    var winner = '';
+                    var de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+                    var de2JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+                    var maxDesDesDefenseur = this.max(de1JoueurDefenseur, de2JoueurDefenseur);
+                    if (de1JoueurAttaquant > maxDesDesDefenseur) {
+                        winner = this.getPlayer(i).name;
+                    }
+                    else if (maxDesDesDefenseur >= de1JoueurAttaquant) {
+                        winner = paysOpposantCliques.owner;
+                    }
+                    return winner;
+                };
+                MapComponent.prototype.jeuDeDesA2D1 = function (i, paysOpposantCliques) {
+                    var winner = '';
+                    var de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var de2JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var maxDesDesAttaquant = this.max(de1JoueurAttaquant, de2JoueurAttaquant);
+                    var de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+                    if (maxDesDesAttaquant > de1JoueurDefenseur) {
+                        winner = this.getPlayer(i).name;
+                    }
+                    else {
+                        winner = paysOpposantCliques.owner;
+                    }
+                    return winner;
+                };
+                MapComponent.prototype.jeuDeDesA2D2 = function (i, paysOpposantCliques) {
+                    var winner = '';
+                    var de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var de2JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var maxDesDesAttaquant = this.max(de1JoueurAttaquant, de2JoueurAttaquant);
+                    var de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+                    var de2JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+                    var maxDesDesDefenseur = this.max(de1JoueurDefenseur, de2JoueurDefenseur);
+                    if (maxDesDesAttaquant > maxDesDesDefenseur) {
+                        winner = this.getPlayer(i).name;
+                    }
+                    else if (maxDesDesAttaquant < maxDesDesDefenseur) {
+                        winner = paysOpposantCliques.owner;
+                    }
+                    else if (maxDesDesDefenseur === maxDesDesAttaquant) {
+                        var max2DesDefenseur = 0;
+                        var max2DesAttaquant = 0;
+                        if (maxDesDesDefenseur === de1JoueurDefenseur) {
+                            max2DesDefenseur = de2JoueurDefenseur;
+                        }
+                        if (maxDesDesAttaquant === de1JoueurAttaquant) {
+                            max2DesAttaquant = de2JoueurAttaquant;
+                        }
+                        if (max2DesAttaquant === de2JoueurAttaquant) {
+                            max2DesAttaquant = de1JoueurAttaquant;
+                        }
+                        if (maxDesDesDefenseur === de2JoueurDefenseur) {
+                            max2DesDefenseur = de1JoueurDefenseur;
+                        }
+                        if (max2DesAttaquant > max2DesDefenseur) {
+                            winner = this.getPlayer(i).name;
+                        }
+                        else if (max2DesAttaquant <= max2DesDefenseur) {
+                            winner = paysOpposantCliques.owner;
+                        }
+                    }
+                    return winner;
+                };
+                MapComponent.prototype.jeuDeDesA3D1 = function (i, paysOpposantCliques) {
+                    var winner = '';
+                    var de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var de2JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var de3JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
+                    var maxDesDesAttaquant = this.max(this.max(de1JoueurAttaquant, de2JoueurAttaquant), de3JoueurAttaquant);
+                    var de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
+                    if (maxDesDesAttaquant > de1JoueurDefenseur) {
+                        winner = this.getPlayer(i).name;
+                    }
+                    else {
+                        winner = paysOpposantCliques.owner;
+                    }
+                    return winner;
                 };
                 MapComponent.prototype.fortifyPhase = function (i) {
                     this.currentPhase = 'Moving Phase';
@@ -1030,6 +1187,7 @@
                         }
                     }
                 };
+                // It should be called after each attack
                 MapComponent.prototype.checkIfMissionIsReached = function (i) {
                     var playersMission = this.getPlayer(i).mission;
                     if (playersMission === this.theMissionsNotShuffled[0]) {
@@ -1184,10 +1342,19 @@
                             this.countries[i].clicked = 'true';
                         }
                     }
+                    this.unTour(1);
                 };
                 MapComponent.prototype.close_mission_completed = function () {
                     this.OneMissionIsCompleted = 'none';
                     this.router.navigateByUrl('/players');
+                };
+                MapComponent.prototype.max = function (a, b) {
+                    if (a >= b) {
+                        return a;
+                    }
+                    else {
+                        return b;
+                    }
                 };
                 return MapComponent;
             }());
@@ -1201,6 +1368,7 @@
                     styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./map.component.css */ "./src/app/map/map.component.css")).default]
                 })
             ], MapComponent);
+            // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed
             /***/ 
         }),
         /***/ "./src/environments/environment.ts": 
