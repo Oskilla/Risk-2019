@@ -198,6 +198,7 @@ export class MapComponent implements OnInit {
     this.getPlayer6Color();
     this.setReserves();
     this.phaseInitialisation0();
+    this.setGameInitialSettings();
   }
 
   setNames() {
@@ -842,5 +843,12 @@ export class MapComponent implements OnInit {
       return b;
     }
   }
+
+  private setGameInitialSettings() {
+    this.currentPlayer = localStorage.getItem('item1');
+    this.currentPhase = 'Fortify Phase';
+    this.displayDescribeCurrentPhase();
+  }
 }
+
 // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed
