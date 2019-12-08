@@ -162,6 +162,8 @@ export class MapComponent implements OnInit {
 
   OneMissionIsCompleted = 'none';
 
+  nbOfTurns: number = 0;
+
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
     if (shuffled === 'true') {
@@ -199,6 +201,26 @@ export class MapComponent implements OnInit {
     this.setReserves();
     this.phaseInitialisation0();
     this.setGameInitialSettings();
+  }
+
+  endTurn() {
+    if (this.currentPhase === 'Fortify Phase') {
+      this.currentPhase = 'Battle Phase';
+      if (this.nbOfTurns < this.nbOfPlayers) {
+        this.displayDescribeCurrentPhase();
+      }
+    } else if( this.currentPhase === 'Battle Phase') {
+      this.currentPhase = 'Moving Phase';
+      if (this.nbOfTurns < this.nbOfPlayers ) {
+        this.displayDescribeCurrentPhase();
+      }
+    } else if (this.currentPhase === 'Moving Phase') {
+      this.currentPhase = 'Fortify Phase';
+      this.nbOfTurns++;
+      if (this.nbOfTurns < this.nbOfPlayers ) {
+        this.displayDescribeCurrentPhase();
+      }
+    }
   }
 
   setNames() {
