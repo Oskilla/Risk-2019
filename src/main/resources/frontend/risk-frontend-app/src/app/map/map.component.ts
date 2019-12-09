@@ -630,7 +630,12 @@ export class MapComponent implements OnInit {
   }
 
   fortifyPhase(i: number) {
-    this.currentPhase = 'Moving Phase';
+    // 1. joueur reçoit un nombre de fantassin correspondant à la division par 3 de la somme de ses territoires
+    // 2. Le joueur reçoit des renfort bonus en fonction des continents qu’il contrôle complêtement
+    const nbDeTerritoires = this.getPlayer(i).countries.length;
+    const armeeGagnee = nbDeTerritoires/3;
+    this.getPlayer(i).reserve += armeeGagnee;
+
   }
 
   // distribuer les pays aux joueurs et mettre tous les text-reserve des pays à 1 et diminuer la réserve de tous les joueurs de 1.
@@ -868,8 +873,6 @@ export class MapComponent implements OnInit {
       if (this.nbOfTurns < this.nbOfPlayers ) {
         this.displayDescribeCurrentPhase();
         this.nbOfTurns++;
-        console.log(this.nbOfPlayers);
-        console.log(this.nbOfTurns);
       }
     } else if (this.currentPhase === 'Moving Phase') {
       this.currentPhase = 'Fortify Phase';
