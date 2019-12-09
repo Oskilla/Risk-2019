@@ -631,11 +631,34 @@ export class MapComponent implements OnInit {
 
   fortifyPhase(i: number) {
     // 1. joueur reçoit un nombre de fantassin correspondant à la division par 3 de la somme de ses territoires
-    // 2. Le joueur reçoit des renfort bonus en fonction des continents qu’il contrôle complêtement
     const nbDeTerritoires = this.getPlayer(i).countries.length;
     const armeeGagnee = nbDeTerritoires/3;
     this.getPlayer(i).reserve += armeeGagnee;
-
+    // 2. Le joueur reçoit des renfort bonus en fonction des continents qu’il contrôle complêtement
+    // +2 s’il contrôle l’Océanie
+    if( this.checkIfContinentIsConquered(i, 0) === true) {
+      this.getPlayer(i).reserve += 2;
+    }
+    // +2 s’il contrôle l’Amérique du sud
+    if (this.checkIfContinentIsConquered(i, 1) === true) {
+      this.getPlayer(i).reserve += 2;
+    }
+    // +3 s’il contrôle l’Afrique
+    if (this.checkIfContinentIsConquered(i, 2) === true) {
+      this.getPlayer(i).reserve += 3;
+    }
+    // +5 s’il contrôle l’Europe
+    if ( this.checkIfContinentIsConquered(i, 3) === true) {
+      this.getPlayer(i).reserve +=5
+    }
+    // +5 s’il contrôle l’Amérique du nord
+    if (this.checkIfContinentIsConquered(i, 4) === true) {
+      this.getPlayer(i).reserve +=5;
+    }
+    // +7 s’il contrôle l’Asie
+    if (this.checkIfContinentIsConquered(i, 5) === true) {
+      this.getPlayer(i).reserve +=7;
+    }
   }
 
   // distribuer les pays aux joueurs et mettre tous les text-reserve des pays à 1 et diminuer la réserve de tous les joueurs de 1.
