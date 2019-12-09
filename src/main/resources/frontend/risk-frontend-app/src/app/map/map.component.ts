@@ -150,6 +150,8 @@ export class MapComponent implements OnInit {
 
   officialPlayers = [this.player1, this.player2];
 
+  nbOfTurns = 0;
+
   missionIsAsked = 'none';
 
   missionShowed = '';
@@ -161,8 +163,6 @@ export class MapComponent implements OnInit {
   PhaseIsAsked = 'none';
 
   OneMissionIsCompleted = 'none';
-
-  nbOfTurns: number = 0;
 
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
@@ -194,6 +194,7 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.setNames();
+    this.setNbOfPlayers();
     this.getPlayer3Color();
     this.getPlayer4Color();
     this.getPlayer5Color();
@@ -203,26 +204,6 @@ export class MapComponent implements OnInit {
     this.setGameInitialSettings();
   }
 
-  endTurn() {
-    if (this.currentPhase === 'Fortify Phase') {
-      this.currentPhase = 'Battle Phase';
-      if (this.nbOfTurns < this.nbOfPlayers) {
-        this.displayDescribeCurrentPhase();
-      }
-    } else if( this.currentPhase === 'Battle Phase') {
-      this.currentPhase = 'Moving Phase';
-      if (this.nbOfTurns < this.nbOfPlayers ) {
-        this.displayDescribeCurrentPhase();
-      }
-    } else if (this.currentPhase === 'Moving Phase') {
-      this.currentPhase = 'Fortify Phase';
-      this.nbOfTurns++;
-      if (this.nbOfTurns < this.nbOfPlayers ) {
-        this.displayDescribeCurrentPhase();
-      }
-    }
-  }
-
   setNames() {
     this.player1.name = localStorage.getItem('item1');
     this.player2.name = localStorage.getItem('item2');
@@ -230,6 +211,20 @@ export class MapComponent implements OnInit {
     this.player4.name = localStorage.getItem('item4');
     this.player5.name = localStorage.getItem('item5');
     this.player6.name = localStorage.getItem('item6');
+  }
+
+  setNbOfPlayers() {
+    if (this.player3.name === '') {
+      this.nbOfPlayers = 2;
+    } else if (this.player4.name === '') {
+      this.nbOfPlayers = 3;
+    } else if (this.player5.name === '') {
+      this.nbOfPlayers = 4;
+    } else if (this.player6.name === '') {
+      this.nbOfPlayers = 5;
+    } else {
+      this.nbOfPlayers = 6;
+    }
   }
 
   getPlayersColor() {
@@ -257,7 +252,6 @@ export class MapComponent implements OnInit {
     if (this.player3.name === '') {
       return '#778899';
     } else {
-      this.nbOfPlayers = this.nbOfPlayers + 1;
       this.officialPlayers.push(this.player3);
     }
   }
@@ -266,7 +260,6 @@ export class MapComponent implements OnInit {
     if (this.player6.name === '') {
       return '#778899';
     } else {
-      this.nbOfPlayers = this.nbOfPlayers + 1;
       this.officialPlayers.push(this.player6);
     }
   }
@@ -275,7 +268,6 @@ export class MapComponent implements OnInit {
     if (this.player4.name === '') {
       return '#778899';
     } else {
-      this.nbOfPlayers = this.nbOfPlayers + 1;
       this.officialPlayers.push(this.player4);
     }
   }
@@ -284,7 +276,6 @@ export class MapComponent implements OnInit {
     if (this.player5.name === '') {
       return '#778899';
     } else {
-      this.nbOfPlayers = this.nbOfPlayers + 1;
       this.officialPlayers.push(this.player5);
     }
   }
@@ -405,7 +396,7 @@ export class MapComponent implements OnInit {
     this.getPlayersColor();
     // then we let him play
     this.initialPhase(i);
-    this.battlePhase(i);
+    //this.battlePhase(i);
     // this.fortifyPhase(i);
   }
 
@@ -866,11 +857,32 @@ export class MapComponent implements OnInit {
     }
   }
 
+  endTurn() {
+    if (this.currentPhase === 'Fortify Phase') {
+      this.currentPhase = 'Battle Phase';
+      if (this.nbOfTurns < this.nbOfPlayers) {
+        this.displayDescribeCurrentPhase();
+      }
+    } else if( this.currentPhase === 'Battle Phase') {
+      this.currentPhase = 'Moving Phase';
+      if (this.nbOfTurns < this.nbOfPlayers ) {
+        this.displayDescribeCurrentPhase();
+        this.nbOfTurns++;
+        console.log(this.nbOfPlayers);
+        console.log(this.nbOfTurns);
+      }
+    } else if (this.currentPhase === 'Moving Phase') {
+      this.currentPhase = 'Fortify Phase';
+      if (this.nbOfTurns < this.nbOfPlayers ) {
+        this.displayDescribeCurrentPhase();
+      }
+    }
+  }
+
   private setGameInitialSettings() {
     this.currentPlayer = localStorage.getItem('item1');
     this.currentPhase = 'Fortify Phase';
     this.displayDescribeCurrentPhase();
   }
 }
-
 // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed
