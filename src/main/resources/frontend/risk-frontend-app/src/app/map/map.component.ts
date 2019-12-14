@@ -166,9 +166,11 @@ export class MapComponent implements OnInit {
 
   OneMissionIsCompleted = 'none';
 
-  askedMove = 'block';
+  askedMove = 'none';
 
   askedBattle = 'none';
+
+  cantBattle = 'none';
 
   currentPlayerDice = 0;
 
@@ -480,7 +482,7 @@ export class MapComponent implements OnInit {
 
       }
     } else if (this.getCountrysArmy(realOwnCountry) <= 1) {
-      // TODO display you can't battle since you have less than 2 army's in this country
+      this.cantBattle = 'block';
     }
     // 5.changement dans les données du vainqueur
   }
@@ -928,5 +930,10 @@ export class MapComponent implements OnInit {
   closeDice() {
     this.askedBattle = 'none';
   }
+
+  closeException() {
+    this.cantBattle = 'none';
+  }
 }
-// TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed
+// TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed
+// TODO dice choice is displayed

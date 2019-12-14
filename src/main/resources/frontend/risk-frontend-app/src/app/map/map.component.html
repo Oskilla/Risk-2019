@@ -6,6 +6,12 @@
       <button class="close_mission" (click)="close_mission_completed()">Restart Game</button>
     </div>
   </div>
+  <div class="move" [ngStyle]="{display: (cantBattle)}">
+    <div class="moveBody">
+      <p style="color: red; font-weight: bold">You can't battle since you have less than two armies in this country</p>
+      <button style="background: black; color: white" (click)="closeException()">Close</button>
+    </div>
+  </div>
   <div class ="dice" [ngStyle]="{display: (askedBattle)}">
     <div class="player-defender">
       <h3 >Choose your dices</h3>
