@@ -150,7 +150,6 @@ export class MapComponent implements OnInit {
 
   officialPlayers = [this.player1, this.player2];
 
-
   nbOfTurns = 0;
 
   missionIsAsked = 'none';
@@ -920,6 +919,10 @@ export class MapComponent implements OnInit {
     this.currentPlayer = localStorage.getItem('item1');
     this.currentPhase = 'Fortify Phase';
     this.displayDescribeCurrentPhase();
+  }
+
+  closeMove() {
+    this.askedMove = 'none';
   }
 
   closeDice() {

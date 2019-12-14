@@ -22,6 +22,12 @@
       <button class="close_mission" (click)="closeDice()">Close</button>
     </div>
   </div>
+  <div class="move" [ngStyle]="{display: (askedMove)}">
+    <div class="moveBody">
+      <h3>I want to move <input min="1" max="3" type="number"> armies.</h3>
+      <button class="close_mission" (click)="closeMove()">Close</button>
+    </div>
+  </div>
   <div class="mission" [ngStyle]="{display: (missionIsAsked)}">
     <div class="missionbody">
       <p class="mission_title">My Mission</p>
@@ -37,7 +43,7 @@
     </div>
   </div>
   <div class="game">
-    <button class="phase" (click)="displayDescribeCurrentPhase()">{{currentPhase}}</button><span class="bar" [ngStyle]="{backgroundColor: getPlayersColor()}"></span>&nbsp;&nbsp;&nbsp;<button (click)="endTurn()" class="close_mission">End Turn</button>
+    <button class="phase" (click)="displayDescribeCurrentPhase()">{{currentPhase}}</button><span class="bar" [ngStyle]="{backgroundColor: getPlayersColor()}"></span>&nbsp;&nbsp;&nbsp;<button class="close_mission" (click)="endTurn()">End Turn</button>
     <div class="mapdiv" >
       <svg  style="pointer-events: auto;">
         <g>
