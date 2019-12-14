@@ -6,6 +6,22 @@
       <button class="close_mission" (click)="close_mission_completed()">Restart Game</button>
     </div>
   </div>
+  <div class ="dice" [ngStyle]="{display: (askedBattle)}">
+    <div class="player-defender">
+      <h3 >Choose your dices</h3>
+      <div class="pf">
+        <tr>
+          <th><p class="playeri">{{currentPlayer}}:</p></th>
+          <th><input value="{{currentPlayerDice}}" type="number" min ="1" max="3" class="dicevalue" ></th>
+        </tr>
+        <tr>
+          <td><p class="defenderi">{{currentOpponent}}:&nbsp;&nbsp; </p></td>
+          <td><input value="{{opponentPlayerDice}}"  type="number" min ="1" max="2"class="dicevalue"></td>
+        </tr>
+      </div>
+      <button class="close_mission" (click)="closeDice()">Close</button>
+    </div>
+  </div>
   <div class="mission" [ngStyle]="{display: (missionIsAsked)}">
     <div class="missionbody">
       <p class="mission_title">My Mission</p>

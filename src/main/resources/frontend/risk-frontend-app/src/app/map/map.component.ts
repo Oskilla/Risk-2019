@@ -150,6 +150,7 @@ export class MapComponent implements OnInit {
 
   officialPlayers = [this.player1, this.player2];
 
+
   nbOfTurns = 0;
 
   missionIsAsked = 'none';
@@ -158,11 +159,21 @@ export class MapComponent implements OnInit {
 
   currentPlayer = '';
 
+  currentOpponent = '';
+
   currentPhase = '';
 
   PhaseIsAsked = 'none';
 
   OneMissionIsCompleted = 'none';
+
+  askedMove = 'block';
+
+  askedBattle = 'none';
+
+  currentPlayerDice = 0;
+
+  opponentPlayerDice = 0;
 
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
@@ -909,6 +920,10 @@ export class MapComponent implements OnInit {
     this.currentPlayer = localStorage.getItem('item1');
     this.currentPhase = 'Fortify Phase';
     this.displayDescribeCurrentPhase();
+  }
+
+  closeDice() {
+    this.askedBattle = 'none';
   }
 }
 // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed
