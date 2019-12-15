@@ -141,6 +141,8 @@ export class MapComponent implements OnInit {
 
   nbOfPlayers = 2;
 
+  playersArray = [];
+
   player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: []};
   player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: []};
   player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: []};
@@ -148,15 +150,13 @@ export class MapComponent implements OnInit {
   player5 = {name: '', color:  '#FF0000', reserve: 0, mission: '', countries: []};
   player6 = {name: '', color:  '#CD853F', reserve: 0, mission: '', countries: []};
 
-  officialPlayers = [this.player1, this.player2];
-
   nbOfTurns = 0;
 
   missionIsAsked = 'none';
 
   missionShowed = '';
 
-  currentPlayer = '';
+  currentPlayer = this.player1.name;
 
   currentOpponent = '';
 
@@ -175,6 +175,8 @@ export class MapComponent implements OnInit {
   currentPlayerDice = 0;
 
   opponentPlayerDice = 0;
+
+  numberNotAllowed = 'none';
 
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
@@ -207,6 +209,7 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     this.setNames();
     this.setNbOfPlayers();
+    this.setPlayersArray();
     this.getPlayer3Color();
     this.getPlayer4Color();
     this.getPlayer5Color();
@@ -214,6 +217,7 @@ export class MapComponent implements OnInit {
     this.setReserves();
     this.phaseInitialisation0();
     this.setGameInitialSettings();
+
   }
 
   setNames() {
@@ -263,32 +267,24 @@ export class MapComponent implements OnInit {
   getPlayer3Color() {
     if (this.player3.name === '') {
       return '#778899';
-    } else {
-      this.officialPlayers.push(this.player3);
     }
   }
 
   getPlayer6Color() {
     if (this.player6.name === '') {
       return '#778899';
-    } else {
-      this.officialPlayers.push(this.player6);
     }
   }
 
   getPlayer4Color() {
     if (this.player4.name === '') {
       return '#778899';
-    } else {
-      this.officialPlayers.push(this.player4);
     }
   }
 
   getPlayer5Color() {
     if (this.player5.name === '') {
       return '#778899';
-    } else {
-      this.officialPlayers.push(this.player5);
     }
   }
 
@@ -404,9 +400,6 @@ export class MapComponent implements OnInit {
   }
 
   unTour(i) {
-    this.currentPlayer = this.getPlayer(i).name;
-    this.getPlayersColor();
-    // then we let him play
     this.initialPhase(i);
     //this.battlePhase(i);
     // this.fortifyPhase(i);
@@ -467,25 +460,42 @@ export class MapComponent implements OnInit {
     let realOwnCountry: string;
     let ownCountryClicked = false;
     let winner = '';
-    const armeeDefense = 0;
-    const armeeAttaque = 0;
+    let paysOpposantCliques = this.countries[0];
     const paysCliques = this.getCountryClicked();
     if (this.getPlayer(i).countries.includes(paysCliques)) {
       ownCountryClicked = true;
       realOwnCountry = paysCliques;
     }
     if ( ownCountryClicked && this.getCountrysArmy(realOwnCountry) > 1 ) {
-      const paysOpposantCliques = this.getCountClicked();
+      paysOpposantCliques = this.getCountClicked();
       if (!this.getPlayer(i).countries.includes(paysOpposantCliques) && paysOpposantCliques.neighbours.includes(realOwnCountry)) {
-        // 4.jeu de dés (renvoie le vainqueur)
-        winner = this.jeuDeDes(i, paysOpposantCliques, armeeAttaque, armeeDefense);
-
+        this.currentOpponent = paysOpposantCliques.owner;
+        // this.askedBattle = 'block';
+        // 4.jeu de dés (renvoie le nom vainqueur)
+        winner = this.jeuDeDes(i, paysOpposantCliques, this.currentPlayerDice, this.opponentPlayerDice);
       }
     } else if (this.getCountrysArmy(realOwnCountry) <= 1) {
       this.cantBattle = 'block';
     }
-    // 5.changement dans les données du vainqueur
+    // 5.changement dans les données du vainqueur et du perdant
+    if( winner === this.getPlayer(i).name) {
+      this.getPlayer(i).countries.push(paysOpposantCliques.name);
+      paysOpposantCliques.color = this.getPlayer(i).color;
+      paysOpposantCliques.army = 1;
+      const counrtyIndex = this.getCountryIndexByName(realOwnCountry);
+      this.countries[counrtyIndex].army -= 1;
+      for (let y = 1; y<=this.nbOfPlayers; y++) {
+        if(paysOpposantCliques.owner === this.getPlayer(y).name) {
+          const countryIndex = this.getPlayer(y).countries.indexOf(
+            paysOpposantCliques.name
+          );
+          this.getPlayer(y).countries.splice(countryIndex, 1);
+        }
+      }
+    } else {
+    }
   }
+
 
   jeuDeDes(i, paysOpposantCliques, armeeAttaquant, armeedefenseur) {
     let winner = '';
@@ -501,6 +511,10 @@ export class MapComponent implements OnInit {
       winner = this.jeuDeDesA2D2(i, paysOpposantCliques);
     } else if (armeeAttaquant === 1 && armeedefenseur === 2) {
       winner = this.jeuDeDesA1D2(i, paysOpposantCliques);
+    } else {
+      this.numberNotAllowed = 'block';
+      this.askedBattle = 'none';
+      this.currentPhase = 'Moving Phase';
     }
     return winner;
   }
@@ -713,6 +727,14 @@ export class MapComponent implements OnInit {
     }
   }
 
+  getCountryIndexByName (country: string) {
+    for (let y = 0; y < this.countries.length; y ++ ) {
+      if (this.countries[y].name === country) {
+        return y;
+      }
+    }
+  }
+
   getCountrysArmy(country: string) {
     const nbOfCountries = this.countries.length;
     for ( let r = 0; r < nbOfCountries; r++ ) {
@@ -881,7 +903,7 @@ export class MapComponent implements OnInit {
         this.countries[i].clicked = 'true';
       }
     }
-    this.unTour(1);
+    this.play();
   }
 
   close_mission_completed() {
@@ -910,6 +932,10 @@ export class MapComponent implements OnInit {
         this.nbOfTurns++;
       }
     } else if (this.currentPhase === 'Moving Phase') {
+      this.playersArray.push(this.playersArray.shift());
+      this.currentPlayer = this.playersArray[0].name;
+      console.log(this.playersArray);
+      console.log(this.currentPlayer);
       this.currentPhase = 'Fortify Phase';
       if (this.nbOfTurns < this.nbOfPlayers ) {
         this.displayDescribeCurrentPhase();
@@ -933,6 +959,12 @@ export class MapComponent implements OnInit {
 
   closeException() {
     this.cantBattle = 'none';
+  }
+
+  private setPlayersArray() {
+    for (let y = 0; y<this.nbOfPlayers; y++) {
+      this.playersArray.push(this.getPlayer(y+1));
+    }
   }
 }
 // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed
