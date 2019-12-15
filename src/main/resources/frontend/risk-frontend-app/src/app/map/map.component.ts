@@ -411,7 +411,7 @@ export class MapComponent implements OnInit {
   play() {
     for (let e = 0; e < this.nbOfPlayers; e++) {
       this.unTour();
-      this.checkIfMissionIsReached(e + 1);
+      this.checkIfMissionIsReached();
     }
   }
 
@@ -683,27 +683,27 @@ export class MapComponent implements OnInit {
     nowPlayer.reserve += armeeGagnee;
     // 2. Le joueur reçoit des renfort bonus en fonction des continents qu’il contrôle complêtement
     // +2 s’il contrôle l’Océanie
-    if( this.checkIfContinentIsConquered(i, 0) === true) {
+    if( this.checkIfContinentIsConquered(0) === true) {
       nowPlayer.reserve += 2;
     }
     // +2 s’il contrôle l’Amérique du sud
-    if (this.checkIfContinentIsConquered(i, 1) === true) {
+    if (this.checkIfContinentIsConquered(1) === true) {
       nowPlayer.reserve += 2;
     }
     // +3 s’il contrôle l’Afrique
-    if (this.checkIfContinentIsConquered(i, 2) === true) {
+    if (this.checkIfContinentIsConquered(2) === true) {
       nowPlayer.reserve += 3;
     }
     // +5 s’il contrôle l’Europe
-    if ( this.checkIfContinentIsConquered(i, 3) === true) {
+    if ( this.checkIfContinentIsConquered(3) === true) {
       nowPlayer.reserve +=5
     }
     // +5 s’il contrôle l’Amérique du nord
-    if (this.checkIfContinentIsConquered(i, 4) === true) {
+    if (this.checkIfContinentIsConquered(4) === true) {
       nowPlayer.reserve +=5;
     }
     // +7 s’il contrôle l’Asie
-    if (this.checkIfContinentIsConquered(i, 5) === true) {
+    if (this.checkIfContinentIsConquered(5) === true) {
       nowPlayer.reserve +=7;
     }
   }
@@ -766,49 +766,51 @@ export class MapComponent implements OnInit {
   }
 
   // It should be called after each attack
-  checkIfMissionIsReached(i: number) {
-    const playersMission = this.getPlayer(i).mission;
+  checkIfMissionIsReached() {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
+    const playersMission = nowPlayer.mission;
     if ( playersMission === this.theMissionsNotShuffled[0]) {
-      if (this.checkMission0(i)) {
+      if (this.checkMission0()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[1]) {
-      if (this.checkMission1(i)) {
+      if (this.checkMission1()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[2]) {
-      if (this.checkMission2(i)) {
+      if (this.checkMission2()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[3]) {
-      if (this.checkMission3(i)) {
+      if (this.checkMission3()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[4]) {
-      if (this.checkMission4(i)) {
+      if (this.checkMission4()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[5]) {
-      if (this.checkMission5(i)) {
+      if (this.checkMission5()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[6]) {
-      if (this.checkMission6(i)) {
+      if (this.checkMission6()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[7]) {
-      if (this.checkMission7(i)) {
+      if (this.checkMission7()) {
         this.OneMissionIsCompleted = 'block';
       }
     }
   }
 
-  private  checkIfContinentIsConquered(i: number, o: number) {
-    const playerCountriesLength = this.getPlayer(i).countries.length;
+  private  checkIfContinentIsConquered( o: number) {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
+    const playerCountriesLength = nowPlayer.countries.length;
     let a = false;
     let z = 0;
     for (let r = 0; r < playerCountriesLength; r++) {
-      if (this.continents[o].areas.includes( this.getPlayer(i).countries[r])) {
+      if (this.continents[o].areas.includes( nowPlayer.countries[r])) {
         z += 1;
       }
     }
@@ -818,48 +820,50 @@ export class MapComponent implements OnInit {
     return a;
   }
 
-  private checkMission0(i: number) {
+  private checkMission0() {
     // Vous devez conquérir en totalité l'Asie et l'Afrique.
-    const asiaIsConquered = this.checkIfContinentIsConquered(i, 5);
-    const africaIsConquered = this.checkIfContinentIsConquered(i, 2);
+    const asiaIsConquered = this.checkIfContinentIsConquered(5);
+    const africaIsConquered = this.checkIfContinentIsConquered(2);
     return asiaIsConquered && africaIsConquered;
   }
 
-  private checkMission1(i: number) {
+  private checkMission1() {
     // Vous devez conquérir en totalité l'Asie et l'Amérique du sud.
-    const asiaIsConquered = this.checkIfContinentIsConquered(i, 5);
-    const southAmericaIsConquered = this.checkIfContinentIsConquered(i, 1);
+    const asiaIsConquered = this.checkIfContinentIsConquered(5);
+    const southAmericaIsConquered = this.checkIfContinentIsConquered(1);
     return asiaIsConquered && southAmericaIsConquered;
   }
 
-  private checkMission2(i: number) {
+  private checkMission2() {
     // Vous devez conquérir en totalité l'Amérique du Nord et l'Océanie.
-    const northAmericaIsConquered = this.checkIfContinentIsConquered(i, 4);
-    const oceanieIsConquered = this.checkIfContinentIsConquered(i, 0);
+    const northAmericaIsConquered = this.checkIfContinentIsConquered(4);
+    const oceanieIsConquered = this.checkIfContinentIsConquered(0);
     return northAmericaIsConquered && oceanieIsConquered;
   }
 
-  private checkMission3(i: number) {
+  private checkMission3() {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
     // Vous devez conquérir 24 territoires aux choix.
-    if ( this.getPlayer(i).countries.length === 24) {
+    if ( nowPlayer.countries.length === 24) {
       return true;
     } else {
       return  false;
     }
   }
 
-  private checkMission4(i: number) {
+  private checkMission4() {
     // Vous devez conquérir en totalité l'Amérique du Nord et l'Afrique.
-    const northAmericaIsConquered = this.checkIfContinentIsConquered(i, 4);
-    const africaIsConquered = this.checkIfContinentIsConquered(i, 2);
+    const northAmericaIsConquered = this.checkIfContinentIsConquered(4);
+    const africaIsConquered = this.checkIfContinentIsConquered(2);
     return northAmericaIsConquered && africaIsConquered;
   }
 
-  private checkMission5(i: number) {
+  private checkMission5() {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
     // Vous devez conquérir 18 territoires et occuper chacun d'eux avec deux armées au moins.
     let territoiresSontConquis = false;
     let territoireEtArmees = false;
-    if ( this.getPlayer(i).countries.length === 18) {
+    if ( nowPlayer.countries.length === 18) {
       territoiresSontConquis = true;
     }
     for (let r = 0; r < 18; r++) {
@@ -870,26 +874,26 @@ export class MapComponent implements OnInit {
     return territoireEtArmees && territoiresSontConquis;
   }
 
-  private checkMission6(i: number) {
+  private checkMission6() {
     // Vous devez conquérir en totalité l'Europe et l'Amérique du sud plus un troisième continent au choix.
-    const europeIsConquered = this.checkIfContinentIsConquered(i, 3);
-    const southAmericaIsConquered = this.checkIfContinentIsConquered(i, 1);
-    const troisemeContinent = this.checkIfContinentIsConquered(i, 2);
-    const quatriemeContinent = this.checkIfContinentIsConquered(i, 0);
-    const cinquiemeContinent = this.checkIfContinentIsConquered(i, 4);
-    const sixiemeContinent = this.checkIfContinentIsConquered(i, 5);
+    const europeIsConquered = this.checkIfContinentIsConquered(3);
+    const southAmericaIsConquered = this.checkIfContinentIsConquered(1);
+    const troisemeContinent = this.checkIfContinentIsConquered(2);
+    const quatriemeContinent = this.checkIfContinentIsConquered(0);
+    const cinquiemeContinent = this.checkIfContinentIsConquered(4);
+    const sixiemeContinent = this.checkIfContinentIsConquered(5);
     const thirdContinent = (troisemeContinent || quatriemeContinent || cinquiemeContinent || sixiemeContinent);
     return europeIsConquered && southAmericaIsConquered && thirdContinent;
   }
 
-  private checkMission7(i: number) {
+  private checkMission7() {
     // Vous devez conquérir en totalité l'Europe et l'Océanie plus un troisième continent au choix.
-    const europeIsConquered = this.checkIfContinentIsConquered(i, 3);
-    const oceanieIsConquered = this.checkIfContinentIsConquered(i, 0);
-    const troisemeContinent = this.checkIfContinentIsConquered(i, 1);
-    const quatriemeContinent = this.checkIfContinentIsConquered(i, 2);
-    const cinquiemeContinent = this.checkIfContinentIsConquered(i, 4);
-    const sixiemeContinent = this.checkIfContinentIsConquered(i, 5);
+    const europeIsConquered = this.checkIfContinentIsConquered(3);
+    const oceanieIsConquered = this.checkIfContinentIsConquered(0);
+    const troisemeContinent = this.checkIfContinentIsConquered(1);
+    const quatriemeContinent = this.checkIfContinentIsConquered(2);
+    const cinquiemeContinent = this.checkIfContinentIsConquered(4);
+    const sixiemeContinent = this.checkIfContinentIsConquered(5);
     const thirdContinent = (troisemeContinent || quatriemeContinent || cinquiemeContinent || sixiemeContinent);
     return europeIsConquered && oceanieIsConquered && thirdContinent;
   }
