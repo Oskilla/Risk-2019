@@ -177,6 +177,7 @@ export class MapComponent implements OnInit {
   opponentPlayerDice = 0;
 
   numberNotAllowed = 'none';
+  errorMove: any;
 
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
@@ -992,6 +993,14 @@ export class MapComponent implements OnInit {
     for (let y = 0; y<this.nbOfPlayers; y++) {
       this.playersArray.push(this.getPlayer(y+1));
     }
+  }
+
+  removeMove() {
+    
+  }
+
+  addMove() {
+    
   }
 }
 // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed

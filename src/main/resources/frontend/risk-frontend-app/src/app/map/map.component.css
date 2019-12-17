@@ -229,7 +229,7 @@ svg{
 
 .player-defender {
   width: 250px;
-  height: 220px;
+  height: 240px;
   background: lightgray;
   top: 1px;
   position: relative;
@@ -261,8 +261,8 @@ svg{
   display: inline-block;
 }
 .moveBody {
-  width: 300px;
-  height: 90px;
+  width: 340px;
+  height: 220px;
   background: lightgray;
   top: 1px;
   position: relative;
@@ -272,7 +272,46 @@ svg{
   z-index: 6;
   border: 4px solid black;
   border-radius: 5px;
-  color: black;
   text-shadow: none;
   text-align: center;
 }
+.qty .count span{
+  color: red;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 25px;
+  font-weight: bold;
+  min-width: 35px;
+}
+.qty .plus {
+  cursor: pointer;
+  vertical-align: top;
+  color: white;
+  width: 30px;
+  height: 30px;
+  font: 30px/1 Arial,sans-serif;
+  text-align: center;
+  border-radius: 50%;
+  background-color: black;
+  display: inline-block;
+}
+.qty .minus {
+  background-color: black;
+  cursor: pointer;
+  vertical-align: top;
+  color: white;
+  width: 30px;
+  height: 30px;
+  font: 30px/1 Arial,sans-serif;
+  text-align: center;
+  border-radius: 50%;
+  background-clip: padding-box;
+  display: inline-block;
+}
+.minus:hover{
+  background-color: darkslategrey !important;
+}
+.plus:hover{
+  background-color: darkslategrey !important;
+}
+

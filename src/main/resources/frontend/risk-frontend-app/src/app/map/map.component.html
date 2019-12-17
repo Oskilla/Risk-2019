@@ -30,8 +30,16 @@
   </div>
   <div class="move" [ngStyle]="{display: (askedMove)}">
     <div class="moveBody">
-      <h3>I want to move <input min="1" max="3" type="number"> armies.</h3>
-      <button class="close_mission" (click)="closeMove()">Close</button>
+      <br>
+      I want to move<br><br>
+      <div class="qty mt-5">
+        <span class="minus bg-dark" (click)="removeMove()">-</span>&nbsp;&nbsp;
+        <span type="number" style="color: red; font-weight: bold; font-size: large;" name="qty">{{maxMove}}</span>&nbsp;&nbsp;
+        <span class="plus bg-dark" (click)="addMove()">+</span><br><br>
+      </div>
+      armies.<br>
+      <p [ngStyle]="{color: 'red', display: (errorMove)}">You need to leave at least one army in this territory!</p>
+      <button class="close_mission" (click)="closeMove()">Ok</button>
     </div>
   </div>
   <div class="mission" [ngStyle]="{display: (missionIsAsked)}">
