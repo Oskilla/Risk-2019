@@ -1069,6 +1069,18 @@ export class MapComponent implements OnInit {
     }
   }
 
+  removeDiceCurrent() {
+  }
+
+  addDiceCurrent() {
+  }
+
+  removeDiceOpponent() {
+  }
+
+  addDiceOpponent() {
+  }
+
 }
 // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed
 // TODO dice choice is displayed

@@ -9,7 +9,7 @@
   <div class="move" [ngStyle]="{display: (cantBattle)}">
     <div class="moveBody">
       <p style="color: red; font-weight: bold">You can't battle since you have less than two armies in this country</p>
-      <button style="background: black; color: white" (click)="closeException()">Close</button>
+      <button style="background: black; color: white" (click)="closeException()">Ok</button>
     </div>
   </div>
   <div class ="dice" [ngStyle]="{display: (askedBattle)}">
@@ -17,12 +17,24 @@
       <h3 >Choose your dices</h3>
       <div class="pf">
         <tr>
-          <th><p class="playeri">{{currentPlayer}}:</p></th>
-          <th><input value="{{currentPlayerDice}}" type="number" min ="1" max="3" class="dicevalue" ></th>
+          <th><p class="playeri">{{currentPlayer}}:&nbsp;&nbsp;</p></th>
+          <th>
+            <div class="qty mt-5">
+              <span class="minus bg-dark" (click)="removeDiceCurrent()">-</span>&nbsp;&nbsp;
+              <span type="number" style="font-weight: bold; font-size: large;" name="qty">{{currentPlayerDice}}</span>&nbsp;&nbsp;
+              <span class="plus bg-dark" (click)="addDiceCurrent()">+</span><br><br>
+            </div>
+          </th>
         </tr>
         <tr>
-          <td><p class="defenderi">{{currentOpponent}}:&nbsp;&nbsp; </p></td>
-          <td><input value="{{opponentPlayerDice}}"  type="number" min ="1" max="2"class="dicevalue"></td>
+          <td><p class="defenderi">{{currentOpponent}}:&nbsp;&nbsp;&nbsp;</p></td>
+          <td>
+            <div class="qty mt-5">
+              <span class="minus bg-dark" (click)="removeDiceOpponent()">-</span>&nbsp;&nbsp;
+              <span type="number" style="font-weight: bold; font-size: large;" name="qty">{{opponentPlayerDice}}</span>&nbsp;&nbsp;
+              <span class="plus bg-dark" (click)="addDiceOpponent()">+</span><br><br>
+            </div>
+          </td>
         </tr>
       </div>
       <p [ngStyle]="{display: (numberNotAllowed), color: 'red'}">Dice number not allowed.</p>

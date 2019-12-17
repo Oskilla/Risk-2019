@@ -246,7 +246,7 @@ svg{
 .playeri{
   display: inline-block;
   font-style: italic;
-  color: #FF0000;
+  color: red;
 }
 .defenderi {
   display: inline-block;
