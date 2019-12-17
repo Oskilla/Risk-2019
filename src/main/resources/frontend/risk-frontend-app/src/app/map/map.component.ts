@@ -177,7 +177,20 @@ export class MapComponent implements OnInit {
   opponentPlayerDice = 0;
 
   numberNotAllowed = 'none';
-  errorMove: any;
+
+  maxMove = 0;
+
+  errorMove = 'none';
+
+  private currentPlayerMaxMove = 0;
+
+  private paysAfortifier = this.countries[0];
+
+  private paysQuiFortifie = "";
+
+  private numberOfClicks = 0;
+
+  private ownCountryClickedMove: boolean = false;
 
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
@@ -409,19 +422,21 @@ export class MapComponent implements OnInit {
     this.missionIsAsked = 'none';
   }
 
-  play() {
-    for (let e = 0; e < this.nbOfPlayers; e++) {
-      this.unTour();
-      this.checkIfMissionIsReached();
-    }
-  }
-
-  unTour() {
+  unTourFortify() {
     if (this.currentPhase === 'Fortify Phase') {
       this.initialPhase();
     }
-    //this.battlePhase(i);
-    // this.fortifyPhase(i);
+  }
+  unTourBattle() {
+    if (this.currentPlayer === 'Battle Phase') {
+      //this.battlePhase();
+    }
+  }
+  unTourMoving() {
+    if (this.currentPhase === 'Moving Phase') {
+      this.movingPhaseStep1();
+    }
+    this.checkIfMissionIsReached();
   }
 
   initialPhase() {
@@ -471,7 +486,7 @@ export class MapComponent implements OnInit {
     }
   }
 
-  battlePhase(i: number) {
+  battlePhase() {
     // 1.choose own country.
     // 1.bis verifier qu'il a au moins 2 armées dans ce pays pour qu'il puisse attaquer
     // 2.choose opponent country
@@ -676,11 +691,11 @@ export class MapComponent implements OnInit {
     return winner;
   }
 
-  fortifyPhase(i: number) {
+  movingPhaseStep1() {
     const nowPlayer = this.getPlayerByName(this.currentPlayer);
     // 1. joueur reçoit un nombre de fantassin correspondant à la division par 3 de la somme de ses territoires
     const nbDeTerritoires = nowPlayer.countries.length;
-    const armeeGagnee = nbDeTerritoires/3;
+    const armeeGagnee = Math.floor(nbDeTerritoires/3);
     nowPlayer.reserve += armeeGagnee;
     // 2. Le joueur reçoit des renfort bonus en fonction des continents qu’il contrôle complêtement
     // +2 s’il contrôle l’Océanie
@@ -925,15 +940,17 @@ export class MapComponent implements OnInit {
   setClickedCountry(countryName: string) {
     const countriesLength = this.countries.length;
     const countryindex = this.getCountryIndexByName(countryName) ;
-    const countryOwner = this.countries[countryindex].owner;
-    if ( countryOwner === this.currentPlayer) {
-      for (let i = 0; i < countriesLength; i++) {
-        if (this.countries[i].name === countryName) {
-          this.countries[i].clicked = 'true';
-        }
+      const countryOwner = this.countries[countryindex].owner;
+      if (countryOwner === this.currentPlayer) {
+        for (let i = 0; i < countriesLength; i++) {
+          if (this.countries[i].name === countryName) {
+            this.countries[i].clicked = 'true';
+          }
       }
     }
-    this.play();
+    this.unTourFortify();
+    this.unTourBattle();
+    this.movingPhaseStep2();
   }
 
   close_mission_completed() {
@@ -969,6 +986,7 @@ export class MapComponent implements OnInit {
         this.displayDescribeCurrentPhase();
       }
     }
+    this.unTourMoving();
   }
 
   private setGameInitialSettings() {
@@ -978,7 +996,13 @@ export class MapComponent implements OnInit {
   }
 
   closeMove() {
+    if ( this.paysAfortifier.name !== "") {
+      this.paysAfortifier.army += this.maxMove;
+      this.countries[this.getCountryIndexByName(this.paysQuiFortifie)].army -= this.maxMove;
+    }
     this.askedMove = 'none';
+    this.errorMove = 'none';
+    this.maxMove = 0;
   }
 
   closeDice() {
@@ -996,12 +1020,51 @@ export class MapComponent implements OnInit {
   }
 
   removeMove() {
-    
+    this.errorMove = 'none';
+    if (this.maxMove > 0) {
+      this.maxMove -= 1;
+    }
   }
 
   addMove() {
-    
+    this.errorMove = 'none';
+    if ( this.maxMove < this.currentPlayerMaxMove) {
+      this.maxMove += 1;
+    } else {
+      this.errorMove = 'block';
+    }
   }
+
+  movingPhaseStep2() {
+    if( this.currentPhase === 'Moving Phase') {
+      const nowPlayer = this.getPlayerByName(this.currentPlayer);
+      if( this.numberOfClicks === 0) {
+        this.paysQuiFortifie = this.getCountryClicked();
+        if (this.paysQuiFortifie != null) {
+          if (nowPlayer.countries.includes(this.paysQuiFortifie)) {
+            this.ownCountryClickedMove = true;
+            this.currentPlayerMaxMove = this.getCountrysArmy(this.paysQuiFortifie) - 1;
+          }
+          this.numberOfClicks = 1;
+        }
+      }
+      else {
+        if(this.ownCountryClickedMove && this.getCountrysArmy(this.paysQuiFortifie) > 1) {
+          this.paysAfortifier = this.getCountClicked();
+            const a = nowPlayer.countries.includes(this.paysAfortifier.name.replace(/"/g, '\''));
+            const b = this.paysAfortifier.neighbours.includes(this.paysQuiFortifie.replace(/"/g, '\''));
+            if (a && b) {
+              this.askedMove = 'block';
+            } else {
+              this.paysAfortifier.name = "";
+            }
+        }
+        this.numberOfClicks = 0;
+        this.ownCountryClickedMove = false;
+      }
+    }
+  }
+
 }
 // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed
 // TODO dice choice is displayed

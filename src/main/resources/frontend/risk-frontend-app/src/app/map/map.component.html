@@ -25,6 +25,7 @@
           <td><input value="{{opponentPlayerDice}}"  type="number" min ="1" max="2"class="dicevalue"></td>
         </tr>
       </div>
+      <p [ngStyle]="{display: (numberNotAllowed), color: 'red'}">Dice number not allowed.</p>
       <button class="close_mission" (click)="closeDice()">Close</button>
     </div>
   </div>
