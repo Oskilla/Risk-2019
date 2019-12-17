@@ -940,12 +940,14 @@ export class MapComponent implements OnInit {
   setClickedCountry(countryName: string) {
     const countriesLength = this.countries.length;
     const countryindex = this.getCountryIndexByName(countryName) ;
+    if (this.countries[countryindex] != null) {
       const countryOwner = this.countries[countryindex].owner;
       if (countryOwner === this.currentPlayer) {
         for (let i = 0; i < countriesLength; i++) {
           if (this.countries[i].name === countryName) {
             this.countries[i].clicked = 'true';
           }
+        }
       }
     }
     this.unTourFortify();
@@ -1051,6 +1053,7 @@ export class MapComponent implements OnInit {
       else {
         if(this.ownCountryClickedMove && this.getCountrysArmy(this.paysQuiFortifie) > 1) {
           this.paysAfortifier = this.getCountClicked();
+          if ( this.paysAfortifier != null) {
             const a = nowPlayer.countries.includes(this.paysAfortifier.name.replace(/"/g, '\''));
             const b = this.paysAfortifier.neighbours.includes(this.paysQuiFortifie.replace(/"/g, '\''));
             if (a && b) {
@@ -1058,6 +1061,7 @@ export class MapComponent implements OnInit {
             } else {
               this.paysAfortifier.name = "";
             }
+          }
         }
         this.numberOfClicks = 0;
         this.ownCountryClickedMove = false;
