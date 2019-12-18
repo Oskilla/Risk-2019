@@ -159,8 +159,8 @@ export class MapComponent implements OnInit {
   private askedMove = 'none';
   private askedBattle = 'none';
   private cantBattle = 'none';
-  private currentPlayerDice = 0;
-  private opponentPlayerDice = 0;
+  private currentPlayerDice = 1;
+  private opponentPlayerDice = 1;
   private numberNotAllowed = 'none';
   private maxMove = 0;
   private errorMove = 'none';
@@ -172,8 +172,8 @@ export class MapComponent implements OnInit {
   private currentPlayerMaxDice: number = 0;
   private opponentPlayerMaxDice: number = 0;
   private battleWinner: string = '';
-  private opponentDefender = null;
-  private playerAttacker = null;
+  private opponentDefender = this.countries[0];
+  private playerAttacker = '';
 
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
@@ -412,7 +412,7 @@ export class MapComponent implements OnInit {
   }
   unTourBattle() {
     if (this.currentPhase === 'Battle Phase') {
-      // this.battlePhase();
+      this.battlePhase();
     }
   }
   unTourMoving() {
@@ -469,43 +469,55 @@ export class MapComponent implements OnInit {
     }
   }
 
-  /*battlePhase() {
+  battlePhase() {
     // 1.choose own country.
     // 1.bis verifier qu'il a au moins 2 armées dans ce pays pour qu'il puisse attaquer
     // 2.choose opponent country
     // 3.vérifier que l'opponent country fait partie des countries adjacentes du pays choisi (cliqué en premier)
     if ( this.currentPhase === 'Battle Phase') {
       const nowPlayer = this.getPlayerByName(this.currentPlayer);
-      let winner = '';
       if ( this.numberOfClicks === 0 ) {
-        this.currentPhase = 'Battle Phase';
         this.playerAttacker = this.getCountryClicked();
-        if ( this.playerAttacker != null ) {
+        if (typeof this.playerAttacker !== 'undefined' && this.getCountrysArmy(this.playerAttacker) > 1) {
           if (nowPlayer.countries.includes(this.playerAttacker)) {
             this.ownCountryClickedMove = true;
-          }
-          this.numberOfClicks = 1;
-        }
-      }
-      else {
-        if (this.ownCountryClickedMove && this.getCountrysArmy(this.playerAttacker) > 1) {
-          this.opponentDefender = this.getCountClicked();
-          if (this.opponentDefender != null) {
-            const a = nowPlayer.countries.includes(this.opponentDefender.name.replace(/"/g, '\''));
-            const b = this.opponentDefender.neighbours.includes(this.playerAttacker.replace(/"/g, '\''));
-            if (!a && b) {
-              this.askedBattle = 'block';
-            } else if (this.getCountrysArmy(this.playerAttacker) <= 1) {
+            this.numberOfClicks = 1;
+            const armyAttacker = this.getCountrysArmy(this.playerAttacker);
+            if ( armyAttacker > 3) {
+              this.currentPlayerMaxDice = 3;
+            } else if ( armyAttacker === 3 ) {
+              this.currentPlayerMaxDice = 2;
+            } else if ( armyAttacker === 2) {
+              this.currentPlayerMaxDice = 1;
+            } else {
               this.cantBattle = 'block';
             }
           }
         }
-        this.battleWinner = winner;
+      }
+      else {
+        if (this.ownCountryClickedMove) {
+          this.opponentDefender = this.getCountClicked();
+          if (typeof this.opponentDefender !== 'undefined') {
+            if ( this.opponentDefender.army > 2) {
+              this.opponentPlayerMaxDice = 2;
+            }
+            if ( this.opponentDefender.army <= 1) {
+              this.opponentPlayerMaxDice = 1;
+            }
+            this.currentOpponent = this.opponentDefender.owner;
+            const a = nowPlayer.countries.includes(this.opponentDefender.name.replace(/"/g, '\''));
+            const b = this.opponentDefender.neighbours.includes(this.playerAttacker.replace(/"/g, '\''));
+            if (!a && b) {
+              this.askedBattle = 'block';
+            }
+          }
+        }
         this.numberOfClicks = 0;
         this.ownCountryClickedMove = false;
       }
     }
-  }*/
+  }
 
 
   jeuDeDes(nowPlayer, paysOpposantCliques, armeeAttaquant, armeedefenseur) {
@@ -916,12 +928,9 @@ export class MapComponent implements OnInit {
     const countriesLength = this.countries.length;
     const countryindex = this.getCountryIndexByName(countryName) ;
     if (this.countries[countryindex] != null) {
-      const countryOwner = this.countries[countryindex].owner;
-      if (countryOwner === this.currentPlayer) {
-        for (let i = 0; i < countriesLength; i++) {
-          if (this.countries[i].name === countryName) {
-            this.countries[i].clicked = 'true';
-          }
+      for (let i = 0; i < countriesLength; i++) {
+        if (this.countries[i].name === countryName) {
+          this.countries[i].clicked = 'true';
         }
       }
     }
@@ -1084,12 +1093,10 @@ export class MapComponent implements OnInit {
 
   addDiceOpponent() {
     if ( this.opponentPlayerDice < this.opponentPlayerMaxDice ) {
-      this.opponentPlayerDice -= 1;
+      this.opponentPlayerDice += 1;
     }
   }
 
-  moveOn() {
-  }
 }
 // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed
 // TODO dice choice is displayed

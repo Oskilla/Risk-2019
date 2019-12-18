@@ -51,7 +51,7 @@
         <span class="plus bg-dark" (click)="addMove()">+</span><br><br>
       </div>
       armies.<br>
-      <p [ngStyle]="{color: 'red', display: (errorMove)}">You need to leave at least one army in this territory!</p>
+      <p [ngStyle]="{color: 'red', display: (errorMove)}">You can't add another army. You need to leave at least one army in this territory!</p>
       <button class="close_mission" (click)="closeMove()">Ok</button>
     </div>
   </div>
