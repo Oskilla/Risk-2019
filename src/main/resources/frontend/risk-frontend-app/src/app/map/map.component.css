@@ -261,7 +261,7 @@ svg{
   display: inline-block;
 }
 .moveBody {
-  width: 340px;
+  width: 360px;
   height: 220px;
   background: lightgray;
   top: 1px;
@@ -275,6 +275,23 @@ svg{
   text-shadow: none;
   text-align: center;
 }
+
+.cantBattleBody {
+  width: 360px;
+  height: 100px;
+  background: lightgray;
+  top: 1px;
+  position: relative;
+  margin: 0 auto;
+  font-family: 'Alfa Slab One', sans-serif;
+  font-size: 1em;
+  z-index: 6;
+  border: 4px solid black;
+  border-radius: 5px;
+  text-shadow: none;
+  text-align: center;
+}
+
 .qty .count span{
   color: red;
   display: inline-block;

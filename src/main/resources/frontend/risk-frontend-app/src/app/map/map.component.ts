@@ -489,10 +489,10 @@ export class MapComponent implements OnInit {
               this.currentPlayerMaxDice = 2;
             } else if ( armyAttacker === 2) {
               this.currentPlayerMaxDice = 1;
-            } else {
-              this.cantBattle = 'block';
             }
           }
+        } else  if (typeof this.playerAttacker !== 'undefined' && nowPlayer.countries.includes(this.playerAttacker)){
+          this.cantBattle = 'block';
         }
       }
       else {
@@ -995,24 +995,32 @@ export class MapComponent implements OnInit {
     const nowPlayer = this.getPlayerByName(this.currentPlayer);
     this.battleWinner = this.jeuDeDes(nowPlayer, this.opponentDefender, this.currentPlayerDice, this.opponentPlayerDice);
     if( this.battleWinner === nowPlayer.name) {
-      nowPlayer.countries.push(this.opponentDefender.name);
-      this.opponentDefender.color = nowPlayer.color;
-      this.opponentDefender.army = 1;
-      const counrtyIndex = this.getCountryIndexByName(this.playerAttacker);
-      this.countries[counrtyIndex].army -= 1;
-      for (let y = 1; y<=this.nbOfPlayers; y++) {
-        if(this.opponentDefender.owner === this.getPlayer(y).name) {
-          const countryIndex = this.getPlayer(y).countries.indexOf(
-            this.opponentDefender.name
-          );
-          this.getPlayer(y).countries.splice(countryIndex, 1);
+      if ( this.currentPlayerDice >= this.opponentDefender.army ) {
+        const counrtyIndex = this.getCountryIndexByName(this.playerAttacker);
+        this.countries[counrtyIndex].army -= this.currentPlayerDice;
+        this.opponentDefender.army = this.currentPlayerDice;
+        nowPlayer.countries.push(this.opponentDefender.name);
+        this.opponentDefender.color = nowPlayer.color;
+        for (let y = 1; y <= this.nbOfPlayers; y++) {
+          if (this.opponentDefender.owner === this.getPlayer(y).name) {
+            const countryIndex = this.getPlayer(y).countries.indexOf(
+              this.opponentDefender.name
+            );
+            this.getPlayer(y).countries.splice(countryIndex, 1);
+          }
         }
+      } else {
+        this.opponentDefender.army -= this.opponentPlayerDice;
       }
     } else {
       // the defender wins.
+      const counrtyIndex = this.getCountryIndexByName(this.playerAttacker);
+      this.countries[counrtyIndex].army -= this.currentPlayerDice;
       console.log('defender wins');
     }
     this.askedBattle = 'none';
+    this.currentPlayerDice = 1;
+    this.opponentPlayerDice = 1;
   }
 
   closeException() {
