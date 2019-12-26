@@ -2,20 +2,23 @@ package io.risk.riskgame.entities;
 
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Game {
+public class GameEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String uuid;
 
-    public Game() {
+    public GameEntity() {
     }
 
-    public Game(String uuid) {
+    public GameEntity(String uuid) {
         this.uuid = uuid;
     }
 
