@@ -1,15 +1,6 @@
-package io.risk.riskgame.entities;
+package io.risk.riskgame.services.io_players;
 
-import javax.persistence.*;
-import java.util.List;
-
-@Entity(name="players")
-public class PlayerEntity {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class StorePlayersServiceInput {
 
     private String name;
     private String color;
@@ -18,24 +9,16 @@ public class PlayerEntity {
     private String countries;
     private String uuid;
 
-    public PlayerEntity() {
+    public StorePlayersServiceInput() {
     }
 
-    public PlayerEntity(String name, String color, int reserve, String mission, String countries, String uuid) {
+    public StorePlayersServiceInput(String name, String color, int reserve, String mission, String countries, String uuid) {
         this.name = name;
         this.color = color;
         this.reserve = reserve;
         this.mission = mission;
         this.countries = countries;
         this.uuid = uuid;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
