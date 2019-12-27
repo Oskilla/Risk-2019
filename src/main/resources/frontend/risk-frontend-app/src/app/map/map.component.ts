@@ -139,8 +139,6 @@ export class MapComponent implements OnInit {
       name: 'asia',
     }];
 
-  nbOfPlayers = 2;
-
   player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: []};
   player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: []};
   player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: []};
@@ -148,21 +146,34 @@ export class MapComponent implements OnInit {
   player5 = {name: '', color:  '#FF0000', reserve: 0, mission: '', countries: []};
   player6 = {name: '', color:  '#CD853F', reserve: 0, mission: '', countries: []};
 
-  officialPlayers = [this.player1, this.player2];
-
-  nbOfTurns = 0;
-
-  missionIsAsked = 'none';
-
-  missionShowed = '';
-
-  currentPlayer = '';
-
-  currentPhase = '';
-
-  PhaseIsAsked = 'none';
-
-  OneMissionIsCompleted = 'none';
+  private nbOfPlayers = 2;
+  private playersArray = [];
+  private nbOfTurns = 0;
+  private missionIsAsked = 'none';
+  private missionShowed = '';
+  private currentPlayer = this.player1.name;
+  private currentOpponent = '';
+  private currentPhase = '';
+  private PhaseIsAsked = 'none';
+  private OneMissionIsCompleted = 'none';
+  private askedMove = 'none';
+  private askedBattle = 'none';
+  private cantBattle = 'none';
+  private currentPlayerDice = 1;
+  private opponentPlayerDice = 1;
+  private numberNotAllowed = 'none';
+  private maxMove = 0;
+  private errorMove = 'none';
+  private currentPlayerMaxMove = 0;
+  paysAfortifier = this.countries[0];
+  private paysQuiFortifie = '';
+  private numberOfClicks = 0;
+  private ownCountryClickedMove: boolean = false;
+  private currentPlayerMaxDice: number = 0;
+  private opponentPlayerMaxDice: number = 0;
+  private battleWinner: string = '';
+  private opponentDefender = this.countries[0];
+  private playerAttacker = '';
 
   constructor(private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
@@ -195,6 +206,7 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     this.setNames();
     this.setNbOfPlayers();
+    this.setPlayersArray();
     this.getPlayer3Color();
     this.getPlayer4Color();
     this.getPlayer5Color();
@@ -202,6 +214,7 @@ export class MapComponent implements OnInit {
     this.setReserves();
     this.phaseInitialisation0();
     this.setGameInitialSettings();
+
   }
 
   setNames() {
@@ -251,32 +264,40 @@ export class MapComponent implements OnInit {
   getPlayer3Color() {
     if (this.player3.name === '') {
       return '#778899';
-    } else {
-      this.officialPlayers.push(this.player3);
     }
   }
 
   getPlayer6Color() {
     if (this.player6.name === '') {
       return '#778899';
-    } else {
-      this.officialPlayers.push(this.player6);
     }
   }
 
   getPlayer4Color() {
     if (this.player4.name === '') {
       return '#778899';
-    } else {
-      this.officialPlayers.push(this.player4);
     }
   }
 
   getPlayer5Color() {
     if (this.player5.name === '') {
       return '#778899';
-    } else {
-      this.officialPlayers.push(this.player5);
+    }
+  }
+
+  getPlayerByName(name: string) {
+    if (name === this.player1.name) {
+      return this.player1;
+    } else if (name === this.player2.name) {
+      return this.player2;
+    } else if (name === this.player3.name) {
+      return this.player3;
+    } else if (name === this.player4.name) {
+      return this.player4;
+    } else if (name === this.player5.name) {
+      return this.player5;
+    } else if (name === this.player6.name) {
+      return this.player6;
     }
   }
 
@@ -384,45 +405,47 @@ export class MapComponent implements OnInit {
     this.missionIsAsked = 'none';
   }
 
-  play() {
-    for (let e = 0; e < this.nbOfPlayers; e++) {
-      this.unTour(e + 1);
-      this.checkIfMissionIsReached(e + 1);
+  unTourFortify() {
+    if (this.currentPhase === 'Fortify Phase') {
+      this.initialPhase();
     }
   }
-
-  unTour(i) {
-    this.currentPlayer = this.getPlayer(i).name;
-    this.getPlayersColor();
-    // then we let him play
-    this.initialPhase(i);
-    //this.battlePhase(i);
-    // this.fortifyPhase(i);
+  unTourBattle() {
+    if (this.currentPhase === 'Battle Phase') {
+      this.battlePhase();
+    }
+  }
+  unTourMoving() {
+    if (this.currentPhase === 'Moving Phase') {
+      this.movingPhaseStep1();
+    }
+    this.checkIfMissionIsReached();
   }
 
-  initialPhase(i: number) {
+  initialPhase() {
     // But: si le joueur veut ajouter des armées de sa reserve dans les countries qu'il possède.
     // 1. vérifier que le pays cliqué lui appartient et que le joueur a une reserve d'au moins un
     // 2. incrémenter l'army de ce pays.
     // 3. diminuer la reserve du joueur.
     // TODO :USE CARDS
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
     this.currentPhase = 'Fortify Phase';
     const paysClique = this.getCountryClicked();
     let paysLuiAppartient = false;
-    const thePlayersCountriesLength = this.getPlayer(i).countries.length;
+    const thePlayersCountriesLength = nowPlayer.countries.length;
     const countriesLength = this.countries.length;
     for (let e = 0; e < thePlayersCountriesLength; e ++) {
-      if (this.getPlayer(i).countries.includes(paysClique)) {
+      if (nowPlayer.countries.includes(paysClique)) {
         paysLuiAppartient = true;
       }
     }
-    if (paysLuiAppartient && this.getPlayer(i).reserve > 0 ) {
+    if (paysLuiAppartient && nowPlayer.reserve > 0 ) {
       for (let e = 0; e < countriesLength; e++) {
         if (this.countries[e].name === paysClique) {
           this.countries[e].army += 1;
         }
       }
-      this.getPlayer(i).reserve -= 1;
+      nowPlayer.reserve -= 1;
     }
   }
 
@@ -446,54 +469,80 @@ export class MapComponent implements OnInit {
     }
   }
 
-  battlePhase(i: number) {
+  battlePhase() {
     // 1.choose own country.
     // 1.bis verifier qu'il a au moins 2 armées dans ce pays pour qu'il puisse attaquer
     // 2.choose opponent country
     // 3.vérifier que l'opponent country fait partie des countries adjacentes du pays choisi (cliqué en premier)
-    this.currentPhase = 'Battle Phase';
-    let realOwnCountry: string;
-    let ownCountryClicked = false;
-    let winner = '';
-    const armeeDefense = 0;
-    const armeeAttaque = 0;
-    const paysCliques = this.getCountryClicked();
-    if (this.getPlayer(i).countries.includes(paysCliques)) {
-      ownCountryClicked = true;
-      realOwnCountry = paysCliques;
-    }
-    if ( ownCountryClicked && this.getCountrysArmy(realOwnCountry) > 1 ) {
-      const paysOpposantCliques = this.getCountClicked();
-      if (!this.getPlayer(i).countries.includes(paysOpposantCliques) && paysOpposantCliques.neighbours.includes(realOwnCountry)) {
-        // 4.jeu de dés (renvoie le vainqueur)
-        winner = this.jeuDeDes(i, paysOpposantCliques, armeeAttaque, armeeDefense);
-
+    if ( this.currentPhase === 'Battle Phase') {
+      const nowPlayer = this.getPlayerByName(this.currentPlayer);
+      if ( this.numberOfClicks === 0 ) {
+        this.playerAttacker = this.getCountryClicked();
+        if (typeof this.playerAttacker !== 'undefined' && this.getCountrysArmy(this.playerAttacker) > 1) {
+          if (nowPlayer.countries.includes(this.playerAttacker)) {
+            this.ownCountryClickedMove = true;
+            this.numberOfClicks = 1;
+            const armyAttacker = this.getCountrysArmy(this.playerAttacker);
+            if ( armyAttacker > 3) {
+              this.currentPlayerMaxDice = 3;
+            } else if ( armyAttacker === 3 ) {
+              this.currentPlayerMaxDice = 2;
+            } else if ( armyAttacker === 2) {
+              this.currentPlayerMaxDice = 1;
+            }
+          }
+        } else  if (typeof this.playerAttacker !== 'undefined' && nowPlayer.countries.includes(this.playerAttacker)){
+          this.cantBattle = 'block';
+        }
       }
-    } else if (this.getCountrysArmy(realOwnCountry) <= 1) {
-      // TODO display you can't battle since you have less than 2 army's in this country
+      else {
+        if (this.ownCountryClickedMove) {
+          this.opponentDefender = this.getCountClicked();
+          if (typeof this.opponentDefender !== 'undefined') {
+            if ( this.opponentDefender.army > 2) {
+              this.opponentPlayerMaxDice = 2;
+            }
+            if ( this.opponentDefender.army <= 1) {
+              this.opponentPlayerMaxDice = 1;
+            }
+            this.currentOpponent = this.opponentDefender.owner;
+            const a = nowPlayer.countries.includes(this.opponentDefender.name.replace(/"/g, '\''));
+            const b = this.opponentDefender.neighbours.includes(this.playerAttacker.replace(/"/g, '\''));
+            if (!a && b) {
+              this.askedBattle = 'block';
+            }
+          }
+        }
+        this.numberOfClicks = 0;
+        this.ownCountryClickedMove = false;
+      }
     }
-    // 5.changement dans les données du vainqueur
   }
 
-  jeuDeDes(i, paysOpposantCliques, armeeAttaquant, armeedefenseur) {
+
+  jeuDeDes(nowPlayer, paysOpposantCliques, armeeAttaquant, armeedefenseur) {
     let winner = '';
     if (armeeAttaquant === 3 && armeedefenseur === 1) {
-      winner = this.jeuDeDesA3D1(i, paysOpposantCliques);
+      winner = this.jeuDeDesA3D1(nowPlayer, paysOpposantCliques);
     } else if (armeeAttaquant === 2 && armeedefenseur === 1) {
-      winner = this.jeuDeDesA2D1(i, paysOpposantCliques);
+      winner = this.jeuDeDesA2D1(nowPlayer, paysOpposantCliques);
     } else if (armeeAttaquant === 1 && armeedefenseur === 1) {
-      winner = this.jeuDeDesA1D1(i, paysOpposantCliques);
+      winner = this.jeuDeDesA1D1(nowPlayer, paysOpposantCliques);
     } else if ( armeeAttaquant === 3 && armeedefenseur === 2) {
-      winner = this.jeuDeDesA3D2(i, paysOpposantCliques);
+      winner = this.jeuDeDesA3D2(nowPlayer, paysOpposantCliques);
     } else if ( armeeAttaquant === 2 && armeedefenseur === 2) {
-      winner = this.jeuDeDesA2D2(i, paysOpposantCliques);
+      winner = this.jeuDeDesA2D2(nowPlayer, paysOpposantCliques);
     } else if (armeeAttaquant === 1 && armeedefenseur === 2) {
-      winner = this.jeuDeDesA1D2(i, paysOpposantCliques);
+      winner = this.jeuDeDesA1D2(nowPlayer, paysOpposantCliques);
+    } else {
+      this.numberNotAllowed = 'block';
+      this.askedBattle = 'none';
+      this.currentPhase = 'Moving Phase';
     }
     return winner;
   }
 
-  jeuDeDesA3D2(i, paysOpposantCliques) {
+  jeuDeDesA3D2(nowPlayer, paysOpposantCliques) {
     let winner = '';
     const de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
     const de2JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
@@ -503,7 +552,7 @@ export class MapComponent implements OnInit {
     const de2JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
     const maxDesDesDefenseur = this.max( de1JoueurDefenseur, de2JoueurDefenseur);
     if ( maxDesDesAttaquant > maxDesDesDefenseur) {
-      winner = this.getPlayer(i).name;
+      winner = nowPlayer.name;
     } else if (maxDesDesDefenseur > maxDesDesAttaquant) {
       winner = paysOpposantCliques.owner;
     } else if (maxDesDesAttaquant === maxDesDesDefenseur) {
@@ -528,7 +577,7 @@ export class MapComponent implements OnInit {
         winner = paysOpposantCliques.owner;
       }
       if ( max2DesDesAttaquant > max2DesDesDefenseur ) {
-        winner = this.getPlayer(i).name;
+        winner = nowPlayer.name;
       }
       if ( max2DesDesDefenseur === max2DesDesAttaquant) {
         winner = paysOpposantCliques.owner;
@@ -537,7 +586,7 @@ export class MapComponent implements OnInit {
     return winner;
   }
 
-  jeuDeDesA1D1(i, paysOpposantCliques) {
+  jeuDeDesA1D1(nowPlayer, paysOpposantCliques) {
     let winner = '';
     const de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
     const de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
@@ -545,40 +594,40 @@ export class MapComponent implements OnInit {
     if ( maxDes === de1JoueurDefenseur) {
       winner = paysOpposantCliques.owner;
     } else if (maxDes === de1JoueurAttaquant) {
-      winner = this.getPlayer(i).name;
+      winner = nowPlayer.name;
     }
     return winner;
   }
 
-  jeuDeDesA1D2(i, paysOpposantCliques) {
+  jeuDeDesA1D2(nowPlayer, paysOpposantCliques) {
     let winner = '';
     const de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
     const de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
     const de2JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
     const maxDesDesDefenseur = this.max( de1JoueurDefenseur, de2JoueurDefenseur);
     if ( de1JoueurAttaquant > maxDesDesDefenseur) {
-      winner = this.getPlayer(i).name;
+      winner = nowPlayer.name;
     } else if (maxDesDesDefenseur >= de1JoueurAttaquant) {
       winner = paysOpposantCliques.owner;
     }
     return winner;
   }
 
-  jeuDeDesA2D1(i, paysOpposantCliques) {
+  jeuDeDesA2D1(nowPlayer, paysOpposantCliques) {
     let winner = '';
     const de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
     const de2JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
     const maxDesDesAttaquant = this.max(de1JoueurAttaquant, de2JoueurAttaquant);
     const de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
     if (maxDesDesAttaquant > de1JoueurDefenseur) {
-      winner = this.getPlayer(i).name;
+      winner = nowPlayer.name;
     } else {
       winner = paysOpposantCliques.owner;
     }
     return winner;
   }
 
-  jeuDeDesA2D2(i, paysOpposantCliques) {
+  jeuDeDesA2D2(nowPlayer, paysOpposantCliques) {
     let winner = '';
     const de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
     const de2JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
@@ -587,7 +636,7 @@ export class MapComponent implements OnInit {
     const de2JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
     const maxDesDesDefenseur = this.max( de1JoueurDefenseur, de2JoueurDefenseur);
     if (maxDesDesAttaquant > maxDesDesDefenseur) {
-      winner = this.getPlayer(i).name;
+      winner = nowPlayer.name;
     } else if (maxDesDesAttaquant < maxDesDesDefenseur) {
       winner = paysOpposantCliques.owner;
     } else if (maxDesDesDefenseur === maxDesDesAttaquant) {
@@ -606,7 +655,7 @@ export class MapComponent implements OnInit {
         max2DesDefenseur = de1JoueurDefenseur;
       }
       if (max2DesAttaquant > max2DesDefenseur) {
-        winner = this.getPlayer(i).name;
+        winner = nowPlayer.name;
       } else if (max2DesAttaquant <= max2DesDefenseur) {
         winner = paysOpposantCliques.owner;
       }
@@ -614,7 +663,7 @@ export class MapComponent implements OnInit {
     return winner;
   }
 
-  jeuDeDesA3D1(i, paysOpposantCliques) {
+  jeuDeDesA3D1(nowPlayer, paysOpposantCliques) {
     let winner = '';
     const de1JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
     const de2JoueurAttaquant = Math.floor((Math.random() * 6) + 1);
@@ -622,42 +671,43 @@ export class MapComponent implements OnInit {
     const maxDesDesAttaquant = this.max(this.max(de1JoueurAttaquant, de2JoueurAttaquant), de3JoueurAttaquant);
     const de1JoueurDefenseur = Math.floor((Math.random() * 6) + 1);
     if ( maxDesDesAttaquant > de1JoueurDefenseur) {
-      winner = this.getPlayer(i).name;
+      winner = nowPlayer.name;
     } else {
       winner = paysOpposantCliques.owner;
     }
     return winner;
   }
 
-  fortifyPhase(i: number) {
+  movingPhaseStep1() {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
     // 1. joueur reçoit un nombre de fantassin correspondant à la division par 3 de la somme de ses territoires
-    const nbDeTerritoires = this.getPlayer(i).countries.length;
-    const armeeGagnee = nbDeTerritoires/3;
-    this.getPlayer(i).reserve += armeeGagnee;
+    const nbDeTerritoires = nowPlayer.countries.length;
+    const armeeGagnee = Math.floor(nbDeTerritoires/3);
+    nowPlayer.reserve += armeeGagnee;
     // 2. Le joueur reçoit des renfort bonus en fonction des continents qu’il contrôle complêtement
     // +2 s’il contrôle l’Océanie
-    if( this.checkIfContinentIsConquered(i, 0) === true) {
-      this.getPlayer(i).reserve += 2;
+    if( this.checkIfContinentIsConquered(0) === true) {
+      nowPlayer.reserve += 2;
     }
     // +2 s’il contrôle l’Amérique du sud
-    if (this.checkIfContinentIsConquered(i, 1) === true) {
-      this.getPlayer(i).reserve += 2;
+    if (this.checkIfContinentIsConquered(1) === true) {
+      nowPlayer.reserve += 2;
     }
     // +3 s’il contrôle l’Afrique
-    if (this.checkIfContinentIsConquered(i, 2) === true) {
-      this.getPlayer(i).reserve += 3;
+    if (this.checkIfContinentIsConquered(2) === true) {
+      nowPlayer.reserve += 3;
     }
     // +5 s’il contrôle l’Europe
-    if ( this.checkIfContinentIsConquered(i, 3) === true) {
-      this.getPlayer(i).reserve +=5
+    if ( this.checkIfContinentIsConquered(3) === true) {
+      nowPlayer.reserve +=5
     }
     // +5 s’il contrôle l’Amérique du nord
-    if (this.checkIfContinentIsConquered(i, 4) === true) {
-      this.getPlayer(i).reserve +=5;
+    if (this.checkIfContinentIsConquered(4) === true) {
+      nowPlayer.reserve +=5;
     }
     // +7 s’il contrôle l’Asie
-    if (this.checkIfContinentIsConquered(i, 5) === true) {
-      this.getPlayer(i).reserve +=7;
+    if (this.checkIfContinentIsConquered(5) === true) {
+      nowPlayer.reserve +=7;
     }
   }
 
@@ -670,7 +720,7 @@ export class MapComponent implements OnInit {
     while ( i !== 1) {
       while ( e < this.nbOfPlayers ) {
         if ( a !== this.countries.length) {
-          this.countries[a].owner = this.getPlayer(e + 1) + '';
+          this.countries[a].owner = this.getPlayer(e + 1).name;
           this.getPlayer(e + 1).countries.push(this.countries[a].name);
           this.countries[a].army += 1;
           this.countries[a].color = this.getPlayer(e + 1).color;
@@ -694,9 +744,17 @@ export class MapComponent implements OnInit {
 
   setCountryColor(name: string) {
     const p = this.countries.length;
-    for ( let e = 0; e < p; e++) {
+    for (let e = 0; e < p; e++) {
       if (this.countries[e].name === name) {
         return this.countries[e].color;
+      }
+    }
+  }
+
+  getCountryIndexByName (country: string) {
+    for (let y = 0; y < this.countries.length; y ++ ) {
+      if (this.countries[y].name === country) {
+        return y;
       }
     }
   }
@@ -711,49 +769,51 @@ export class MapComponent implements OnInit {
   }
 
   // It should be called after each attack
-  checkIfMissionIsReached(i: number) {
-    const playersMission = this.getPlayer(i).mission;
+  checkIfMissionIsReached() {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
+    const playersMission = nowPlayer.mission;
     if ( playersMission === this.theMissionsNotShuffled[0]) {
-      if (this.checkMission0(i)) {
+      if (this.checkMission0()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[1]) {
-      if (this.checkMission1(i)) {
+      if (this.checkMission1()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[2]) {
-      if (this.checkMission2(i)) {
+      if (this.checkMission2()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[3]) {
-      if (this.checkMission3(i)) {
+      if (this.checkMission3()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[4]) {
-      if (this.checkMission4(i)) {
+      if (this.checkMission4()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[5]) {
-      if (this.checkMission5(i)) {
+      if (this.checkMission5()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[6]) {
-      if (this.checkMission6(i)) {
+      if (this.checkMission6()) {
         this.OneMissionIsCompleted = 'block';
       }
     } else if (playersMission === this.theMissionsNotShuffled[7]) {
-      if (this.checkMission7(i)) {
+      if (this.checkMission7()) {
         this.OneMissionIsCompleted = 'block';
       }
     }
   }
 
-  private  checkIfContinentIsConquered(i: number, o: number) {
-    const playerCountriesLength = this.getPlayer(i).countries.length;
+  private  checkIfContinentIsConquered( o: number) {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
+    const playerCountriesLength = nowPlayer.countries.length;
     let a = false;
     let z = 0;
     for (let r = 0; r < playerCountriesLength; r++) {
-      if (this.continents[o].areas.includes( this.getPlayer(i).countries[r])) {
+      if (this.continents[o].areas.includes( nowPlayer.countries[r])) {
         z += 1;
       }
     }
@@ -763,48 +823,50 @@ export class MapComponent implements OnInit {
     return a;
   }
 
-  private checkMission0(i: number) {
+  private checkMission0() {
     // Vous devez conquérir en totalité l'Asie et l'Afrique.
-    const asiaIsConquered = this.checkIfContinentIsConquered(i, 5);
-    const africaIsConquered = this.checkIfContinentIsConquered(i, 2);
+    const asiaIsConquered = this.checkIfContinentIsConquered(5);
+    const africaIsConquered = this.checkIfContinentIsConquered(2);
     return asiaIsConquered && africaIsConquered;
   }
 
-  private checkMission1(i: number) {
+  private checkMission1() {
     // Vous devez conquérir en totalité l'Asie et l'Amérique du sud.
-    const asiaIsConquered = this.checkIfContinentIsConquered(i, 5);
-    const southAmericaIsConquered = this.checkIfContinentIsConquered(i, 1);
+    const asiaIsConquered = this.checkIfContinentIsConquered(5);
+    const southAmericaIsConquered = this.checkIfContinentIsConquered(1);
     return asiaIsConquered && southAmericaIsConquered;
   }
 
-  private checkMission2(i: number) {
+  private checkMission2() {
     // Vous devez conquérir en totalité l'Amérique du Nord et l'Océanie.
-    const northAmericaIsConquered = this.checkIfContinentIsConquered(i, 4);
-    const oceanieIsConquered = this.checkIfContinentIsConquered(i, 0);
+    const northAmericaIsConquered = this.checkIfContinentIsConquered(4);
+    const oceanieIsConquered = this.checkIfContinentIsConquered(0);
     return northAmericaIsConquered && oceanieIsConquered;
   }
 
-  private checkMission3(i: number) {
+  private checkMission3() {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
     // Vous devez conquérir 24 territoires aux choix.
-    if ( this.getPlayer(i).countries.length === 24) {
+    if ( nowPlayer.countries.length === 24) {
       return true;
     } else {
       return  false;
     }
   }
 
-  private checkMission4(i: number) {
+  private checkMission4() {
     // Vous devez conquérir en totalité l'Amérique du Nord et l'Afrique.
-    const northAmericaIsConquered = this.checkIfContinentIsConquered(i, 4);
-    const africaIsConquered = this.checkIfContinentIsConquered(i, 2);
+    const northAmericaIsConquered = this.checkIfContinentIsConquered(4);
+    const africaIsConquered = this.checkIfContinentIsConquered(2);
     return northAmericaIsConquered && africaIsConquered;
   }
 
-  private checkMission5(i: number) {
+  private checkMission5() {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
     // Vous devez conquérir 18 territoires et occuper chacun d'eux avec deux armées au moins.
     let territoiresSontConquis = false;
     let territoireEtArmees = false;
-    if ( this.getPlayer(i).countries.length === 18) {
+    if ( nowPlayer.countries.length === 18) {
       territoiresSontConquis = true;
     }
     for (let r = 0; r < 18; r++) {
@@ -815,26 +877,26 @@ export class MapComponent implements OnInit {
     return territoireEtArmees && territoiresSontConquis;
   }
 
-  private checkMission6(i: number) {
+  private checkMission6() {
     // Vous devez conquérir en totalité l'Europe et l'Amérique du sud plus un troisième continent au choix.
-    const europeIsConquered = this.checkIfContinentIsConquered(i, 3);
-    const southAmericaIsConquered = this.checkIfContinentIsConquered(i, 1);
-    const troisemeContinent = this.checkIfContinentIsConquered(i, 2);
-    const quatriemeContinent = this.checkIfContinentIsConquered(i, 0);
-    const cinquiemeContinent = this.checkIfContinentIsConquered(i, 4);
-    const sixiemeContinent = this.checkIfContinentIsConquered(i, 5);
+    const europeIsConquered = this.checkIfContinentIsConquered(3);
+    const southAmericaIsConquered = this.checkIfContinentIsConquered(1);
+    const troisemeContinent = this.checkIfContinentIsConquered(2);
+    const quatriemeContinent = this.checkIfContinentIsConquered(0);
+    const cinquiemeContinent = this.checkIfContinentIsConquered(4);
+    const sixiemeContinent = this.checkIfContinentIsConquered(5);
     const thirdContinent = (troisemeContinent || quatriemeContinent || cinquiemeContinent || sixiemeContinent);
     return europeIsConquered && southAmericaIsConquered && thirdContinent;
   }
 
-  private checkMission7(i: number) {
+  private checkMission7() {
     // Vous devez conquérir en totalité l'Europe et l'Océanie plus un troisième continent au choix.
-    const europeIsConquered = this.checkIfContinentIsConquered(i, 3);
-    const oceanieIsConquered = this.checkIfContinentIsConquered(i, 0);
-    const troisemeContinent = this.checkIfContinentIsConquered(i, 1);
-    const quatriemeContinent = this.checkIfContinentIsConquered(i, 2);
-    const cinquiemeContinent = this.checkIfContinentIsConquered(i, 4);
-    const sixiemeContinent = this.checkIfContinentIsConquered(i, 5);
+    const europeIsConquered = this.checkIfContinentIsConquered(3);
+    const oceanieIsConquered = this.checkIfContinentIsConquered(0);
+    const troisemeContinent = this.checkIfContinentIsConquered(1);
+    const quatriemeContinent = this.checkIfContinentIsConquered(2);
+    const cinquiemeContinent = this.checkIfContinentIsConquered(4);
+    const sixiemeContinent = this.checkIfContinentIsConquered(5);
     const thirdContinent = (troisemeContinent || quatriemeContinent || cinquiemeContinent || sixiemeContinent);
     return europeIsConquered && oceanieIsConquered && thirdContinent;
   }
@@ -864,12 +926,17 @@ export class MapComponent implements OnInit {
 
   setClickedCountry(countryName: string) {
     const countriesLength = this.countries.length;
-    for (let i = 0; i < countriesLength; i++) {
-      if (this.countries[i].name === countryName) {
-        this.countries[i].clicked = 'true';
+    const countryindex = this.getCountryIndexByName(countryName) ;
+    if (this.countries[countryindex] != null) {
+      for (let i = 0; i < countriesLength; i++) {
+        if (this.countries[i].name === countryName) {
+          this.countries[i].clicked = 'true';
+        }
       }
     }
-    this.unTour(1);
+    this.unTourFortify();
+    this.unTourBattle();
+    this.movingPhaseStep2();
   }
 
   close_mission_completed() {
@@ -898,11 +965,14 @@ export class MapComponent implements OnInit {
         this.nbOfTurns++;
       }
     } else if (this.currentPhase === 'Moving Phase') {
+      this.playersArray.push(this.playersArray.shift());
+      this.currentPlayer = this.playersArray[0].name;
       this.currentPhase = 'Fortify Phase';
       if (this.nbOfTurns < this.nbOfPlayers ) {
         this.displayDescribeCurrentPhase();
       }
     }
+    this.unTourMoving();
   }
 
   private setGameInitialSettings() {
@@ -910,5 +980,131 @@ export class MapComponent implements OnInit {
     this.currentPhase = 'Fortify Phase';
     this.displayDescribeCurrentPhase();
   }
+
+  closeMove() {
+    if ( this.paysAfortifier.name !== "") {
+      this.paysAfortifier.army += this.maxMove;
+      this.countries[this.getCountryIndexByName(this.paysQuiFortifie)].army -= this.maxMove;
+    }
+    this.askedMove = 'none';
+    this.errorMove = 'none';
+    this.maxMove = 0;
+  }
+
+  closeDice() {
+    const nowPlayer = this.getPlayerByName(this.currentPlayer);
+    this.battleWinner = this.jeuDeDes(nowPlayer, this.opponentDefender, this.currentPlayerDice, this.opponentPlayerDice);
+    if( this.battleWinner === nowPlayer.name) {
+      if ( this.currentPlayerDice >= this.opponentDefender.army ) {
+        const counrtyIndex = this.getCountryIndexByName(this.playerAttacker);
+        this.countries[counrtyIndex].army -= this.currentPlayerDice;
+        this.opponentDefender.army = this.currentPlayerDice;
+        nowPlayer.countries.push(this.opponentDefender.name);
+        this.opponentDefender.color = nowPlayer.color;
+        for (let y = 1; y <= this.nbOfPlayers; y++) {
+          if (this.opponentDefender.owner === this.getPlayer(y).name) {
+            const countryIndex = this.getPlayer(y).countries.indexOf(
+              this.opponentDefender.name
+            );
+            this.getPlayer(y).countries.splice(countryIndex, 1);
+          }
+        }
+      } else {
+        this.opponentDefender.army -= this.opponentPlayerDice;
+      }
+    } else {
+      // the defender wins.
+      const counrtyIndex = this.getCountryIndexByName(this.playerAttacker);
+      this.countries[counrtyIndex].army -= this.currentPlayerDice;
+      console.log('defender wins');
+    }
+    this.askedBattle = 'none';
+    this.currentPlayerDice = 1;
+    this.opponentPlayerDice = 1;
+  }
+
+  closeException() {
+    this.cantBattle = 'none';
+  }
+
+  private setPlayersArray() {
+    for (let y = 0; y<this.nbOfPlayers; y++) {
+      this.playersArray.push(this.getPlayer(y+1));
+    }
+  }
+
+  removeMove() {
+    this.errorMove = 'none';
+    if (this.maxMove > 0) {
+      this.maxMove -= 1;
+    }
+  }
+
+  addMove() {
+    this.errorMove = 'none';
+    if ( this.maxMove < this.currentPlayerMaxMove) {
+      this.maxMove += 1;
+    } else {
+      this.errorMove = 'block';
+    }
+  }
+
+  movingPhaseStep2() {
+    if( this.currentPhase === 'Moving Phase') {
+      const nowPlayer = this.getPlayerByName(this.currentPlayer);
+      if( this.numberOfClicks === 0) {
+        this.paysQuiFortifie = this.getCountryClicked();
+        if (typeof this.paysQuiFortifie !== 'undefined' &&  this.getCountrysArmy(this.paysQuiFortifie) > 1) {
+          if (nowPlayer.countries.includes(this.paysQuiFortifie)) {
+            this.ownCountryClickedMove = true;
+            this.currentPlayerMaxMove = this.getCountrysArmy(this.paysQuiFortifie) - 1;
+            this.numberOfClicks = 1;
+          }
+        }
+      }
+      else {
+        if(this.ownCountryClickedMove) {
+          this.paysAfortifier = this.getCountClicked();
+          if (typeof this.paysAfortifier !== 'undefined') {
+            const a = nowPlayer.countries.includes(this.paysAfortifier.name.replace(/"/g, '\''));
+            const b = this.paysAfortifier.neighbours.includes(this.paysQuiFortifie.replace(/"/g, '\''));
+            if (a && b) {
+              this.askedMove = 'block';
+            } else {
+              this.paysAfortifier = this.countries[0];
+            }
+          }
+        }
+        this.numberOfClicks = 0;
+        this.ownCountryClickedMove = false;
+      }
+    }
+  }
+
+  removeDiceCurrent() {
+    if ( this.currentPlayerDice > 1 ) {
+      this.currentPlayerDice -= 1;
+    }
+  }
+
+  addDiceCurrent() {
+    if ( this.currentPlayerDice < this.currentPlayerMaxDice ) {
+      this.currentPlayerDice += 1;
+    }
+  }
+
+  removeDiceOpponent() {
+    if ( this.opponentPlayerDice > 1 ) {
+      this.opponentPlayerDice -= 1;
+    }
+  }
+
+  addDiceOpponent() {
+    if ( this.opponentPlayerDice < this.opponentPlayerMaxDice ) {
+      this.opponentPlayerDice += 1;
+    }
+  }
+
 }
-// TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed
+// TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed
+// TODO dice choice is displayed
