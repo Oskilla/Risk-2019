@@ -676,12 +676,12 @@
                             name: 'asia',
                         }
                     ];
-                    this.player1 = { name: '', color: '#00008B', reserve: 0, mission: '', countries: [] };
-                    this.player2 = { name: '', color: '#9932CC', reserve: 0, mission: '', countries: [] };
-                    this.player3 = { name: '', color: '#F08080', reserve: 0, mission: '', countries: [] };
-                    this.player4 = { name: '', color: '#3CB371', reserve: 0, mission: '', countries: [] };
-                    this.player5 = { name: '', color: '#FF0000', reserve: 0, mission: '', countries: [] };
-                    this.player6 = { name: '', color: '#CD853F', reserve: 0, mission: '', countries: [] };
+                    this.player1 = { name: '', color: '#00008B', reserve: 0, mission: '', countries: [], winner: 'false' };
+                    this.player2 = { name: '', color: '#9932CC', reserve: 0, mission: '', countries: [], winner: 'false' };
+                    this.player3 = { name: '', color: '#F08080', reserve: 0, mission: '', countries: [], winner: 'false' };
+                    this.player4 = { name: '', color: '#3CB371', reserve: 0, mission: '', countries: [], winner: 'false' };
+                    this.player5 = { name: '', color: '#FF0000', reserve: 0, mission: '', countries: [], winner: 'false' };
+                    this.player6 = { name: '', color: '#CD853F', reserve: 0, mission: '', countries: [], winner: 'false' };
                     this.nbOfPlayers = 2;
                     this.playersArray = [];
                     this.nbOfTurns = 0;
@@ -1020,7 +1020,7 @@
                                     }
                                 }
                             }
-                            else {
+                            else if (typeof this.playerAttacker !== 'undefined' && nowPlayer.countries.includes(this.playerAttacker)) {
                                 this.cantBattle = 'block';
                             }
                         }
@@ -1306,41 +1306,49 @@
                     if (playersMission === this.theMissionsNotShuffled[0]) {
                         if (this.checkMission0()) {
                             this.OneMissionIsCompleted = 'block';
+                            nowPlayer.winner = 'true';
                         }
                     }
                     else if (playersMission === this.theMissionsNotShuffled[1]) {
                         if (this.checkMission1()) {
                             this.OneMissionIsCompleted = 'block';
+                            nowPlayer.winner = 'true';
                         }
                     }
                     else if (playersMission === this.theMissionsNotShuffled[2]) {
                         if (this.checkMission2()) {
                             this.OneMissionIsCompleted = 'block';
+                            nowPlayer.winner = 'true';
                         }
                     }
                     else if (playersMission === this.theMissionsNotShuffled[3]) {
                         if (this.checkMission3()) {
                             this.OneMissionIsCompleted = 'block';
+                            nowPlayer.winner = 'true';
                         }
                     }
                     else if (playersMission === this.theMissionsNotShuffled[4]) {
                         if (this.checkMission4()) {
                             this.OneMissionIsCompleted = 'block';
+                            nowPlayer.winner = 'true';
                         }
                     }
                     else if (playersMission === this.theMissionsNotShuffled[5]) {
                         if (this.checkMission5()) {
                             this.OneMissionIsCompleted = 'block';
+                            nowPlayer.winner = 'true';
                         }
                     }
                     else if (playersMission === this.theMissionsNotShuffled[6]) {
                         if (this.checkMission6()) {
                             this.OneMissionIsCompleted = 'block';
+                            nowPlayer.winner = 'true';
                         }
                     }
                     else if (playersMission === this.theMissionsNotShuffled[7]) {
                         if (this.checkMission7()) {
                             this.OneMissionIsCompleted = 'block';
+                            nowPlayer.winner = 'true';
                         }
                     }
                 };

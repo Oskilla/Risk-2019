@@ -27,7 +27,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -71,7 +70,7 @@
                 </executions>
                 <configuration>
                     <executable>ng</executable>
-                    <workingDirectory>src/main/resources/frontend/risk-frontend-app</workingDirectory>
+                    <workingDirectory>src/main/resources/frontend/risk-frontend-app/</workingDirectory>
                     <arguments>
                         <argument>build</argument>
                     </arguments>

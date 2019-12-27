@@ -5,7 +5,6 @@ import io.risk.riskgame.controllers.io_players.StorePlayersControllerInput;
 import io.risk.riskgame.controllers.io_players.StorePlayersControllerOutput;
 import io.risk.riskgame.services.StorePlayersService;
 import io.risk.riskgame.services.io_players.StorePlayersServiceInput;
-import io.risk.riskgame.services.io_players.StorePlayersServiceOutput;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,12 +27,13 @@ public class StorePlayersController {
     {
         StorePlayersControllerOutput storePlayersControllerOutput = new StorePlayersControllerOutput();
         StorePlayersServiceInput storePlayersServiceInput = new StorePlayersServiceInput(
-          storePlayersControllerInput.getName(),
-          storePlayersControllerInput.getColor(),
-          storePlayersControllerInput.getReserve(),
-          storePlayersControllerInput.getMission(),
-          storePlayersControllerInput.getCountries(),
-          storePlayersControllerInput.getUuid()
+                  storePlayersControllerInput.getName(),
+                  storePlayersControllerInput.getColor(),
+                  storePlayersControllerInput.getReserve(),
+                  storePlayersControllerInput.getMission(),
+                  storePlayersControllerInput.getCountries(),
+                  storePlayersControllerInput.getUuid(),
+                  storePlayersControllerInput.getWinner()
         );
         this.storePlayersService.savePlayersAsOneGame(storePlayersServiceInput);
         return storePlayersControllerOutput;

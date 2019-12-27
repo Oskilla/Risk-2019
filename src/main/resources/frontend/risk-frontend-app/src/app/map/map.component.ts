@@ -139,12 +139,12 @@ export class MapComponent implements OnInit {
       name: 'asia',
     }];
 
-  player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: []};
-  player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: []};
-  player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: []};
-  player4 = {name: '', color:  '#3CB371', reserve: 0, mission: '', countries: []};
-  player5 = {name: '', color:  '#FF0000', reserve: 0, mission: '', countries: []};
-  player6 = {name: '', color:  '#CD853F', reserve: 0, mission: '', countries: []};
+  player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: [], winner: 'false'};
+  player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: [], winner: 'false'};
+  player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: [], winner: 'false'};
+  player4 = {name: '', color:  '#3CB371', reserve: 0, mission: '', countries: [], winner: 'false'};
+  player5 = {name: '', color:  '#FF0000', reserve: 0, mission: '', countries: [], winner: 'false'};
+  player6 = {name: '', color:  '#CD853F', reserve: 0, mission: '', countries: [], winner: 'false'};
 
   private nbOfPlayers = 2;
   private playersArray = [];
@@ -775,34 +775,42 @@ export class MapComponent implements OnInit {
     if ( playersMission === this.theMissionsNotShuffled[0]) {
       if (this.checkMission0()) {
         this.OneMissionIsCompleted = 'block';
+        nowPlayer.winner = 'true';
       }
     } else if (playersMission === this.theMissionsNotShuffled[1]) {
       if (this.checkMission1()) {
         this.OneMissionIsCompleted = 'block';
+        nowPlayer.winner = 'true';
       }
     } else if (playersMission === this.theMissionsNotShuffled[2]) {
       if (this.checkMission2()) {
         this.OneMissionIsCompleted = 'block';
+        nowPlayer.winner = 'true';
       }
     } else if (playersMission === this.theMissionsNotShuffled[3]) {
       if (this.checkMission3()) {
         this.OneMissionIsCompleted = 'block';
+        nowPlayer.winner = 'true';
       }
     } else if (playersMission === this.theMissionsNotShuffled[4]) {
       if (this.checkMission4()) {
         this.OneMissionIsCompleted = 'block';
+        nowPlayer.winner = 'true';
       }
     } else if (playersMission === this.theMissionsNotShuffled[5]) {
       if (this.checkMission5()) {
         this.OneMissionIsCompleted = 'block';
+        nowPlayer.winner = 'true';
       }
     } else if (playersMission === this.theMissionsNotShuffled[6]) {
       if (this.checkMission6()) {
         this.OneMissionIsCompleted = 'block';
+        nowPlayer.winner = 'true';
       }
     } else if (playersMission === this.theMissionsNotShuffled[7]) {
       if (this.checkMission7()) {
         this.OneMissionIsCompleted = 'block';
+        nowPlayer.winner = 'true';
       }
     }
   }

@@ -17,17 +17,27 @@ public class PlayerEntity {
     private String mission;
     private String countries;
     private String uuid;
+    private String winner;
 
     public PlayerEntity() {
     }
 
-    public PlayerEntity(String name, String color, int reserve, String mission, String countries, String uuid) {
+    public PlayerEntity(String name, String color, int reserve, String mission, String countries, String uuid, String winner) {
         this.name = name;
         this.color = color;
         this.reserve = reserve;
         this.mission = mission;
         this.countries = countries;
         this.uuid = uuid;
+        this.winner = winner;
+    }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 
     public Long getId() {
