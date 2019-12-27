@@ -32,7 +32,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<router-outlet></router-outlet>\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<router-outlet></router-outlet>\n");
 
 /***/ }),
 
@@ -1686,7 +1686,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\couss\OneDrive\Documents\Risk\projet\projet-2019\src\main\resources\frontend\risk-frontend-app\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\aya\Documents\gitHub_Repos\riskproject\projet-2019\src\main\resources\frontend\risk-frontend-app\src\main.ts */"./src/main.ts");
 
 
 /***/ })

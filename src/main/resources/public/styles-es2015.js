@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = [[module.i, "/* You can add global styles to this file, and also import other style files */\r\nhtml {\r\n  background-color: #778899;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9zdHlsZXMuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDhFQUE4RTtBQUM5RTtFQUNFLHlCQUF5QjtBQUMzQiIsImZpbGUiOiJzcmMvc3R5bGVzLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi8qIFlvdSBjYW4gYWRkIGdsb2JhbCBzdHlsZXMgdG8gdGhpcyBmaWxlLCBhbmQgYWxzbyBpbXBvcnQgb3RoZXIgc3R5bGUgZmlsZXMgKi9cclxuaHRtbCB7XHJcbiAgYmFja2dyb3VuZC1jb2xvcjogIzc3ODg5OTtcclxufVxyXG4iXX0= */", '', '']]
+module.exports = [[module.i, "/* You can add global styles to this file, and also import other style files */\nhtml {\n  background-color: #778899;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9zdHlsZXMuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDhFQUE4RTtBQUM5RTtFQUNFLHlCQUF5QjtBQUMzQiIsImZpbGUiOiJzcmMvc3R5bGVzLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi8qIFlvdSBjYW4gYWRkIGdsb2JhbCBzdHlsZXMgdG8gdGhpcyBmaWxlLCBhbmQgYWxzbyBpbXBvcnQgb3RoZXIgc3R5bGUgZmlsZXMgKi9cbmh0bWwge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjNzc4ODk5O1xufVxuIl19 */", '', '']]
 
 /***/ }),
 
@@ -338,7 +338,7 @@ if (content.locals) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\couss\OneDrive\Documents\Risk\projet\projet-2019\src\main\resources\frontend\risk-frontend-app\src\styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! C:\Users\aya\Documents\gitHub_Repos\riskproject\projet-2019\src\main\resources\frontend\risk-frontend-app\src\styles.css */"./src/styles.css");
 
 
 /***/ })
