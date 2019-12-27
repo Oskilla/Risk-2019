@@ -28,7 +28,7 @@
         /***/ (function (module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony default export */ __webpack_exports__["default"] = ("<router-outlet></router-outlet>\n");
+            /* harmony default export */ __webpack_exports__["default"] = ("<router-outlet></router-outlet>\r\n");
             /***/ 
         }),
         /***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/initialize-players/initialize-players.component.html": 
@@ -1689,7 +1689,7 @@
           \***************************/
         /*! no static exports found */
         /***/ (function (module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(/*! C:\Users\aya\Documents\gitHub_Repos\riskproject\projet-2019\src\main\resources\frontend\risk-frontend-app\src\main.ts */ "./src/main.ts");
+            module.exports = __webpack_require__(/*! C:\Users\couss\OneDrive\Documents\Risk\projet\projet-2019\src\main\resources\frontend\risk-frontend-app\src\main.ts */ "./src/main.ts");
             /***/ 
         })
     }, [[0, "runtime", "vendor"]]]);
