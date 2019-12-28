@@ -5,6 +5,7 @@ import io.risk.riskgame.entities.PlayerEntity;
 import io.risk.riskgame.repositories.GameRepository;
 import io.risk.riskgame.repositories.PlayerRepository;
 import io.risk.riskgame.services.io_players.StorePlayersServiceInput;
+import io.risk.riskgame.services.io_players.StorePlayersServiceOutput;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class StorePlayersServiceImpl implements StorePlayersService {
 
 
     @Override
-    public void savePlayersAsOneGame(StorePlayersServiceInput storePlayersServiceInput) {
+    public StorePlayersServiceOutput savePlayersAsOneGame(StorePlayersServiceInput storePlayersServiceInput) {
+        StorePlayersServiceOutput storePlayersServiceOutput = new StorePlayersServiceOutput();
         PlayerEntity playerEntity = new PlayerEntity(
                 storePlayersServiceInput.getName(),
                 storePlayersServiceInput.getColor(),
@@ -41,6 +43,8 @@ public class StorePlayersServiceImpl implements StorePlayersService {
         if( gameEntityList == null || gameEntityList.size() == 0 ) {
             this.gameRepository.save(gameEntity);
         }
+        storePlayersServiceOutput.setAdded("added");
+        return storePlayersServiceOutput;
     }
 
 }

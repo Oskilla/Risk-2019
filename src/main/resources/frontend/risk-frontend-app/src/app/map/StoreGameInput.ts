@@ -1,7 +1,7 @@
 export class StoreGameInput {
      name: string;
      color: string;
-     reserve: number;
+     reserve: string;
      mission: string;
      countries: string;
      uuid: string;

@@ -4,7 +4,7 @@ public class StorePlayersControllerInput {
 
     private String name;
     private String color;
-    private int reserve;
+    private String reserve;
     private String mission;
     private String countries;
     private String uuid;
@@ -13,7 +13,7 @@ public class StorePlayersControllerInput {
     public StorePlayersControllerInput() {
     }
 
-    public StorePlayersControllerInput(String name, String color, int reserve, String mission, String countries, String uuid, String winner) {
+    public StorePlayersControllerInput(String name, String color, String reserve, String mission, String countries, String uuid, String winner) {
         this.name = name;
         this.color = color;
         this.reserve = reserve;
@@ -47,11 +47,11 @@ public class StorePlayersControllerInput {
         this.color = color;
     }
 
-    public int getReserve() {
+    public String getReserve() {
         return reserve;
     }
 
-    public void setReserve(int reserve) {
+    public void setReserve(String reserve) {
         this.reserve = reserve;
     }
 

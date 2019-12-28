@@ -5,6 +5,7 @@ import io.risk.riskgame.controllers.io_players.StorePlayersControllerInput;
 import io.risk.riskgame.controllers.io_players.StorePlayersControllerOutput;
 import io.risk.riskgame.services.StorePlayersService;
 import io.risk.riskgame.services.io_players.StorePlayersServiceInput;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,8 +19,8 @@ public class StorePlayersController {
     }
 
     @RequestMapping(method = RequestMethod.POST,
-            consumes = "application/json",
-            produces = "application/json",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE,
             path = "/store"
     )
     public @ResponseBody StorePlayersControllerOutput storePlayers(
@@ -36,6 +37,7 @@ public class StorePlayersController {
                   storePlayersControllerInput.getWinner()
         );
         this.storePlayersService.savePlayersAsOneGame(storePlayersServiceInput);
+        storePlayersControllerOutput.setAdded("added");
         return storePlayersControllerOutput;
     }
 

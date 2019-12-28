@@ -386,13 +386,13 @@ export class MapComponent implements OnInit {
 
   newGame() {
     //gets the game's status
-    this.storeGameInput.name = this.player1.name;
-    this.storeGameInput.color = this.player1.color;
+    this.storeGameInput.name = this.player1.name.toString();
+    this.storeGameInput.color = this.player1.color.toString();
     this.storeGameInput.countries = this.player1.countries.toString();
-    this.storeGameInput.mission = this.player1.mission;
-    this.storeGameInput.reserve = this.player1.reserve;
-    this.storeGameInput.uuid = this.player1.uuid;
-    this.storeGameInput.winner = this.player1.winner;
+    this.storeGameInput.mission = this.player1.mission.toString();
+    this.storeGameInput.reserve = this.player1.reserve.toString();
+    this.storeGameInput.uuid = this.player1.uuid.toString();
+    this.storeGameInput.winner = this.player1.winner.toString();
     //stores the game's status
     this.gamePlayerService.storeTheGame(this.storeGameInput).subscribe(response => this.onGameStoredSucceded(response),
       error => this.onGameStoredFailed(error));
