@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RiskgameApplication {
 
     public static void main(String[] args) {
-
         SpringApplication.run(RiskgameApplication.class, args);
-
     }
 
 }
