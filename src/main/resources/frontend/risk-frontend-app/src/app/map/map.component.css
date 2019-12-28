@@ -68,9 +68,11 @@ html, body {
   color: black;
   font-weight: bold;
   border-radius: 6px;
-  width: 150px;
-  height: 30px;
-  background-color: honeydew;
+  width: 180px;
+  height: 50px;
+  background-color: white;
+  font-style: italic;
+  font-size: larger;
 }
 .missionbody {
   width: 200px;
