@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {MapComponent} from './map/map.component';
 import { InitializePlayersComponent } from './initialize-players/initialize-players.component';
 import {FormsModule} from '@angular/forms';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -16,9 +17,10 @@ import {FormsModule} from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

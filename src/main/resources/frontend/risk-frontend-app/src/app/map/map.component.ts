@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import * as uuid from 'uuid';
+import {StoreGameInput} from "./StoreGameInput";
+import {Game_playerService} from "../service/game_player.service";
 
 @Component({
   selector: 'app-map',
@@ -139,12 +142,12 @@ export class MapComponent implements OnInit {
       name: 'asia',
     }];
 
-  player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: [], winner: 'false'};
-  player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: [], winner: 'false'};
-  player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: [], winner: 'false'};
-  player4 = {name: '', color:  '#3CB371', reserve: 0, mission: '', countries: [], winner: 'false'};
-  player5 = {name: '', color:  '#FF0000', reserve: 0, mission: '', countries: [], winner: 'false'};
-  player6 = {name: '', color:  '#CD853F', reserve: 0, mission: '', countries: [], winner: 'false'};
+  player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
+  player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
+  player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
+  player4 = {name: '', color:  '#3CB371', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
+  player5 = {name: '', color:  '#FF0000', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
+  player6 = {name: '', color:  '#CD853F', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
 
   private nbOfPlayers = 2;
   private playersArray = [];
@@ -174,8 +177,11 @@ export class MapComponent implements OnInit {
   private battleWinner: string = '';
   private opponentDefender = this.countries[0];
   private playerAttacker = '';
+  private gameUuid = '';
+  storeGameInput: StoreGameInput = new StoreGameInput();
 
-  constructor(private router: Router) {
+
+  constructor(private gamePlayerService: Game_playerService, private router: Router) {
     const shuffled = localStorage.getItem('shuffled');
     if (shuffled === 'true') {
       this.router.navigateByUrl('/players');
@@ -204,6 +210,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.gameUuid = uuid.v4();
     this.setNames();
     this.setNbOfPlayers();
     this.setPlayersArray();
@@ -214,7 +221,16 @@ export class MapComponent implements OnInit {
     this.setReserves();
     this.phaseInitialisation0();
     this.setGameInitialSettings();
+    this.addGameUUID();
+  }
 
+  addGameUUID() {
+    this.player1.uuid = this.gameUuid;
+    this.player2.uuid = this.gameUuid;
+    this.player3.uuid = this.gameUuid;
+    this.player4.uuid = this.gameUuid;
+    this.player5.uuid = this.gameUuid;
+    this.player6.uuid = this.gameUuid;
   }
 
   setNames() {
@@ -369,9 +385,27 @@ export class MapComponent implements OnInit {
   }
 
   newGame() {
+    //gets the game's status
+    this.storeGameInput.name = this.player1.name;
+    this.storeGameInput.color = this.player1.color;
+    this.storeGameInput.countries = this.player1.countries.toString();
+    this.storeGameInput.mission = this.player1.mission;
+    this.storeGameInput.reserve = this.player1.reserve;
+    this.storeGameInput.uuid = this.player1.uuid;
+    this.storeGameInput.winner = this.player1.winner;
+    //stores the game's status
+    this.gamePlayerService.storeTheGame(this.storeGameInput).subscribe(response => this.onGameStoredSucceded(response),
+      error => this.onGameStoredFailed(error));
     // redirects to initializer component
     localStorage.setItem('shuffled', 'false');
     this.router.navigateByUrl('/players');
+  }
+
+  private onGameStoredSucceded(response: any) {
+    console.log('succeeded');
+  }
+  private onGameStoredFailed(error: any) {
+    console.log('failed');
   }
 
   showMission(num) {
@@ -855,7 +889,7 @@ export class MapComponent implements OnInit {
   private checkMission3() {
     const nowPlayer = this.getPlayerByName(this.currentPlayer);
     // Vous devez conquérir 24 territoires aux choix.
-    if ( nowPlayer.countries.length === 24) {
+    if ( nowPlayer.countries.length >= 24) {
       return true;
     } else {
       return  false;
@@ -874,10 +908,10 @@ export class MapComponent implements OnInit {
     // Vous devez conquérir 18 territoires et occuper chacun d'eux avec deux armées au moins.
     let territoiresSontConquis = false;
     let territoireEtArmees = false;
-    if ( nowPlayer.countries.length === 18) {
+    if ( nowPlayer.countries.length >= 18) {
       territoiresSontConquis = true;
     }
-    for (let r = 0; r < 18; r++) {
+    for (let r = 0; r < nowPlayer.countries.length; r++) {
       if ( this.countries[r].army >= 2) {
         territoireEtArmees = true;
       }
@@ -1113,6 +1147,6 @@ export class MapComponent implements OnInit {
     }
   }
 
+
 }
 // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed
-// TODO dice choice is displayed

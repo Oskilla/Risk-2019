@@ -407,6 +407,7 @@
             /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function () { return AppComponent; });
             /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
             /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+            /* harmony import */ var _service_game_player_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./service/game_player.service */ "./src/app/service/game_player.service.ts");
             var AppComponent = /** @class */ (function () {
                 function AppComponent() {
                     this.title = 'risk-frontend-app';
@@ -417,6 +418,7 @@
                 Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
                     selector: 'app-root',
                     template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./app.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/app.component.html")).default,
+                    providers: [_service_game_player_service__WEBPACK_IMPORTED_MODULE_2__["Game_playerService"]],
                     styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")).default]
                 })
             ], AppComponent);
@@ -439,6 +441,7 @@
             /* harmony import */ var _map_map_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./map/map.component */ "./src/app/map/map.component.ts");
             /* harmony import */ var _initialize_players_initialize_players_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./initialize-players/initialize-players.component */ "./src/app/initialize-players/initialize-players.component.ts");
             /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+            /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
             var AppModule = /** @class */ (function () {
                 function AppModule() {
                 }
@@ -454,9 +457,10 @@
                     imports: [
                         _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                         _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
-                        _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"]
+                        _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"],
+                        _angular_common_http__WEBPACK_IMPORTED_MODULE_8__["HttpClientModule"],
                     ],
-                    providers: [],
+                    providers: [_angular_common_http__WEBPACK_IMPORTED_MODULE_8__["HttpClient"]],
                     bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
                 })
             ], AppModule);
@@ -559,6 +563,23 @@
             ], InitializePlayersComponent);
             /***/ 
         }),
+        /***/ "./src/app/map/StoreGameInput.ts": 
+        /*!***************************************!*\
+          !*** ./src/app/map/StoreGameInput.ts ***!
+          \***************************************/
+        /*! exports provided: StoreGameInput */
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
+            /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StoreGameInput", function () { return StoreGameInput; });
+            /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+            var StoreGameInput = /** @class */ (function () {
+                function StoreGameInput() {
+                }
+                return StoreGameInput;
+            }());
+            /***/ 
+        }),
         /***/ "./src/app/map/map.component.css": 
         /*!***************************************!*\
           !*** ./src/app/map/map.component.css ***!
@@ -582,8 +603,13 @@
             /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
             /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
             /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+            /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/index.js");
+            /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(uuid__WEBPACK_IMPORTED_MODULE_3__);
+            /* harmony import */ var _StoreGameInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./StoreGameInput */ "./src/app/map/StoreGameInput.ts");
+            /* harmony import */ var _service_game_player_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../service/game_player.service */ "./src/app/service/game_player.service.ts");
             var MapComponent = /** @class */ (function () {
-                function MapComponent(router) {
+                function MapComponent(gamePlayerService, router) {
+                    this.gamePlayerService = gamePlayerService;
                     this.router = router;
                     this.missions = ['Vous devez conquérir en totalité l\'Asie et l\'Afrique.',
                         'Vous devez conquérir en totalité l\'Asie et l\'Amérique du sud.',
@@ -676,12 +702,12 @@
                             name: 'asia',
                         }
                     ];
-                    this.player1 = { name: '', color: '#00008B', reserve: 0, mission: '', countries: [], winner: 'false' };
-                    this.player2 = { name: '', color: '#9932CC', reserve: 0, mission: '', countries: [], winner: 'false' };
-                    this.player3 = { name: '', color: '#F08080', reserve: 0, mission: '', countries: [], winner: 'false' };
-                    this.player4 = { name: '', color: '#3CB371', reserve: 0, mission: '', countries: [], winner: 'false' };
-                    this.player5 = { name: '', color: '#FF0000', reserve: 0, mission: '', countries: [], winner: 'false' };
-                    this.player6 = { name: '', color: '#CD853F', reserve: 0, mission: '', countries: [], winner: 'false' };
+                    this.player1 = { name: '', color: '#00008B', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false' };
+                    this.player2 = { name: '', color: '#9932CC', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false' };
+                    this.player3 = { name: '', color: '#F08080', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false' };
+                    this.player4 = { name: '', color: '#3CB371', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false' };
+                    this.player5 = { name: '', color: '#FF0000', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false' };
+                    this.player6 = { name: '', color: '#CD853F', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false' };
                     this.nbOfPlayers = 2;
                     this.playersArray = [];
                     this.nbOfTurns = 0;
@@ -710,6 +736,8 @@
                     this.battleWinner = '';
                     this.opponentDefender = this.countries[0];
                     this.playerAttacker = '';
+                    this.gameUuid = '';
+                    this.storeGameInput = new _StoreGameInput__WEBPACK_IMPORTED_MODULE_4__["StoreGameInput"]();
                     var shuffled = localStorage.getItem('shuffled');
                     if (shuffled === 'true') {
                         this.router.navigateByUrl('/players');
@@ -736,6 +764,7 @@
                     }
                 };
                 MapComponent.prototype.ngOnInit = function () {
+                    this.gameUuid = uuid__WEBPACK_IMPORTED_MODULE_3__["v4"]();
                     this.setNames();
                     this.setNbOfPlayers();
                     this.setPlayersArray();
@@ -746,6 +775,15 @@
                     this.setReserves();
                     this.phaseInitialisation0();
                     this.setGameInitialSettings();
+                    this.addGameUUID();
+                };
+                MapComponent.prototype.addGameUUID = function () {
+                    this.player1.uuid = this.gameUuid;
+                    this.player2.uuid = this.gameUuid;
+                    this.player3.uuid = this.gameUuid;
+                    this.player4.uuid = this.gameUuid;
+                    this.player5.uuid = this.gameUuid;
+                    this.player6.uuid = this.gameUuid;
                 };
                 MapComponent.prototype.setNames = function () {
                     this.player1.name = localStorage.getItem('item1');
@@ -902,9 +940,26 @@
                     }
                 };
                 MapComponent.prototype.newGame = function () {
+                    var _this = this;
+                    //gets the game's status
+                    this.storeGameInput.name = this.player1.name;
+                    this.storeGameInput.color = this.player1.color;
+                    this.storeGameInput.countries = this.player1.countries;
+                    this.storeGameInput.mission = this.player1.mission;
+                    this.storeGameInput.reserve = this.player1.reserve;
+                    this.storeGameInput.uuid = this.player1.uuid;
+                    this.storeGameInput.winner = this.player1.winner;
+                    //stores the game's status
+                    this.gamePlayerService.storeTheGame(this.storeGameInput).subscribe(function (response) { return _this.onGameStoredSucceded(response); }, function (error) { return _this.onGameStoredFailed(error); });
                     // redirects to initializer component
                     localStorage.setItem('shuffled', 'false');
                     this.router.navigateByUrl('/players');
+                };
+                MapComponent.prototype.onGameStoredSucceded = function (response) {
+                    console.log('succeeded');
+                };
+                MapComponent.prototype.onGameStoredFailed = function (error) {
+                    console.log('failed');
                 };
                 MapComponent.prototype.showMission = function (num) {
                     if (num === 1) {
@@ -1388,7 +1443,7 @@
                 MapComponent.prototype.checkMission3 = function () {
                     var nowPlayer = this.getPlayerByName(this.currentPlayer);
                     // Vous devez conquérir 24 territoires aux choix.
-                    if (nowPlayer.countries.length === 24) {
+                    if (nowPlayer.countries.length >= 24) {
                         return true;
                     }
                     else {
@@ -1406,10 +1461,10 @@
                     // Vous devez conquérir 18 territoires et occuper chacun d'eux avec deux armées au moins.
                     var territoiresSontConquis = false;
                     var territoireEtArmees = false;
-                    if (nowPlayer.countries.length === 18) {
+                    if (nowPlayer.countries.length >= 18) {
                         territoiresSontConquis = true;
                     }
-                    for (var r = 0; r < 18; r++) {
+                    for (var r = 0; r < nowPlayer.countries.length; r++) {
                         if (this.countries[r].army >= 2) {
                             territoireEtArmees = true;
                         }
@@ -1632,6 +1687,7 @@
                 return MapComponent;
             }());
             MapComponent.ctorParameters = function () { return [
+                { type: _service_game_player_service__WEBPACK_IMPORTED_MODULE_5__["Game_playerService"] },
                 { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] }
             ]; };
             MapComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1642,7 +1698,41 @@
                 })
             ], MapComponent);
             // TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed
-            // TODO dice choice is displayed
+            /***/ 
+        }),
+        /***/ "./src/app/service/game_player.service.ts": 
+        /*!************************************************!*\
+          !*** ./src/app/service/game_player.service.ts ***!
+          \************************************************/
+        /*! exports provided: Game_playerService */
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
+            /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Game_playerService", function () { return Game_playerService; });
+            /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+            /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+            /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+            var Game_playerService = /** @class */ (function () {
+                function Game_playerService(httpClient) {
+                    this.httpClient = httpClient;
+                    this.storeGame = "/players/store";
+                    this.httpOptions = {
+                        headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
+                            'Content-Type': 'application/json'
+                        })
+                    };
+                }
+                Game_playerService.prototype.storeTheGame = function (body) {
+                    return this.httpClient.post(this.storeGame, body, this.httpOptions);
+                };
+                return Game_playerService;
+            }());
+            Game_playerService.ctorParameters = function () { return [
+                { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }
+            ]; };
+            Game_playerService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+                Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])()
+            ], Game_playerService);
             /***/ 
         }),
         /***/ "./src/environments/environment.ts": 
