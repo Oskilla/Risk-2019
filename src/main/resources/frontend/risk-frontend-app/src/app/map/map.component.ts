@@ -961,8 +961,7 @@ export class MapComponent implements OnInit {
         'country you want to fight against in the map.';
     } else if ( this.currentPhase === 'Fortify Phase') {
       return 'You can add elements of your reserve to your countries\' armies by clicking on ' +
-        'the country you want to fortify in the map.' +
-        'Then you can you can use your cards by clicking on My Cards.';
+        'the country you want to fortify in the map.';
     }
   }
 
@@ -1153,4 +1152,3 @@ export class MapComponent implements OnInit {
 
 
 }
-// TODO block all clicks if mission is displayed + completed mission is displayed + phase is displayed + exception is displayed + move army choice is displayed
