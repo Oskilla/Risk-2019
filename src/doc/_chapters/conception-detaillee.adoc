@@ -1,12 +1,16 @@
 = Conception détaillée
-La communication entre le WebServer et le WebClient se fait à la classe injectable 'game_player.service.ts' qui
-permet au WebClient de faire appel au Rest Web services du WebServer, par une requete HTTP.
-Le WebServer reçoit la requete et fait appel à son service dédiée pour la traiter :les classes du package 'CONTROLLER',
-stocke les nouvelles informations dans la base de données en faisant appel aux servicex:les classe du package 'SERVICE'
-et renvoie la reponse sérialisée en format JSON au coté client.
+. La communication entre le WebServer et le WebClient se fait à la classe injectable 'game_player.service.ts' qui
+. permet au WebClient de faire appel au Rest Web services du WebServer, par une requete HTTP.
+. Le WebServer reçoit la requete et fait appel à son service dédiée pour la traiter :les classes du package 'CONTROLLER',
+. stocke les nouvelles informations dans la base de données en faisant appel aux servicex:les classe du package 'SERVICE'
+. et renvoie la reponse sérialisée en format JSON au coté client.
 
-Les deux composant suivants:
+. Les deux composant suivants
+
 == Le composant WebServer
+
 == Le composant WebClient
-Communiquent de la manière suivante:
+
+Communiquent de la manière suivante
+
 image::diaStoreBDD.png[]
