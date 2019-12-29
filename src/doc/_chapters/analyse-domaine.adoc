@@ -26,7 +26,7 @@ Finalement, lorsque le joueur accomplit sa mission, la partie est finie.
 Initialisation du jeu quand il y a entre 3 et 6 joueurs
 
 *Pre-Conditions :* + 
-il y a entre 3 et 6 joueurs, les joueurs sont près, il y a une pioche de 44 cartes risk et 14 cartes missions disponnible, il y a 5 dés disponnibles.
+il y a entre 2 et 6 joueurs, les joueurs sont près, il y a une pioche de 44 cartes risk et 14 cartes missions disponnible, il y a 5 dés disponnibles.
 
 *Scénario nominal :*
 
@@ -48,7 +48,7 @@ _l'étape 7 est répété pour chaque joueur_ +
 . Passage au joueur suivant + 
 _les étapes 9 et 10 sont répété tant qu'il reste un joueur avec des fantassins à poser_ +
 [Start = 11]
-. Le premier joueur commence UC#3 +
+. Le premier joueur commence UC#2 +
 
 *Extension :*
 
@@ -65,60 +65,10 @@ _les étapes 9 et 10 sont répété tant qu'il reste un joueur avec des fantassi
 Toutes les cartes territoires on été distribuée, Les joueurs ont posé tous leur fantassin de départ, Chaque joueur a une et une seul mission.
 
 
-
-*Use Case :* Initialisation 2 joueurs
-
-*Id :* 	UC#2
-
-*Description :* + 
-Initialisation du jeu quand il y a 2 joueurs uniquement
-
-*Pre-Conditions :* +
-il y a 2 joueurs, les joueurs sont près, il y a une pioche de 44 cartes risk et 14 cartes missions disponnible, il y a 5 dés disponnibles.
-
-*Scénario nominal :*
-
-. On retire de la pioche de 44 carte risk les 2 cartes joker +
-. On ajoute un joueur neutre
-. On distribue 14 carte risk au joueur neutre
-. On distribue 1 carte risk a un joueur non neutre +
-. On passe au joueur non neutre suivant + 
-_les étapes 4 et 5 sont répétées tant qu'il reste des cartes risk._ +
-[Start = 6]
-. Les cartes risk sont retournées dans la pioche +
-. Les joueurs non neutre pioches 40 fantassins +
-. Le joueur neutre pioche 28 fantassins +
-. Le joueur neutre dépose 2 fantassins sur chaque pays qu'il possède +
-. Un joueur dépose 1 fantassin sur chaque pays qu'il possède + 
-_l'étape 10 est répété pour chaque joueur_ +
-[Start = 11]
-. Une carte mission est distribué a un joueur non neutre + 
-_l'étape 11 est répété pour chaque joueur non neutre_ + 
-[Start = 12]
-. On tire au hasard le premier joueur non neutre +
-. Le joueur non neutre pose un fantassin sur un territoire qu'il possède. +
-. Passage au joueur non neutre suivant + 
-_les étapes 13 et 14 sont répété tant qu'il reste un joueur non neutre avec des fantassins à poser_ +
-[Start = 15]
-. Le premier joueur commence UC#3 +
-
-*Extension :*
-
-
-[start = 11]
-. Une mission portant sur la destruction de l'armée d'un joueur +
-	.. Cette mission doit visé un joueur présent sur le plateau +
-	.. Cette mission ne peut pas visé le joueur l'ayant reçu +
-
-*Post-Conditions :*
-
-Toutes les cartes territoires on été distribuée, Les joueurs ont posé tous leur fantassin de départ, Chaque joueur non neutre a une et une seul mission
-
-
 === Déroulement
 
 *Use Case:* Déroulement +
-*Id :* UC#3 +
+*Id :* UC#2 +
 *Description :* +
 Déroulement d'un tour de jeu pour un joueur +
 *Pre-Conditions :* +
@@ -126,41 +76,38 @@ Initialisation est terminé, le joueur possède des territoire, il n'y a pas enc
 
 *Scénario nominal :* 
 
-. Le joueur fait la phase de renfort UC#4 
-. Le joueur fait la phase d'attaque UC#5
-. Le joueur fait la phase de manoeuvre UC#6 +
+. Le joueur fait la phase de renfort UC#3 
+. Le joueur fait la phase d'attaque UC#4
+. Le joueur fait la phase de manoeuvre UC#5 +
 _les étapes 2 et 3 sont optionnelles_ +
 [start = 4]
 . Le joueur termine son tour
-. Le joueur suivant commence UC#3
+. Le joueur suivant commence UC#2
 
 *Extension :*
 
-. Si il y a uniquement 2 joueurs
-.. Passage à UC#4bis
-
 [start = 4]
 . Si le joueur a rempli sa mission pendant son tour
-.. Passage à UC#8
+.. Passage à UC#7
 
 *Post-condition :* +
 Le tour est terminé
 
 *Use Case :* Phase de renfort +
-*Id :* UC#4 +
+*Id :* UC#3 +
 *Description :* +
 Phase de renfort pour le joueur +
 *Pre-condition :* +
 le joueur possède des territoires + 
 *Scénario nominal :*
 
-. Le joueur peut jouer une carte risk UC#7 +
+. Le joueur peut jouer une carte risk UC#6 +
 _L'étape 1 est optionnelle_ +
 [start = 2]
 . Le joueur reçoit un nombre de fantassin correspondant à la division par 3 de la somme de ses territoires
 . Le joueur reçoit des renfort bonus en fonction des continents qu'il contrôle complêtement
 . Le joueur pose les fantassins où il le souhaite
-. Le joueur reprend UC#3
+. Le joueur reprend UC#2
 
 *Extension :*
 
@@ -179,43 +126,8 @@ _L'étape 1 est optionnelle_ +
 le joueur a déposé tous ses renforts
 
 
-*Use Case :* Phase de renfort à 2 joueurs +
-*Id :* UC#4bis +
-*Description :* +
-Phase de renfort pour le joueur et le joueur neutre+
-*Pre-condition :* +
-le joueur possède des territoires + 
-*Scénario nominal :*
-
-. Le joueur peut jouer une carte risk UC#7 +
-_L'étape 1 est optionnelle_ +
-[start = 2]
-. Le joueur reçoit un nombre de fantassin correspondant à la division par défaut de la somme de ses territoires
-. Le joueur reçoit des renfort bonus en fonction des continents qu'il contrôle complêtement
-. Le joueur neutre reçoit en renfort le nombre total de renfort reçut pas le joueur divisé par 2
-. Le joueur pose les fantassins où il le souhaite sur ses territoires
-. L'autre joueur pose les fantassins de l'armée neutre ou il le souhaite sur les territoires du joueur neutre
-. Le joueur reprend UC#3
-
-*Extension :*
-
-[start = 2]
-. Le joueur reçoit au minimum 3 fantassins
-.. La division est entière par défaut
-. Le joueur reçoit les bonus suivant en fonction des continent
-.. +2 s'il contrôle l'Océanie
-.. +2 s'il contrôle l'Amérique du sud
-.. +3 s'il contrôle l'Afrique
-.. +5 s'il contrôle l'Europe
-.. +5 s'il contrôle l'Amérique du nord
-.. +7 s'il contrôle l'Asie
-
-*Post-condition :* +
-le joueur a déposé tous ses renforts, l'autre joueur a dépose tous les renforts de l'armée neutre 
-
-
 *Use Case :* Phase d'attaque +
-*Id :* UC#5 +
+*Id :* UC#4 +
 *Description :* +
 phase d'attaque pour du joueur +
 *Pre-Condition :* +
@@ -232,7 +144,7 @@ le territoire attaqué est adjacent au territoire attaquant, le territoire attaq
 _les étapes 6 et 7 sont répétées tant qu'il reste des dés de défense_ +
 _les étapes 1 à 7 sont répétées tant que le joueur souhaite attaqué_ +
 [start = 8]
-. le joueur reprend UC#3
+. le joueur reprend UC#2
 
 *Extension :*
 
@@ -266,7 +178,7 @@ Le joueur a fini sa phase d'attaque
 
 
 *Use Case :* Phase de manoeuvre +
-*Id :* UC#6 +
+*Id :* UC#5 +
 *Pre-condition :* +
 Le territoire de départ et le territoire d'arrivé sont adjacents, le territoire de départ et le territoire d'arrivé sont possédé par le joueur
 
@@ -277,7 +189,7 @@ Le territoire de départ et le territoire d'arrivé sont adjacents, le territoir
 _Les étapes 1 et 2 peuvent être répétées_ +
 
 [start = 3]
-. Le joueur reprend UC#3
+. Le joueur reprend UC#2
 
 *Extension :*
 
@@ -292,7 +204,7 @@ Les fantassins ont bien été dépalcer de leur territoire de départ vers leur 
 
 
 *Use Case :* Joue une carte risk +
-*Id :* UC#7 +
+*Id :* UC#6 +
 *Pre-condition :* +
 Le joueur a au moins 3 cartes risk dans sa main
 
@@ -327,7 +239,7 @@ Le joueur a reçu des renforts en fonction des combinaisons obtenues, Le joueur 
 === Fin du jeu
 
 *Use Case :* Fin de partie +
-*Id :* UC#8 +
+*Id :* UC#7 +
 *Pre-condition :* +
 Un joueur a accompli sa mission
 
