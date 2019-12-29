@@ -247,31 +247,26 @@
       <div class="player1">
         <p class="playname" >{{player1.name}}</p>
         <div class="reservelabel">Reserve: <span class="reserve">{{player1.reserve}}</span></div>
-        <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
         <button class="card_mission_button" (click)="showMission(1)">My Mission</button>
       </div>
       <div class="player2">
         <p class="playname">{{player2.name}}</p>
         <div class="reservelabel">Reserve: <span class="reserve">{{player2.reserve}}</span></div>
-        <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
         <button class="card_mission_button" (click)="showMission(2)">My Mission</button>
       </div>
       <div class="player3" [ngStyle]="{background: getPlayer3Color()}">
         <p class="playname" >{{player3.name}}</p>
         <div class="reservelabel">Reserve: <span class="reserve" [ngStyle]="{display: getDisplay(3)}">{{player3.reserve}}</span></div>
-        <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
         <button class="card_mission_button" (click)="showMission(3)">My Mission</button>
       </div>
       <div class="player4" [ngStyle]="{background: getPlayer4Color()}">
         <p class="playname">{{player4.name}}</p>
         <div class="reservelabel">Reserve: <span class="reserve" [ngStyle]="{display: getDisplay(4)}">{{player4.reserve}}</span></div>
-        <button class="card_mission_button">My Cards </button>&nbsp;&nbsp;
         <button class="card_mission_button" (click)="showMission(4)">My Mission</button>
       </div>
       <div class="player5" [ngStyle]="{background: getPlayer5Color()}">
         <p class="playname">{{player5.name}}</p>
         <div class="reservelabel">Reserve: <span class="reserve" [ngStyle]="{display: getDisplay(5)}">{{player5.reserve}}</span></div>
-        <button class="card_mission_button">My Cards</button>&nbsp;&nbsp;
         <button class="card_mission_button" (click)="showMission(5)">My Mission</button>
       </div>
       <div class="player6" [ngStyle]="{background: getPlayer6Color()}">

@@ -25,7 +25,6 @@ public class StorePlayersServiceImpl implements StorePlayersService {
 
     @Override
     public StorePlayersServiceOutput savePlayersAsOneGame(StorePlayersServiceInput storePlayersServiceInput) {
-        int y = 0;
         StorePlayersServiceOutput storePlayersServiceOutput = new StorePlayersServiceOutput();
         PlayerEntity playerEntity = new PlayerEntity(
                 storePlayersServiceInput.getName(),
