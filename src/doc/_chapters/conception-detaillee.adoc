@@ -13,4 +13,9 @@
 
 Communiquent de la manière suivante
 
-image::diaStoreBDD.png[]
+image::diaStoreBDDt.png[]
+
+
+
+
+

@@ -8,7 +8,6 @@ io\risk\riskgame\repositories\GameRepository.class
 io\risk\riskgame\entities\PlayerEntity.class
 io\risk\riskgame\controllers\io_players\StorePlayersControllerInput.class
 io\risk\riskgame\entities\GameEntity.class
-Config\WebSocketConfig.class
 io\risk\riskgame\services\StorePlayersServiceImpl.class
 io\risk\riskgame\controllers\StorePlayersController.class
 io\risk\riskgame\services\io_players\StorePlayersServiceOutput.class
