@@ -174,7 +174,7 @@ _les étapes 1 à 7 sont répétées tant que le joueur souhaite attaqué_ +
 
 
 *Post-condition :* +
-Le joueur a fini sa phase d'attaque
+Le joueur a fini sa phase d'attaque et les reserves de ses pays avec lesquels il a combattu et des pays contre lesquels il a combattu ont changé et aucun territoire ne contient moins d'un fantassin
 
 
 *Use Case :* Phase de manoeuvre +
@@ -245,7 +245,7 @@ Un joueur a accompli sa mission
 
 *Scénario nominal :*
 
-. Le joueur remorte la partie
+. Le joueur remporte la partie
 . Fin du jeu
 
 *Post-condition :* +
@@ -262,7 +262,8 @@ include::terms.adoc[]
 
 == Conclusion
 
-Dans cette première partie, on a réalisé une conception des problèmes qu'on sera ramené à résoudre. Ils nous semblent ainsi plus claires grâce au différents cas d'utilisation et au diagramme de classe qui connaitrera une éventuelle évolution toute au long des étapes d'analyse, conception et réalisation de ce projet.
-Cette étape va nous permettre aussi une meilleure anticipation de quelques futures extensions.
+Dans cette première partie, on a réalisé une conception des problèmes qu'on sera ramené à résoudre ainsi que les différentes fonctionnalités globales attendues
+afin d'assurer une parti du jeu de Risk.Ils nous semble ainsi plus claire grâce au différents cas d'utilisation et au diagramme de classe qui connaitrera une éventuelle évolution toute au long des étapes d'analyse, conception et réalisation de ce projet.
+Cette étape va nous permettre aussi une meilleure anticipation de quelques futures extensions durant le déveleloppement.
 
 
