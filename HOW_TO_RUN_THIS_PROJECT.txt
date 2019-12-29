@@ -1,3 +1,4 @@
 In order to run this project, you need to follow two steps:
+    Step 0: Create 'risk' database and run risk_script.sql
     Step 1: Build the project - go to the root of the project and run: mvn clean install
     Step 2: Run the project - at the root of the project run: mvn spring-boot:run
