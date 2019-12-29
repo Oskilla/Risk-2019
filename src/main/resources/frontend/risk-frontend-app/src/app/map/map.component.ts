@@ -142,7 +142,7 @@ export class MapComponent implements OnInit {
       name: 'asia',
     }];
 
-  player1 = {name: '', color:  '#00008B', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
+  player1 = {name: '', color:  '#2156a5', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
   player2 = {name: '', color:  '#9932CC', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
   player3 = {name: '', color:  '#F08080', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
   player4 = {name: '', color:  '#3CB371', reserve: 0, mission: '', countries: [], uuid: '', winner: 'false'};
