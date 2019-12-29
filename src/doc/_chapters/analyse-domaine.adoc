@@ -23,10 +23,10 @@ Finalement, lorsque le joueur accomplit sa mission, la partie est finie.
 *Id :* 	UC#1
 
 *Description :* + 
-Initialisation du jeu quand il y a entre 3 et 6 joueurs
+Initialisation du jeu quand il y a entre 2 à 6 joueurs
 
 *Pre-Conditions :* + 
-il y a entre 2 et 6 joueurs, les joueurs sont près, il y a une pioche de 44 cartes risk et 14 cartes missions disponnible, il y a 5 dés disponnibles.
+il y a entre 2 et 6 joueurs, les joueurs sont près, il y a une pioche de 44 cartes risk et 14 cartes missions disponnible, il y a 5 dés disponnibles: 2 dés défenceurs et 3 attaquants.
 
 *Scénario nominal :*
 
@@ -62,7 +62,7 @@ _les étapes 9 et 10 sont répété tant qu'il reste un joueur avec des fantassi
 
 *Post-Conditions :*
 
-Toutes les cartes territoires on été distribuée, Les joueurs ont posé tous leur fantassin de départ, Chaque joueur a une et une seul mission.
+Toutes les cartes territoires on été distribuée, Les joueurs ont posé tous leur fantassin de départ, Chaque joueur a une et une seul mission et chaque territoire compte un fantassin.
 
 
 === Déroulement
@@ -72,7 +72,7 @@ Toutes les cartes territoires on été distribuée, Les joueurs ont posé tous l
 *Description :* +
 Déroulement d'un tour de jeu pour un joueur +
 *Pre-Conditions :* +
-Initialisation est terminé, le joueur possède des territoire, il n'y a pas encore de gagnant +
+Initialisation est terminé, le joueur possède des territoires, il n'y a pas encore de gagnant +
 
 *Scénario nominal :* 
 
@@ -91,7 +91,7 @@ _les étapes 2 et 3 sont optionnelles_ +
 .. Passage à UC#7
 
 *Post-condition :* +
-Le tour est terminé
+Le tour est terminé et la main est passé au joueur qui suit
 
 *Use Case :* Phase de renfort +
 *Id :* UC#3 +
@@ -105,7 +105,7 @@ le joueur possède des territoires +
 _L'étape 1 est optionnelle_ +
 [start = 2]
 . Le joueur reçoit un nombre de fantassin correspondant à la division par 3 de la somme de ses territoires
-. Le joueur reçoit des renfort bonus en fonction des continents qu'il contrôle complêtement
+. Le joueur reçoit des renforts bonus en fonction des continents qu'il contrôle complêtement
 . Le joueur pose les fantassins où il le souhaite
 . Le joueur reprend UC#2
 
@@ -123,7 +123,7 @@ _L'étape 1 est optionnelle_ +
 .. +7 s'il contrôle l'Asie
 
 *Post-condition :* +
-le joueur a déposé tous ses renforts
+le joueur a déposé tous ses renforts et sa réserve à changé après avoir recu et déposé des fantassins
 
 
 *Use Case :* Phase d'attaque +
