@@ -1,22 +1,23 @@
 :includedir: _chapters
+
 = Projet 2019 : Risk
-
+:toc: macro
 == Auteurs
-
 [options="header"]
 |===
 | Nom       | Adresse 
-| Auteur_1 | auteur_1@etu.univ-nantes.fr
-| Auteur_2 | auteur_2@etu.univ-nantes.fr
-| Auteur_3 | auteur_3@etu.univ-nantes.fr
-| Auteur_4 | auteur_4@etu.univ-nantes.fr
+| HAITI Aya | aya.haiti@etu.univ-nantes.fr
+| COUSSEAU Axel | axel.cousseau@etu.univ-nantes.fr
+| LODE Gael | gael.lode@etu.univ-nantes.fr
+| RJAFALLAH Marwa | marwa.rjafallah@etu.univ-nantes.fr
 |===
-
 == Introduction
 
 Description du projet
 
 == Organisation du document
+
+toc::[]
 
 // Chapters:
 
