@@ -16,6 +16,15 @@ Communiquent de la manière suivante
 image::diaStoreBDDt.png[]
 
 
+<<<<<<< HEAD
 
 
 
+=======
+Les POINTS FORTS de notre jeu contistent en une rapide responsivité au actions du joueurs grace performance offerte par le framework Angular 
+par une singleWebPage.
+De plus les fonctionnalités envisagées lors de notre Analyse du domaine sont toutes fonctionnelles.
+
+Parmi les POINTS FAIBLES de notre jeu, on peut considérer que le manque du plugin Uglify ou plus de vérifications du coté Serveur aurait assuré au mieux 
+la sécurité de notre application.
+>>>>>>> master

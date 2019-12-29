@@ -1,4 +1,9 @@
 In order to run this project, you need to follow two steps:
     Step 0: Create 'risk' database and run risk_script.sql and update 'application.properties'
-    Step 1: Build the project - go to the root of the project and run: mvn clean install
+    Step 1: Build the project - go to the root of the project and run: mvn package
     Step 2: Run the project - at the root of the project run: mvn spring-boot:run
+Prérequis:
+    Installation npm
+    Installation @Angular/cli
+    
+L'URL de Test en local est sous le port 8080: localhost:8080
