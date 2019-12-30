@@ -911,13 +911,13 @@ export class MapComponent implements OnInit {
     const nowPlayer = this.getPlayerByName(this.currentPlayer);
     // Vous devez conquérir 18 territoires et occuper chacun d'eux avec deux armées au moins.
     let territoiresSontConquis = false;
-    let territoireEtArmees = false;
+    let territoireEtArmees = true;
     if ( nowPlayer.countries.length >= 18) {
       territoiresSontConquis = true;
     }
     for (let r = 0; r < nowPlayer.countries.length; r++) {
-      if ( this.countries[r].army >= 2) {
-        territoireEtArmees = true;
+      if ( this.countries[r].army < 2) {
+        territoireEtArmees = false;
       }
     }
     return territoireEtArmees && territoiresSontConquis;

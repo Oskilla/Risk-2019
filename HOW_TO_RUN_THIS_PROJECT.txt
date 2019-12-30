@@ -1,8 +1,14 @@
 In order to run this project, you need to follow two steps:
-    Step 0: Create 'risk' database and run risk_script.sql and update 'application.properties'
-    Step 1: Build the project - go to the root of the project and run: mvn package
-    Step 2: Run the project - at the root of the project run: mvn spring-boot:run
-Prérequis:
+
+    Step 0: Go to the Angular app root: /src/main/resources/frontend/risk-frontend-app and Run npm install
+
+    Step 1: Create 'risk' database and run risk_script.sql and update 'application.properties'
+
+    Step 2: Build the project - go to the root of the project and run: mvn package
+
+    Step 3: Run the project - at the root of the project run: mvn spring-boot:run
+
+Intallation prérequies:
     Installation npm
     Installation @Angular/cli
     
